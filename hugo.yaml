@@ -1,0 +1,26 @@
+baseURL: "https://monovus.solutions"
+languageCode: "en-us"
+title: "Monovus Solutions"
+theme: "ananke"
+paginate: 10
+
+params:
+  description: "Professional technology solutions"
+  background_color_class: "bg-dark-blue"
+  favicon: "/favicon.ico"
+  show_reading_time: true
+
+menu:
+  main:
+    - name: "Home"
+      url: "/"
+      weight: 1
+    - name: "About"
+      url: "/about/"
+      weight: 2
+    - name: "Contact"
+      url: "/contact/"
+      weight: 3
+
+outputs:
+  home: ["HTML", "RSS"]

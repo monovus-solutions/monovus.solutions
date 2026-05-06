@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notes — Monovus</title>
+  <style>
+    :root{--ink:#0F1115;--cream:#F6F2EA;--jade:#1F6F5C;--jade-deep:#0E4A3D;--mute:#5A5F66;--bg:#F6F2EA;--fg:#0F1115;--border:#DDD9D0;--surface:#FDFAF5;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;--step--1:14px;--step-0:16px;--step-1:18px;--step-2:22px;--step-3:28px;--space-s:16px;--space-m:32px;--space-l:64px;--space-xl:96px;--radius:8px;--max-wide:1080px;}
+    @media(prefers-color-scheme:dark){:root{--bg:#0F1115;--fg:#F6F2EA;--surface:#1A1D22;--border:#2A2D32;--mute:#8A8F96;}}
+    *,*::before,*::after{box-sizing:border-box;}body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:var(--step-0);line-height:1.6;-webkit-font-smoothing:antialiased;}
+    a{color:var(--jade);text-decoration:underline;text-underline-offset:3px;}a:hover{color:var(--jade-deep);}h1,h2,h3{margin:0 0 .5em;line-height:1.15;letter-spacing:-.015em;font-weight:600;}p{margin:0 0 1.4em;}
+    .wrap{max-width:var(--max-wide);margin:0 auto;padding:0 var(--space-m);}.site-nav{display:flex;align-items:center;justify-content:space-between;padding:var(--space-m) 0;border-bottom:1px solid var(--border);}.site-nav .wordmark{font-size:var(--step-1);font-weight:600;letter-spacing:-.03em;color:var(--fg);text-decoration:none;}.site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:var(--space-m);}.site-nav ul a{font-size:var(--step--1);color:var(--mute);text-decoration:none;}.site-nav ul a:hover{color:var(--fg);}.site-nav .nav-cta{font-size:var(--step--1);padding:6px 14px;background:var(--ink);color:var(--cream);text-decoration:none;border-radius:var(--radius);font-weight:500;}
+    @media(max-width:768px){.site-nav ul{display:none;}}@media(prefers-color-scheme:dark){.site-nav .nav-cta{background:var(--cream);color:var(--ink);}}
+    .section-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--jade);font-family:var(--font-mono);margin-bottom:var(--space-m);display:block;}
+    .site-footer{border-top:1px solid var(--border);padding:var(--space-l) 0;margin-top:var(--space-xl);}.footer-inner{max-width:var(--max-wide);margin:0 auto;padding:0 var(--space-m);}.footer-links{display:flex;gap:var(--space-m);list-style:none;margin:0;padding:0;}.footer-links a{font-size:var(--step--1);color:var(--mute);text-decoration:none;}.footer-meta{font-size:var(--step--1);color:var(--mute);margin-top:var(--space-s);}
+    .page-hero{padding:var(--space-xl) 0 var(--space-l);border-bottom:1px solid var(--border);}.page-hero h1{font-size:clamp(32px,5vw,48px);letter-spacing:-.03em;}.page-hero p{font-size:var(--step-2);color:var(--mute);max-width:560px;}
+    .posts{padding:var(--space-xl) 0;max-width:680px;}.post{padding:var(--space-l) 0;border-bottom:1px solid var(--border);}.post:last-child{border-bottom:none;}.post-date{font-family:var(--font-mono);font-size:var(--step--1);color:var(--mute);margin-bottom:var(--space-s);display:block;}.post h3{font-size:var(--step-2);margin-bottom:8px;}.post p{color:var(--mute);margin:0 0 12px;}.post a{font-size:var(--step--1);font-weight:500;text-decoration:none;}.post a:hover{text-decoration:underline;}
+  </style>
+</head>
+<body>
+<div class="wrap"><nav class="site-nav"><a class="wordmark" href="../index.html">monovus</a><ul><li><a href="how-it-works.html">How it works</a></li><li><a href="use-cases.html">Use cases</a></li><li><a href="about.html">About</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="notes.html">Notes</a></li></ul><a class="nav-cta" href="how-it-works.html">Install in an afternoon</a></nav></div>
+<main>
+<div class="wrap"><section class="page-hero"><span class="section-eyebrow">Notes</span><h1>Weekly notes on AI ops.</h1><p>One note a week. Plain text. What's working, what's not, what I'm building next.</p></section></div>
+<div class="wrap"><section class="posts">
+<div class="post"><span class="post-date">May 2026</span><h3>Why your AI assistant needs ops, not just prompts</h3><p>Everyone's talking about what to tell the AI. Nobody's talking about what happens when it runs at 3am and the API key expires. That's the ops gap.</p><a href="#">Read →</a></div>
+<div class="post"><span class="post-date">April 2026</span><h3>The afternoon install: what actually happens</h3><p>A walkthrough of a real install session. What we set up, what we skip, and why most people are running by sundown.</p><a href="#">Read →</a></div>
+<div class="post"><span class="post-date">March 2026</span><h3>Five things I automated this month</h3><p>Expense reports, meeting prep, a weekly investor update, DNS monitoring alerts, and a Notion database that populates itself.</p><a href="#">Read →</a></div>
+</section></div>
+</main>
+<footer class="site-footer"><div class="footer-inner"><div class="footer-top"><span style="font-size:var(--step--1);color:var(--mute);">monovus · Toronto</span><ul class="footer-links"><li><a href="notes.html">Subscribe</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="use-cases.html">Use cases</a></li><li><a href="about.html">About</a></li><li><a href="pricing.html">Pricing</a></li></ul></div><p class="footer-meta">Last updated May 2026.</p></div></footer>
+</body></html>

@@ -1,0 +1,33 @@
+name: CI - Validate Build
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Build Hugo site
+        run: hugo --minify
+
+      - name: Verify landing page exists
+        run: |
+          test -f static/index.html || (echo "ERROR: static/index.html missing" && exit 1)
+          echo "Landing page OK"
+
+      - name: Validate HTML
+        run: |
+          grep -q '<!doctype html>' static/index.html && echo "HTML valid" || exit 1

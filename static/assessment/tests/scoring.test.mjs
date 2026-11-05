@@ -286,4 +286,21 @@ ok("no personal name in questions.json or any assessment JS", () => {
   assert.ok(!existsSync(new URL("config.js", dir)), "assessment/config.js removed");
 });
 
+ok("no personal name in any published file under static/", () => {
+  // Names are split so this file can never match itself.
+  const who = new RegExp("\\b(" + ["Al" + "ex", "Sh" + "aw", "Car" + "men", "tsu" + "icl"].join("|") + ")\\b", "i");
+  const root = new URL("../../", import.meta.url);
+  const text = /\.(html?|js|mjs|json|xml|txt|svg|css|md|webmanifest)$|^(CNAME|_headers|_redirects)$/;
+  const hits = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = new URL(e.name + (e.isDirectory() ? "/" : ""), dir);
+      if (e.isDirectory()) walk(p);
+      else if (text.test(e.name) && who.test(readFileSync(p, "utf8"))) hits.push(p.pathname.split("/static/")[1]);
+    }
+  };
+  walk(root);
+  assert.deepEqual(hits, [], "personal name in: " + hits.join(", "));
+});
+
 console.log(`\n${n} passed`);

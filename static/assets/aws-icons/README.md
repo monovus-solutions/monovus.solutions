@@ -23,7 +23,7 @@ and never used as the Monovus logo.
 | `Arch_AWS-Secrets-Manager_48.svg` | AWS Secrets Manager | Architecture-Service-Icons_07312026/Arch_Security-Identity/48/ |
 | `Arch_AWS-Identity-and-Access-Management_48.svg` | AWS IAM | Architecture-Service-Icons_07312026/Arch_Security-Identity/48/ |
 | `Arch_AWS-Lambda_48.svg` | AWS Lambda | Architecture-Service-Icons_07312026/Arch_Compute/48/ |
-| `Arch_Amazon-DynamoDB_48.svg` | Amazon DynamoDB | Architecture-Service-Icons_07312026/Arch_Databases/48/ |
+| `Arch_Amazon-Simple-Storage-Service_48.svg` | Amazon S3 | Architecture-Service-Icons_07312026/Arch_Storage/48/ (added 4 November 2026 from the same package file) |
 | `AWS-Account_32.svg` | AWS account (group icon) | Architecture-Group-Icons_07312026/ |
 
 The package has one icon for Amazon Bedrock AgentCore and none for its individual

@@ -36,14 +36,26 @@
     <a class="brand" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="158" height="22"></a>
     <input class="nav-toggle" type="checkbox" id="nav-toggle">
     <label class="nav-btn" for="nav-toggle"><span class="nav-bars" aria-hidden="true"></span><span class="nav-label">Menu</span></label>
-    <nav class="nav" aria-label="Main"><ul><li><a href="/pages/services.html">Services</a></li><li><a href="/pages/how-it-works.html" aria-current="page">Approach</a></li><li><a href="/pages/use-cases.html">Use cases</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+    <nav class="nav" aria-label="Main"><ul>
+      <li class="dd"><details><summary>Offerings</summary><div class="dd-panel"><ul>
+        <li><a class="dd-lead" href="/launch/">Monovus Launch<span>The delivery system behind every engagement</span></a></li>
+        <li><a href="/launch/customer-service-agents.html">Customer Service Agents</a></li><li><a href="/launch/knowledge-assistants.html">Knowledge Assistants</a></li><li><a href="/launch/document-processing.html">Document Processing</a></li><li><a href="/launch/saas-ai-features.html">SaaS AI Features</a></li></ul></div></details></li>
+      <li><a href="/pages/services.html">Engagements</a></li><li><a href="/pages/how-it-works.html" aria-current="page">Approach</a></li><li><a href="/pages/partners.html">Partners</a></li><li><a href="/insights/">Insights</a></li>
+      <li class="dd"><details><summary>Company</summary><div class="dd-panel"><ul>
+        <li><a href="/pages/about.html">About Monovus</a></li>
+        <li><a href="/pages/trust.html">Trust &amp; security</a></li>
+        <li><a href="/contact/">Contact</a></li></ul></div></details></li>
+      <li class="nav-cta-m"><a href="/contact/">Talk to us</a></li>
+    </ul></nav>
+    <a class="btn btn-secondary btn-sm hdr-talk" href="/contact/">Talk to us</a>
     <a class="btn btn-primary btn-sm" href="/assessment/">Free assessment</a>
   </div>
 </header>
+<script src="/assets/site.js" defer></script>
 <!-- /site:header -->
 <main id="main">
 <section class="page-hero"><div class="wrap">
-  <p class="eyebrow">Approach</p><h1>One framework, applied the same way every time.</h1><p class="lead">We judge every agent against the Monovus Production Readiness Framework: one dimension for business value and seven controls. The assessment, the sprint, the scorecard and the monthly review all use the same eight.</p><div class="btn-row"><a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a><a class="arrow" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Email us</a></div>
+  <p class="eyebrow">Approach</p><h1>One framework, applied the same way every time.</h1><p class="lead">We judge every agent against the Monovus Production Readiness Framework: one dimension for business value and seven controls. The assessment, the sprint, the scorecard and the monthly review all use the same eight.</p><div class="btn-row"><a class="btn btn-primary" href="/assessment/">Take the free assessment</a><a class="btn btn-secondary" href="/contact/">Talk to us</a></div>
 </div></section>
 <section class="sec rule" aria-labelledby="fw-h"><div class="wrap">
   <div class="sec-head"><p class="eyebrow">The framework</p><h2 id="fw-h" class="mt2">Eight dimensions, in business terms first.</h2>
@@ -66,7 +78,7 @@
   <div class="sec-head"><p class="eyebrow">The Pilot-to-Production Sprint</p><h2 id="wk-h" class="mt2">Week by week.</h2>
   <p class="mt2 muted">Typically 2 to 4 weeks on one agent that already works in a demo. A smaller agent
   compresses weeks 2 and 3. The scope and fee are fixed in writing before day one.</p></div>
-  <div class="weeks"><div class="week"><p class="when">Week 1</p><h3>Baseline and value</h3><ul><li>Access through an IAM role you control</li><li>Tools, data and permissions mapped</li><li>Tracing switched on</li><li>Owner and target agreed</li></ul><p class="out"><strong>Result:</strong> A scorecard of the eight dimensions as they stand.</p></div><div class="week"><p class="when">Week 2</p><h3>Quality and visibility</h3><ul><li>A golden set of at least 25 real cases</li><li>Evaluations wired into releases</li><li>Dashboards and an error alarm</li></ul><p class="out"><strong>Result:</strong> A release that scores worse than the last one can't ship.</p></div><div class="week"><p class="when">Week 3</p><h3>Cost, policy and identity</h3><ul><li>Cost per task measured</li><li>Budget alarms at 50%, 80% and 100%</li><li>Policy on every tool call</li><li>Agent identity and secrets in a vault</li></ul><p class="out"><strong>Result:</strong> The agent can only do what it should, at a cost you know.</p></div><div class="week"><p class="when">Week 4</p><h3>The way back, and handover</h3><ul><li>A rollback rehearsed</li><li>Runbook and evidence pack</li><li>Before-and-after scorecard</li><li>Ranked backlog of what is left</li></ul><p class="out"><strong>Result:</strong> Your team runs the agent without us.</p></div></div>
+  <div class="weeks"><div class="week"><p class="when">Week 1 · Assess</p><h3>Baseline and value</h3><ul><li>Access through an IAM role you control</li><li>Tools, data and permissions mapped</li><li>Tracing switched on</li><li>Owner and target agreed</li></ul><p class="out"><strong>Result:</strong> A scorecard of the eight dimensions as they stand.</p></div><div class="week"><p class="when">Week 2 · Harden</p><h3>Quality and visibility</h3><ul><li>A golden set of at least 25 real cases</li><li>Evaluations wired into releases</li><li>Dashboards and an error alarm</li></ul><p class="out"><strong>Result:</strong> A release that scores worse than the last one can't ship.</p></div><div class="week"><p class="when">Week 3 · Harden</p><h3>Cost, policy and identity</h3><ul><li>Cost per task measured</li><li>Budget alarms at 50%, 80% and 100%</li><li>Policy on every tool call</li><li>Agent identity and secrets in a vault</li></ul><p class="out"><strong>Result:</strong> The agent can only do what it should, at a cost you know.</p></div><div class="week"><p class="when">Week 4 · Launch</p><h3>The way back, and handover</h3><ul><li>A rollback rehearsed</li><li>Runbook and evidence pack</li><li>Before-and-after scorecard</li><li>Ranked backlog of what is left</li></ul><p class="out"><strong>Result:</strong> Your team runs the agent without us.</p></div></div>
 </div></section>
 <section class="sec alt" aria-labelledby="need-h"><div class="wrap split">
   <div><p class="eyebrow">What we need from you</p><h2 id="need-h" class="mt2">Four things, agreed up front.</h2></div>
@@ -78,7 +90,7 @@
     <p>Answer 16 plain-language questions about your agent. Your score, stage and biggest risks appear on screen straight away, with no email needed.</p>
     <div class="btn-row">
       <a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a>
-      <a class="btn btn-secondary" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a readiness review</a>
+      <a class="btn btn-secondary" href="/contact/">Talk to us</a>
     </div>
   </div>
 </section>
@@ -92,8 +104,10 @@
         <p>An AWS-focused AI agent consultancy. From AI pilot to production, on AWS.</p>
         <p><a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a><br>Toronto, Ontario, Canada<br>English · <span lang="zh-Hant">普通話 · 廣東話</span></p>
       </div>
-      <div><h2>Work with us</h2><ul><li><a href="/assessment/">Free assessment</a></li><li><a href="/pages/services.html">Services</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li></ul></div>
-      <div><h2>Monovus</h2><ul><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/pages/use-cases.html">Use cases</a></li><li><a href="/pages/about.html">About</a></li><li><a href="/insights/agent-production-readiness.html">Insight: pilot to production</a></li></ul></div>
+      <div><h2>Offerings</h2><ul><li><a href="/launch/">Monovus Launch</a></li><li><a href="/launch/customer-service-agents.html">Customer Service Agents</a></li><li><a href="/launch/knowledge-assistants.html">Knowledge Assistants</a></li><li><a href="/launch/document-processing.html">Document Processing</a></li><li><a href="/launch/saas-ai-features.html">SaaS AI Features</a></li></ul></div>
+      <div><h2>Engagements</h2><ul><li><a href="/pages/services.html#review">Readiness Review</a></li><li><a href="/pages/services.html#sprint">Pilot-to-Production Sprint</a></li><li><a href="/pages/services.html#build">Production Build</a></li><li><a href="/pages/services.html#operate">Managed Agent Operations</a></li><li><a href="/pages/pricing.html">Pricing</a></li></ul></div>
+      <div><h2>Company</h2><ul><li><a href="/pages/about.html">About Monovus</a></li><li><a href="/pages/trust.html">Trust &amp; security</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/contact/">Contact</a></li></ul></div>
+      <div><h2>Resources</h2><ul><li><a href="/assessment/">Free assessment</a></li><li><a href="/assessment/?sample=1">Sample report</a></li><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/insights/">Insights</a></li></ul></div>
       <div><h2>Legal</h2><ul><li><a href="/pages/privacy.html">Privacy</a></li><li><a href="/pages/terms.html">Terms</a></li></ul></div>
     </div>
     <div class="foot-legal">

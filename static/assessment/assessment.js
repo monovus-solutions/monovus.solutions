@@ -1,17 +1,19 @@
 /* Monovus AI Agent Readiness Assessment: UI.
    Steps: 0 intro · 1 context · 2-9 one dimension each · 10 blocker · 11 results (+ report).
    Debug for screenshots: ?step=N jumps to a step with the 'mixed' fixture pre-filled.
-   ?sample=1 renders the sample results and report. All untrusted text (API output, the
-   visitor's own input) is inserted with textContent, never innerHTML. */
+   ?sample=1 renders the sample results and report. No backend: the report is built in the
+   browser by scoring.js. The only network call is the optional lead POST to
+   window.MONOVUS_FORM_ENDPOINT (from /assets/config.js). All untrusted text (the visitor's
+   own input) and generated text is inserted with textContent, never innerHTML. */
 (function () {
   "use strict";
   var S = window.MonovusScoring;
-  var API = (window.MONOVUS_API || "").replace(/\/+$/, "");
+  var ENDPOINT = String(window.MONOVUS_FORM_ENDPOINT || "").trim();
   var KEY = "monovus-assessment-2026-11";
-  var MAIL = "hello@monovus.solutions";
+  var MAIL = String(window.MONOVUS_EMAIL || "hello@monovus.solutions").trim();
   var app = document.getElementById("app");
   var params = new URLSearchParams(location.search);
-  var Q, state;
+  var Q, state, leadNote = null;
 
   /* ---------- tiny DOM helper ---------- */
   function h(tag, attrs, kids) {
@@ -117,9 +119,9 @@
           ])
         ]),
         h("div", { class: "as-card" }, [
-          h("h2", { class: "as-h3", text: "If you want it, by request" }),
+          h("h2", { class: "as-h3", text: "In the full report" }),
           h("ul", { class: "as-ticks" }, [
-            h("li", { text: "A personalised report written for your leadership team" }),
+            h("li", { text: "A summary written for your role and your agent's stage" }),
             h("li", { text: "A week-by-week 30-day plan" }),
             h("li", { text: "The AWS services that close each gap" }),
             h("li", { text: "A PDF you can share internally" })
@@ -132,7 +134,9 @@
         resume ? h("button", { type: "button", class: "as-btn-quiet", text: "Start over", on: { click: reset } }) : null,
         h("a", { class: "quiet", href: "?sample=1", text: "See a sample report" })
       ]),
-      h("p", { class: "as-fine" }, ["Answers stay in your browser until you ask for the full report. ",
+      h("p", { class: "as-fine" }, [ENDPOINT
+        ? "Your answers stay in your browser until you ask for the full report. Then they're sent to Monovus with your details. "
+        : "Your answers stay in your browser. Nothing is sent to Monovus unless you choose to email it. ",
         h("a", { class: "quiet", href: "/pages/privacy.html", text: "Privacy" }), ". " + Q.disclaimer])
     ]);
   }
@@ -229,8 +233,9 @@
       bars(r)
     ];
     if (r.red_flags.length) {
+      var sg = S.stageGroup(Q, state.context);
       kids.push(h("div", { class: "as-flags", role: "note" }, [
-        h("h2", { class: "as-h3", text: "Red flags to fix before launch" }),
+        h("h2", { class: "as-h3" }, [sg.flags_title, sg.urgent ? h("span", { class: "as-tag as-tag-inv", text: "Urgent" }) : null]),
         h("ul", {}, r.red_flags.map(function (id) { return h("li", { text: Q.red_flag_text[id] }); }))
       ]));
     }
@@ -263,23 +268,26 @@
     var lead = state.lead || {};
     var status = h("p", { class: "as-status", role: "status" });
     var form = h("form", { class: "as-gate", novalidate: true }, [
-      h("p", { class: "eyebrow", text: "Free · written for your leadership team" }),
-      h("h2", { class: "as-h2", text: "Get your personalised report and 30-day plan" }),
-      h("p", { text: "We'll turn these results into a short report: an executive summary, your top risks in business terms, a week-by-week plan, and the AWS services that close each gap." }),
+      h("p", { class: "eyebrow", text: "Free · shown straight away on this page" }),
+      h("h2", { class: "as-h2", text: "Get your full report and 30-day plan" }),
+      h("p", { text: "A summary written for your role, your top risks for this kind of agent, a week-by-week plan, the AWS services that close each gap, and the engagement we'd recommend. Ready to save as a PDF." }),
       h("div", { class: "as-fields" }, [
         field("name", "Name", "text", "name", lead.name),
         field("email", "Work email", "email", "email", lead.email),
         field("company", "Company", "text", "organization", lead.company)
       ]),
-      h("div", { class: "as-hp", "aria-hidden": "true" }, [h("label", { for: "website", text: "Website" }),
-        h("input", { id: "website", name: "website", type: "text", tabindex: "-1", autocomplete: "off" })]),
+      h("div", { class: "as-hp", "aria-hidden": "true" }, [h("label", { for: "_gotcha", text: "Leave this empty" }),
+        h("input", { id: "_gotcha", name: "_gotcha", type: "text", tabindex: "-1", autocomplete: "off" })]),
       h("label", { class: "as-check" }, [h("input", { type: "checkbox", id: "consent_privacy", required: true }),
         h("span", {}, ["I agree to the ", h("a", { class: "quiet", href: "/pages/privacy.html", target: "_blank", rel: "noopener", text: "privacy policy" }),
-          ". Monovus will use my details to prepare this report and to reply to me."])]),
+          ". Monovus will use my details and these results to reply to me about this assessment."])]),
       h("label", { class: "as-check" }, [h("input", { type: "checkbox", id: "consent_marketing" }),
         h("span", { text: "Optional: send me occasional insights on running AI agents in production. Unsubscribe any time." })]),
-      h("button", { type: "submit", class: "btn btn-primary", text: "Get my report" }),
-      status
+      h("button", { type: "submit", class: "btn btn-primary", text: "Show my report" }),
+      status,
+      h("p", { class: "as-fine", text: ENDPOINT
+        ? "When you press the button, your details, answers and scores are sent to Monovus so we can reply. Your report appears straight away."
+        : "Nothing is sent when you press the button: the report is built here, in your browser." })
     ]);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -289,77 +297,133 @@
                       consent_marketing: form.querySelector("#consent_marketing").checked };
       if (!leadNow.name || !leadNow.company) { status.textContent = "Please add your name and company."; return; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(leadNow.email)) { status.textContent = "Please enter a valid work email."; return; }
-      if (!leadNow.consent_privacy) { status.textContent = "Please agree to the privacy policy so we can prepare your report."; return; }
-      state.lead = leadNow; save();
-      var btn = form.querySelector("button[type=submit]");
-      btn.disabled = true; status.textContent = "Writing your report. This takes about 15 seconds.";
-      requestReport(r, leadNow, v("website")).then(function (rep) {
-        state.report = rep; save(); render();
-        var top = document.getElementById("report"); if (top) top.scrollIntoView({ behavior: "smooth" });
-      });
+      if (!leadNow.consent_privacy) { status.textContent = "Please agree to the privacy policy to see your report."; return; }
+      var honeypot = v("_gotcha");
+      state.lead = leadNow; state.report = true; save();
+      leadNote = ENDPOINT ? "sending" : "local";
+      render();
+      var top = document.getElementById("report");
+      if (top) { top.setAttribute("tabindex", "-1"); top.focus({ preventScroll: true }); top.scrollIntoView({ behavior: "smooth" }); }
+      if (ENDPOINT) sendLead(r, honeypot);
     });
     return form;
   }
 
-  function requestReport(r, lead, honeypot) {
-    var local = function () {
-      return { report_id: "local-" + Math.random().toString(36).slice(2, 10), generated_by: "fallback",
-               overall: r.overall, report: S.fallbackReport(Q, r) };
-    };
-    if (!API) return Promise.resolve(local());
-    var body = { version: Q.version, lead: lead, context: state.context, answers: state.answers,
-                 blocker: (state.blocker || "").slice(0, Q.free_text.max_chars),
-                 elapsed_ms: Date.now() - (state.startedAt || Date.now()), website: honeypot || "" };
-    var ctl = new AbortController(); var t = setTimeout(function () { ctl.abort(); }, 30000);
-    return fetch(API + "/v1/report", { method: "POST", headers: { "Content-Type": "application/json" },
-                                        body: JSON.stringify(body), signal: ctl.signal })
-      .then(function (res) { clearTimeout(t); if (!res.ok) throw new Error("http " + res.status); return res.json(); })
-      .then(function (j) { if (!j || !j.report || !Array.isArray(j.report.top_risks)) throw new Error("shape"); return j; })
-      .catch(function () { var l = local(); l.offline = true; return l; });
+  /* Fire-and-forget: the report is already on screen, so this never blocks it. */
+  function sendLead(r, honeypot) {
+    var started = state.startedAt || Date.now();
+    var body = S.leadPayload(Q, r, state.context, state.lead, {
+      blocker: state.blocker || "", gotcha: honeypot || "",
+      elapsed_minutes: Math.round((Date.now() - started) / 6000) / 10,
+      page_url: location.href.split("#")[0]
+    });
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
+    fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                      body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
+      .then(function (res) { clearTimeout(timer); if (!res.ok) throw new Error("http " + res.status); setLeadNote("sent"); })
+      .catch(function () { clearTimeout(timer); setLeadNote("failed"); });
+  }
+
+  function mailtoHref(r) {
+    var lead = state.lead || {};
+    var subject = "Readiness assessment: " + (lead.company || "my results") + " (" + r.overall + "/100)";
+    var body = S.summaryText(Q, r, state.context, lead, state.blocker).replace(/\n/g, "\r\n");
+    return "mailto:" + MAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  }
+
+  function leadNoteKids(kind, r) {
+    if (kind === "sending") return ["Sending your details to Monovus\u2026"];
+    if (kind === "sent") return ["Sent. We have your results and will reply to " + ((state.lead || {}).email || "you") + "."];
+    if (kind === "failed") return ["We couldn't send your details just now. Your report is below, and you can ",
+      h("a", { class: "quiet", href: mailtoHref(r), text: "email us a summary" }), " instead."];
+    if (kind === "local") return ["Nothing has been sent: this report was built in your browser."];
+    return [];
+  }
+
+  function setLeadNote(kind) {
+    leadNote = kind;
+    var el = document.getElementById("as-lead-status");
+    if (el && state.report && S.isComplete(Q, state.answers)) el.replaceChildren.apply(el, leadNoteKids(kind, S.compute(Q, state.answers)));
   }
 
   function reportView(r) {
-    var rep = state.report, body = rep.report;
+    var body = S.buildReport(Q, r, state.context);
     var sample = params.get("sample") === "1";
     var lead = state.lead || {};
-    var mailBody = "Report: " + rep.report_id + "\nScore: " + r.overall + "/100 (" + r.stage.name + ")\nCompany: " +
-      (lead.company || "") + "\n\nI'd like to book the free Readiness Review.";
-    var mailto = "mailto:" + MAIL + "?subject=" + encodeURIComponent("Readiness review") + "&body=" + encodeURIComponent(mailBody);
-    return h("article", { id: "report", class: "as-report" }, [
+    var kids = [
       h("header", { class: "as-report-head" }, [
         h("p", { class: "eyebrow", text: sample ? "Sample report" : "Readiness report" + (lead.company ? " · " + lead.company : "") }),
         h("h2", { class: "as-h2", text: "AI Agent Readiness Report" }),
-        h("p", { class: "as-meta", text: "Score " + r.overall + "/100 · " + r.stage.name + " · Report " + rep.report_id + " · " +
+        h("p", { class: "as-meta", text: "Score " + r.overall + "/100 · Stage " + r.stage.id + " of 4, " + r.stage.name + " · " +
           new Date().toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" }) })
       ]),
-      rep.offline ? h("p", { class: "as-fine", text: "We couldn't reach the report service just now, so this report was assembled from the framework rather than written for you. It covers the same ground." }) : null,
+      sample ? null : h("p", { id: "as-lead-status", class: "as-lead-status as-noprint", role: "status" }, leadNoteKids(leadNote, r)),
       h("h3", { class: "as-h3", text: "Executive summary" }),
       h("p", { class: "lead", text: body.executive_summary }),
+      body.notes.length ? h("ul", { class: "as-notes" }, body.notes.map(function (n) { return h("li", { text: n.text }); })) : null
+    ];
+    if (body.fix_first) {
+      kids.push(h("section", { class: "as-fix" + (body.fix_first.urgent ? " as-fix-urgent" : "") }, [
+        h("h3", { class: "as-h3" }, [body.fix_first.title, body.fix_first.urgent ? h("span", { class: "as-tag", text: "Urgent" }) : null]),
+        h("p", { class: "as-fix-intro", text: body.fix_first.intro }),
+        h("ul", { class: "as-fix-list" }, body.fix_first.items.map(function (f) {
+          return h("li", {}, [h("strong", { text: f.text }), h("p", {}, [h("span", { class: "as-k", text: "Fix. " }), f.fix])]);
+        }))
+      ]));
+    }
+    kids.push(
       h("h3", { class: "as-h3", text: "Top risks" }),
       h("ol", { class: "as-risks" }, body.top_risks.map(function (t) {
         return h("li", {}, [h("strong", { text: t.title }), h("p", { text: t.business_impact }),
+          t.lens ? h("p", { class: "as-lens" }, [h("span", { class: "as-k", text: "For your agent. " }), t.lens]) : null,
           h("p", {}, [h("span", { class: "as-k", text: "First step. " }), t.first_step]),
           t.aws_services && t.aws_services.length ? h("p", { class: "as-svc", text: "On AWS: " + t.aws_services.join(" · ") }) : null]);
       })),
       h("h3", { class: "as-h3", text: "Your 30-day plan" }),
+      body.plan_intro ? h("p", { class: "as-plan-intro", text: body.plan_intro }) : null,
       h("table", { class: "as-plan" }, [
-        h("thead", {}, [h("tr", {}, [h("th", { text: "Week" }), h("th", { text: "Action" }), h("th", { text: "Owner" })])]),
+        h("thead", {}, [h("tr", {}, [h("th", { scope: "col", text: "Week" }), h("th", { scope: "col", text: "Action" }), h("th", { scope: "col", text: "Owner" })])]),
         h("tbody", {}, body.plan_30_days.map(function (p) {
-          return h("tr", {}, [h("td", { class: "as-wk", text: String(p.week) }), h("td", { text: p.action }), h("td", { class: "as-own", text: p.owner_role })]);
+          return h("tr", { class: p.red_flag ? "as-plan-flag" : null }, [h("td", { class: "as-wk", text: String(p.week) }),
+            h("td", { class: "as-act" }, [p.red_flag ? h("span", { class: "as-tag", text: "Red flag" }) : null, p.action]),
+            h("td", { class: "as-own", text: p.owner_role })]);
         }))
+      ]),
+      h("div", { class: "as-reco" }, [
+        h("section", { class: "as-card" }, [
+          h("p", { class: "eyebrow", text: "Recommended engagement" }),
+          h("h3", { class: "as-h3", text: body.engagement.offers.map(function (o) { return o.name; }).join(", then ") }),
+          body.engagement.offers.length > 1
+            ? h("ul", { class: "as-prices" }, body.engagement.offers.map(function (o) {
+                return h("li", {}, [h("span", { text: o.name }), h("span", { class: "as-price", text: o.price })]);
+              }))
+            : h("p", { class: "as-price", text: body.engagement.offers[0].price }),
+          h("p", { text: body.engagement.text }),
+          h("p", {}, [h("a", { class: "quiet", href: "/pages/services.html", text: "How our engagements work" })])
+        ]),
+        h("section", { class: "as-card" }, [
+          h("p", { class: "eyebrow", text: "Recommended offering" }),
+          h("h3", { class: "as-h3", text: body.offering.name }),
+          h("p", { text: body.offering.text }),
+          h("p", {}, [h("a", { class: "quiet", href: body.offering.href, text: "See " + body.offering.name })])
+        ])
       ]),
       h("p", { class: "as-closing", text: body.closing }),
       h("div", { class: "as-actions as-noprint" }, [
-        h("a", { class: "btn btn-primary", href: mailto, text: "Book your free Readiness Review" }),
-        h("button", { type: "button", class: "as-btn-quiet", text: "Download as PDF", on: { click: function () { window.print(); } } })
+        h("a", { class: "btn btn-primary", href: body.cta.href, text: body.cta.label }),
+        h("button", { type: "button", class: "as-btn-quiet", text: "Download as PDF", on: { click: function () { window.print(); } } }),
+        !ENDPOINT && !sample ? h("a", { class: "as-btn-quiet as-mail", href: mailtoHref(r), text: "Email me a copy" }) : null
       ]),
+      !ENDPOINT && !sample ? h("p", { class: "as-fine as-noprint", text: "\u201cEmail me a copy\u201d opens your own email app with a summary of these results addressed to Monovus. Nothing is sent until you press send." }) : null,
       h("p", { class: "as-fine", text: Q.disclaimer })
-    ]);
+    );
+    return h("article", { id: "report", class: "as-report" }, kids);
   }
 
   function reset() {
     try { localStorage.removeItem(KEY); } catch (e) {}
-    state = fresh();
+    state = fresh(); leadNote = null;
     if (params.has("sample") || params.has("step")) { history.replaceState(null, "", location.pathname); params = new URLSearchParams(); }
     go(0);
   }
@@ -388,7 +452,7 @@
     if (params.get("sample") === "1") {
       state = fixtureState(); state.step = RESULTS;
       state.lead = { company: "Example Co." };
-      state.report = { report_id: "sample", generated_by: "fallback", report: S.fallbackReport(Q, S.compute(Q, state.answers)) };
+      state.report = true;
     } else if (params.has("step")) {
       state = fixtureState(); state.step = Math.max(0, Math.min(RESULTS, parseInt(params.get("step"), 10) || 0));
     } else {

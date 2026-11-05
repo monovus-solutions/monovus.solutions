@@ -1,6 +1,6 @@
 // Run: node static/assessment/tests/scoring.test.mjs
 import { createRequire } from "node:module";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import assert from "node:assert/strict";
 
 const require = createRequire(import.meta.url);
@@ -72,6 +72,218 @@ ok("fallback report has the API shape", () => {
 ok("missing answer throws", () => {
   const a = all(1); delete a.C7b;
   assert.throws(() => S.compute(q, a));
+});
+
+/* ---------- v3: personalised report by rules ---------- */
+const P = q.personalisation;
+const cq = Object.fromEntries(q.context_questions.map((c) => [c.id, c]));
+const opt = (id, label) => {
+  const i = cq[id].options.indexOf(label);
+  assert.ok(i >= 0, `${id} has option ${label}`);
+  return i;
+};
+const SAMPLE = { role: opt("role", "COO or operations leader"), size: 2, industry: opt("industry", "Software and SaaS"),
+  use_case: opt("use_case", "Customer service and support"), stage: opt("stage", "Pilot with real users"),
+  platform: opt("platform", "Mostly on AWS"), timeline: opt("timeline", "This quarter") };
+const ctx = (over) => {
+  const c = { ...SAMPLE };
+  for (const [k, label] of Object.entries(over || {})) c[k] = opt(k, label);
+  return c;
+};
+const zero = S.compute(q, all(0));
+const mixed = S.compute(q, q.scoring.fixtures[2].answers);
+
+ok("every context label is covered by the personalisation block", () => {
+  const roles = [...P.role.leadership, ...P.role.technical];
+  assert.deepEqual([...roles].sort(), [...cq.role.options].sort());
+  const stages = Object.values(P.stage).flatMap((g) => g.options);
+  assert.deepEqual([...stages].sort(), [...cq.stage.options].sort());
+  assert.deepEqual(Object.keys(P.timeline).sort(), [...cq.timeline.options].sort());
+  assert.deepEqual(Object.keys(P.lens).sort(), [...cq.use_case.options].sort());
+  assert.deepEqual(Object.keys(P.offerings).sort(), [...cq.use_case.options].sort());
+  for (const k of Object.keys(P.industry_notes)) assert.ok(cq.industry.options.includes(k), k);
+  for (const k of Object.keys(P.platform_notes)) assert.ok(cq.platform.options.includes(k), k);
+  for (const id of Object.keys(q.red_flag_text)) assert.ok(P.red_flag_fix[id], id);
+});
+
+ok("48 lens sentences, one per use case and dimension, all different", () => {
+  const seen = new Set();
+  for (const uc of cq.use_case.options) {
+    for (const d of q.dimensions) {
+      const sentence = P.lens[uc][d.id];
+      assert.ok(typeof sentence === "string" && sentence.length > 40 && sentence.length < 220, `${uc} ${d.id}`);
+      assert.ok(!/[\u2014{}]/.test(sentence), `${uc} ${d.id} has an em dash or placeholder`);
+      seen.add(sentence);
+    }
+  }
+  assert.equal(seen.size, 48);
+});
+
+ok("each top risk shows its business risk plus the use-case lens", () => {
+  for (const uc of cq.use_case.options) {
+    const rep = S.buildReport(q, mixed, ctx({ use_case: uc }));
+    for (const t of rep.top_risks) {
+      const d = S.dimension(q, t.dimension);
+      assert.equal(t.business_impact, d.if_weak.business_risk);
+      assert.equal(t.lens, P.lens[uc][t.dimension]);
+    }
+  }
+});
+
+ok("CTO and CFO get different framing", () => {
+  const cto = S.buildReport(q, mixed, ctx({ role: "CTO or engineering leader" }));
+  const cfo = S.buildReport(q, mixed, ctx({ role: "CFO or finance leader" }));
+  const it = S.buildReport(q, mixed, ctx({ role: "IT or security leader" }));
+  assert.equal(cto.frame, "technical");
+  assert.equal(it.frame, "technical");
+  assert.equal(cfo.frame, "leadership");
+  assert.notEqual(cto.executive_summary, cfo.executive_summary);
+  assert.match(cto.executive_summary, /controls/);
+  assert.match(cfo.executive_summary, /decision/);
+  for (const r of ["CEO, founder or general manager", "COO or operations leader", "Product leader", "Other"]) {
+    assert.equal(S.buildReport(q, mixed, ctx({ role: r })).frame, "leadership", r);
+  }
+});
+
+ok("stage sets the phase; full production marks red flags urgent", () => {
+  const phase = (label) => S.buildReport(q, zero, ctx({ stage: label }));
+  for (const l of ["Idea or early exploration", "Prototype or demo"]) assert.match(phase(l).executive_summary, /^.*Before your pilot,/s);
+  for (const l of ["Pilot with real users", "Limited production"]) assert.match(phase(l).executive_summary, /Before launch,/);
+  const live = phase("Full production");
+  assert.match(live.executive_summary, /While it's live,/);
+  assert.equal(live.fix_first.urgent, true);
+  assert.equal(phase("Pilot with real users").fix_first.urgent, false);
+  assert.equal(S.buildReport(q, mixed, ctx()).fix_first, null);
+});
+
+ok("executive summary stays under 90 words for every role and stage", () => {
+  const worst = { ...mixed, weakest: ["V", "C4", "C5"], stage: q.scoring.stages[1] };
+  for (const r of cq.role.options) for (const st of cq.stage.options) {
+    for (const res of [worst, zero, mixed]) {
+      const words = S.buildReport(q, res, ctx({ role: r, stage: st })).executive_summary.split(/\s+/).length;
+      assert.ok(words <= 90, `${r} / ${st}: ${words} words`);
+    }
+  }
+});
+
+ok("'Within 30 days' compresses the plan into weeks 1-2, red flags first in week 1", () => {
+  const rep = S.buildReport(q, zero, ctx({ timeline: "Within 30 days" }));
+  const plan = rep.plan_30_days;
+  const flagRows = plan.slice(0, zero.red_flags.length);
+  assert.deepEqual(flagRows.map((p) => p.red_flag), zero.red_flags);
+  for (const p of flagRows) assert.equal(p.week, 1);
+  for (const p of plan) assert.ok(p.week === 1 || p.week === 2, `week ${p.week}`);
+  assert.ok(rep.plan_intro.length > 0);
+  for (let i = 1; i < plan.length; i++) assert.ok(plan[i].week >= plan[i - 1].week);
+});
+
+ok("other timelines keep four weeks and never go backwards", () => {
+  for (const t of cq.timeline.options) for (const res of [zero, mixed, S.compute(q, all(3))]) {
+    const plan = S.buildReport(q, res, ctx({ timeline: t })).plan_30_days;
+    for (let i = 1; i < plan.length; i++) assert.ok(plan[i].week >= plan[i - 1].week, t);
+    const max = Math.max(...plan.map((p) => p.week));
+    assert.equal(max, t === "Within 30 days" ? 2 : 4, t);
+    for (const p of plan) assert.ok(p.action && !/[{}]/.test(p.action) && p.owner_role, t);
+  }
+});
+
+ok("'No date yet' starts week 1 with the value case and launch criteria", () => {
+  for (const res of [zero, mixed]) {
+    const plan = S.buildReport(q, res, ctx({ timeline: "No date yet" })).plan_30_days;
+    assert.equal(plan[0].week, 1);
+    assert.match(plan[0].action, /^Agree the value case/);
+    assert.match(plan[0].action, /launch criteria/);
+    assert.ok(!plan.some((p) => p.dimension === "V"), "no duplicate V row");
+  }
+});
+
+ok("regulated industries get the formal-review note, others don't", () => {
+  for (const ind of ["Financial services", "Healthcare", "Public sector and education"]) {
+    const notes = S.buildReport(q, mixed, ctx({ industry: ind })).notes;
+    assert.ok(notes.some((n) => n.kind === "industry" && /formal security and privacy review/.test(n.text) && /evidence pack/.test(n.text)), ind);
+  }
+  for (const ind of ["Software and SaaS", "Retail and e-commerce", "Professional services", "Manufacturing and logistics", "Other"]) {
+    assert.ok(!S.buildReport(q, mixed, ctx({ industry: ind })).notes.some((n) => n.kind === "industry"), ind);
+  }
+});
+
+ok("not-on-AWS and not-sure get the any-platform note, AWS answers don't", () => {
+  for (const pl of ["Not on AWS yet", "Not sure"]) {
+    const notes = S.buildReport(q, mixed, ctx({ platform: pl })).notes;
+    assert.ok(notes.some((n) => n.kind === "platform" && /any platform/.test(n.text) && /on AWS/.test(n.text)), pl);
+  }
+  for (const pl of ["Mostly on AWS", "Partly on AWS"]) {
+    assert.ok(!S.buildReport(q, mixed, ctx({ platform: pl })).notes.some((n) => n.kind === "platform"), pl);
+  }
+});
+
+ok("engagement mapping at 0/34/35/59/60/84/85/100", () => {
+  const ids = (o) => S.engagementFor(q, o).id;
+  const keys = (o) => S.engagementFor(q, o).offers.map((x) => x.key);
+  assert.equal(ids(0), "sprint_then_build"); assert.equal(ids(34), "sprint_then_build");
+  assert.deepEqual(keys(34), ["sprint", "build"]);
+  assert.equal(ids(35), "sprint"); assert.equal(ids(59), "sprint");
+  assert.deepEqual(keys(59), ["sprint"]);
+  assert.equal(ids(60), "focused_sprint"); assert.equal(ids(84), "focused_sprint");
+  assert.equal(ids(85), "operate"); assert.equal(ids(100), "operate");
+  assert.deepEqual(keys(85), ["operate"]);
+  for (const o of [0, 34, 35, 59, 60, 84, 85, 100]) {
+    for (const x of S.engagementFor(q, o).offers) assert.equal(x.price, q.offers[x.key].price);
+  }
+  const focused = S.buildReport(q, { ...mixed, overall: 70 }, ctx()).engagement.text;
+  assert.ok(!/[{}]/.test(focused) && focused.includes(S.dimension(q, mixed.weakest[0]).business_name));
+});
+
+ok("recommended offering link per use case", () => {
+  const want = {
+    "Customer service and support": "/launch/customer-service-agents.html",
+    "Internal knowledge and employee help": "/launch/knowledge-assistants.html",
+    "Document processing and back office": "/launch/document-processing.html",
+    "AI features inside our product": "/launch/saas-ai-features.html",
+    "Sales and marketing": "/launch/",
+    "Other": "/launch/"
+  };
+  for (const [uc, href] of Object.entries(want)) assert.equal(S.buildReport(q, mixed, ctx({ use_case: uc })).offering.href, href, uc);
+  assert.equal(S.buildReport(q, mixed, {}).offering.href, "/launch/");
+});
+
+ok("CTA goes to the contact page with the score", () => {
+  const rep = S.buildReport(q, mixed, ctx());
+  assert.equal(rep.cta.label, "Talk to us about these results");
+  assert.equal(rep.cta.href, "/contact/?ref=assessment&score=42");
+});
+
+ok("lead payload carries labels, scores by name and an empty _gotcha", () => {
+  const lead = { name: "Ana Example", email: "ana@example.com", company: "Example Co.", consent_privacy: true, consent_marketing: false };
+  const body = S.leadPayload(q, zero, ctx({ timeline: "Within 30 days" }), lead, { blocker: "Security review.", elapsed_minutes: 4.5, page_url: "https://monovus.solutions/assessment/" });
+  assert.equal(body._subject, "Assessment lead: Example Co. (0/100, Exposed)");
+  assert.equal(body._gotcha, "");
+  assert.equal(body.consent_marketing, false);
+  assert.deepEqual(Object.keys(body.context), q.context_questions.map((c) => c.id));
+  assert.equal(body.context.role, "COO or operations leader");
+  assert.equal(body.context.timeline, "Within 30 days");
+  assert.equal(Object.keys(body.dimension_scores).length, 8);
+  assert.equal(body.dimension_scores["Predictable cost"], 0);
+  assert.deepEqual(body.red_flags, zero.red_flags.map((id) => q.red_flag_text[id]));
+  assert.equal(body.top_gaps.length, 3);
+  assert.equal(body.blocker, "Security review.");
+  assert.equal(body.elapsed_minutes, 4.5);
+  assert.equal(body.page_url, "https://monovus.solutions/assessment/");
+  const unsure = all(3); unsure.C2a = 4;
+  assert.deepEqual(S.leadPayload(q, S.compute(q, unsure), {}, lead).unknown_dimensions, ["Every decision visible"]);
+  const text = S.summaryText(q, zero, ctx(), lead, "Security review.");
+  assert.match(text, /Score: 0\/100/);
+  assert.match(text, /Red flags:/);
+  assert.match(text, /What's stopping it: Security review\./);
+});
+
+ok("no personal name in questions.json or any assessment JS", () => {
+  const who = new RegExp("Al" + "ex", "i");
+  const dir = new URL("../", import.meta.url);
+  const files = ["questions.json", ...readdirSync(dir).filter((f) => f.endsWith(".js"))];
+  assert.ok(files.includes("assessment.js") && files.includes("scoring.js"));
+  for (const f of files) assert.ok(!who.test(readFileSync(new URL(f, dir), "utf8")), f);
+  assert.ok(!existsSync(new URL("config.js", dir)), "assessment/config.js removed");
 });
 
 console.log(`\n${n} passed`);

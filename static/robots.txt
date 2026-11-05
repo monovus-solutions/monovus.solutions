@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /assessment/tests/
+Sitemap: https://monovus.solutions/sitemap.xml

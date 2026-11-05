@@ -3,147 +3,251 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Monovus · Agent production readiness on AWS</title>
-<meta name="description" content="Monovus takes one AI agent from pilot to production on Amazon Bedrock AgentCore, in your own AWS account, at a fixed price.">
+<title>Monovus · From AI pilot to production, on AWS</title>
+<meta name="description" content="Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.">
 <link rel="canonical" href="https://monovus.solutions/">
-<meta property="og:title" content="Monovus · Agent production readiness on AWS">
-<meta property="og:description" content="Monovus takes one AI agent from pilot to production on Amazon Bedrock AgentCore, in your own AWS account, at a fixed price.">
-<meta property="og:url" content="https://monovus.solutions/">
+<meta name="theme-color" content="#F5F1E8">
+<meta property="og:site_name" content="Monovus">
+<meta property="og:locale" content="en_CA">
 <meta property="og:type" content="website">
+<meta property="og:title" content="Monovus · From AI pilot to production, on AWS">
+<meta property="og:description" content="Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.">
+<meta property="og:url" content="https://monovus.solutions/">
+<meta property="og:image" content="https://monovus.solutions/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Monovus. From AI pilot to production, on AWS.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Monovus · From AI pilot to production, on AWS">
+<meta name="twitter:description" content="Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.">
+<meta name="twitter:image" content="https://monovus.solutions/assets/og.png">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/shippori-mincho-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Monovus","url":"https://monovus.solutions/","email":"hello@monovus.solutions","logo":"https://monovus.solutions/assets/apple-touch-icon.png","image":"https://monovus.solutions/assets/og.png","slogan":"From AI pilot to production, on AWS.","description":"Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"areaServed":"CA","knowsLanguage":["en","cmn","yue"],"founder":{"@type":"Person","name":"Alex Shaw"},"knowsAbout":["Amazon Bedrock","Amazon Bedrock AgentCore","AI agents","AI agent evaluation","AI governance"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do we need to be on AWS?","acceptedAnswer":{"@type":"Answer","text":"Yes, or be willing to run the agent there. We work only with AWS services, in your own account. If your agent lives on another cloud, we are the wrong choice and we will say so."}},{"@type":"Question","name":"Who owns the work?","acceptedAnswer":{"@type":"Answer","text":"You do. Everything is built in your AWS account and your repositories, under your IAM. When we finish, your team can run it without us."}},{"@type":"Question","name":"What does the agent cost to run?","acceptedAnswer":{"@type":"Answer","text":"Amazon bills your account directly for usage, and we never mark it up. Part of the work is measuring cost per task and setting budgets with alarms, so you know the number before you scale."}},{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"The assessment takes about five minutes and the Readiness Review 45. A Pilot-to-Production Sprint typically runs 2 to 4 weeks on one agent."}},{"@type":"Question","name":"What if our agent isn't ready for production?","acceptedAnswer":{"@type":"Answer","text":"Then the scorecard says so, in writing, with what would have to change. Sometimes the right answer is a narrower agent, and we would rather tell you that than sell you a sprint."}},{"@type":"Question","name":"Where does our data live?","acceptedAnswer":{"@type":"Answer","text":"In your AWS account, in the Region you choose. We work through an IAM role you create and can revoke at any time, and we don't copy your data into systems of our own."}},{"@type":"Question","name":"Can you work with our team or our existing partner?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your engineers work alongside us so the capability stays with you. AWS partners and MSPs can bring us in under their own contract."}},{"@type":"Question","name":"Do you build new agents?","acceptedAnswer":{"@type":"Answer","text":"Yes, when the scope is one clear task. Most of our work takes an existing pilot to production; a scoped single-task agent is part of Production Build and Hardening."}}]}</script>
 </head>
 <body>
-<header class="grid">
-  <div class="c2-11 brandrow">
-    <a class="wordmark" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="187" height="26"></a>
-    <nav aria-label="Main"><ul><li><a href="/pages/how-it-works.html">How it works</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="158" height="22"></a>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle">
+    <label class="nav-btn" for="nav-toggle"><span class="nav-bars" aria-hidden="true"></span><span class="nav-label">Menu</span></label>
+    <nav class="nav" aria-label="Main"><ul><li><a href="/pages/services.html">Services</a></li><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/pages/use-cases.html">Use cases</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+    <a class="btn btn-primary btn-sm" href="/assessment/">Free assessment</a>
   </div>
 </header>
-<main>
+<!-- /site:header -->
+<main id="main">
 
-<section class="grid first">
-  <div class="c2-8">
-    <p class="eyebrow mb4">Agent production readiness on AWS</p>
-    <h1>Your agent pilot,<br>ready for <em>production</em>.</h1>
-    <p class="lead mt6">Most agent pilots stall between the demo and production. Nobody can say
-    how often it's wrong, what it will cost, or what stops it doing something it shouldn't.
-    I take one agent and, in two weeks, put in the controls production needs, on Amazon
-    Bedrock AgentCore, in <strong>your own</strong> AWS account.</p>
-    <p class="mt6"><a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a free readiness review</a></p>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">AWS-focused AI consultancy</p>
+      <h1>Your AI agent works in the demo. We make it work for the business.</h1>
+      <p class="lead">Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock,
+      with quality you can measure, costs you can budget and the controls your board, customers and
+      auditors ask for. Fixed fee, in your own AWS account, in weeks rather than quarters.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a>
+        <a class="arrow" href="/pages/how-it-works.html">See how we work</a>
+      </div>
+      <p class="hero-note">23 quick questions. Your score appears on screen, with no email needed.</p>
+    </div>
+    <aside class="preview" aria-labelledby="pv-h">
+  <div class="preview-top"><p class="eyebrow ink" id="pv-h">What you get in five minutes</p><span class="tag">Sample</span></div>
+  <div class="dial-row">
+    <svg class="dial" viewBox="0 0 120 120" role="img" aria-label="Sample overall score 42 out of 100">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#DCD5C6" stroke-width="10"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#5C6B4A" stroke-width="10" stroke-dasharray="131.9 314.2" transform="rotate(-90 60 60)"/>
+      <text x="60" y="66" text-anchor="middle" class="num">42</text>
+      <text x="60" y="84" text-anchor="middle" class="of">of 100</text>
+    </svg>
+    <div><p class="stage-name">Emerging</p><p class="small muted mt1">Some controls exist, but the gaps are the kind that stall a launch or surprise you after it.</p></div>
+  </div>
+  <ul class="bars" aria-label="Sample scores for the eight dimensions"><li><span>A clear owner and a measurable payoff</span><span class="track" aria-hidden="true"><span class="fill" style="width:50%"></span></span><span class="v">50</span></li><li><span>Quality you can measure</span><span class="track" aria-hidden="true"><span class="fill" style="width:17%"></span></span><span class="v">17</span></li><li><span>Every decision visible</span><span class="track" aria-hidden="true"><span class="fill" style="width:50%"></span></span><span class="v">50</span></li><li><span>Predictable cost</span><span class="track" aria-hidden="true"><span class="fill" style="width:33%"></span></span><span class="v">33</span></li><li><span>The agent can only do what it should</span><span class="track" aria-hidden="true"><span class="fill" style="width:50%"></span></span><span class="v">50</span></li><li><span>Access you can account for</span><span class="track" aria-hidden="true"><span class="fill" style="width:67%"></span></span><span class="v">67</span></li><li><span>A fast way back</span><span class="track" aria-hidden="true"><span class="fill" style="width:50%"></span></span><span class="v">50</span></li><li><span>Ready for incidents and audits</span><span class="track" aria-hidden="true"><span class="fill" style="width:17%"></span></span><span class="v">17</span></li></ul>
+  <div class="preview-foot"><p class="fine">A sample result, not a client's data.</p>
+  <a class="arrow" href="/assessment/?sample=1">See the sample report</a></div>
+</aside>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">Why pilots stall</p>
-    <h2>The demo was<br>the <em>easy</em> part.</h2>
-    <p class="mt4">Gartner expects over 40% of agentic AI projects to be cancelled by the end
-    of 2027, mostly over cost, unclear value and weak risk controls
-    (<a class="quiet" href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">source</a>).</p>
-    <p>The model is rarely the problem. What's missing is the unglamorous part: tests,
-    traces, budgets, permissions and a way back. AWS now ships most of those pieces inside
-    AgentCore. Someone still has to set them up, prove them on your agent, and hand them to
-    your team. That's the job.</p>
+<section class="strip" aria-label="Credentials and commitments">
+  <div class="wrap"><ul><li>AWS Certified Solutions Architect – Professional<span>held by the person who delivers</span></li><li>15+ years on AWS<span>presales and solution architecture</span></li><li>Built only on AWS-native services<span>no platform to license</span></li><li>Fixed fee, quoted before we start<span>in writing, no hourly billing</span></li><li>Your AWS account, no lock-in<span>your IAM, your repositories</span></li></ul></div>
+</section>
+
+<section class="sec" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="statline">
+      <p class="big" aria-hidden="true">40%+</p>
+      <div>
+        <p class="eyebrow">Why agent projects get cancelled</p>
+        <h2 id="why-h" class="mt2">The three reasons agent projects fail are all fixable.</h2>
+        <p class="mt2 muted">Gartner expects over 40% of agentic AI projects to be cancelled by the end of
+        2027, because of escalating costs, unclear business value or inadequate risk controls. None of
+        the three is a model problem, and each has a known fix.</p>
+        <p class="src mt1">Source: <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">Gartner press release, 25 June 2025</a></p>
+      </div>
+    </div>
+    <div class="g3"><article class="card reason"><p class="k">Cost</p><h3>Escalating costs</h3><p class="mt1 muted">Usage grows faster than value, and nobody can say what one conversation costs.</p><p class="fix"><strong>How we remove it.</strong> We measure cost per task, set budgets with alarms and route simple turns to smaller models.</p></article><article class="card reason"><p class="k">Value</p><h3>Unclear business value</h3><p class="mt1 muted">The pilot impressed people, but no one owns a number it has to move.</p><p class="fix"><strong>How we remove it.</strong> We start with a named owner and one measurable target, against today's baseline.</p></article><article class="card reason"><p class="k">Risk</p><h3>Inadequate risk controls</h3><p class="mt1 muted">No one can prove what the agent can touch, or show what it did and why.</p><p class="fix"><strong>How we remove it.</strong> Six controls: evaluations, tracing, policy, identity, rollback and an evidence pack.</p></article></div>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-11">
-    <p class="eyebrow mb6">The seven controls</p>
-    <div class="row"><div class="n">1</div><div><h3>Evals gate every release</h3><p class="mt2">A golden set of real cases runs before any prompt, model or tool change goes out. A release that scores worse than the last one doesn't ship.</p></div><div class="svc">AgentCore Evaluations<br>golden set<br>release gate</div></div><div class="row"><div class="n">2</div><div><h3>End-to-end tracing</h3><p class="mt2">Every turn is traced through model calls, tool calls and retrieval, so a bad answer can be found and explained in minutes, not argued about.</p></div><div class="svc">AgentCore Observability<br>CloudWatch<br>OpenTelemetry</div></div><div class="row"><div class="n">3</div><div><h3>Cost budgets and model routing</h3><p class="mt2">A budget per agent, with alarms before the bill surprises anyone. Smaller models handle the turns that don't need a large one.</p></div><div class="svc">AWS Budgets<br>CloudWatch alarms<br>model routing</div></div><div class="row"><div class="n">4</div><div><h3>Policy and least privilege</h3><p class="mt2">Deterministic rules on which tools the agent may call, and with what, under an IAM role that can do only that.</p></div><div class="svc">AgentCore Policy<br>AgentCore Gateway<br>IAM</div></div><div class="row"><div class="n">5</div><div><h3>Identity and secrets</h3><p class="mt2">The agent acts as the signed-in user or as a named service, never on a shared admin key.</p></div><div class="svc">AgentCore Identity<br>Secrets Manager</div></div><div class="row"><div class="n">6</div><div><h3>Rollback and recovery</h3><p class="mt2">Prompts, tools and configuration are versioned, so the last good version is one tested step away.</p></div><div class="svc">versioned config<br>tested rollback</div></div><div class="row"><div class="n">7</div><div><h3>Runbook and evidence pack</h3><p class="mt2">What to do when it misbehaves, who owns it, and the evidence your security review will ask for.</p></div><div class="svc">runbook<br>audit evidence<br>handover</div></div>
+<section class="sec alt" aria-labelledby="out-h">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Outcomes</p><h2 id="out-h" class="mt2">What the business has when we finish.</h2></div>
+    <ul class="outcomes"><li><h3>A quality score you can report</h3><p>Real cases run before every release, with the result on one page.</p></li><li><h3>A cost per task you can budget</h3><p>Measured per conversation or task, with alarms before any surprise.</p></li><li><h3>A named owner and a runbook</h3><p>One accountable owner, written incident steps and a rehearsed way back.</p></li><li><h3>An evidence pack for review</h3><p>What security, customers and auditors ask for, current and in one place.</p></li><li><h3>An agent your team runs</h3><p>Built in your account and repositories, and handed over in a working session.</p></li></ul>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-8">
-    <p class="eyebrow mb4">What day two looks like</p>
-    <div class="pane"><span class="k">readiness baseline · support-agent · day 2</span>
-
- 1  evals gate releases       <span class="k">✗</span>  no golden set; changes tested by hand
- 2  end-to-end tracing        <span class="k">~</span>  model calls traced, tool calls not
- 3  cost budgets              <span class="k">✗</span>  no budget; one large model on every turn
- 4  policy, least privilege   <span class="k">✗</span>  agent role can write to every table
- 5  identity and secrets      <span class="ok">✓</span>  Secrets Manager, rotated
- 6  rollback                  <span class="k">✗</span>  prompt edits go straight to production
- 7  runbook and evidence      <span class="k">✗</span>  none
-
-<span class="ok">→</span> 1 of 7 in place · 6 to close in the sprint</div>
-    <p class="paneCap">Example shape of a baseline, not a client's data. You get the same
-    scorecard again at the end of the sprint.</p>
+<section class="sec" id="framework" aria-labelledby="fw-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The method</p>
+      <h2 id="fw-h" class="mt2">The Monovus Production Readiness Framework</h2>
+      <p class="lead">Eight dimensions: one for business value and seven controls. The free assessment
+      scores all eight, and every engagement is measured against them.</p>
+    </div>
+    <ol class="fw" aria-label="The eight dimensions"><li><p class="id">V<span>value</span></p><div><h3>A clear owner and a measurable payoff</h3><p class="meaning">Someone is accountable for results, and one agreed number shows whether the agent pays back.</p></div><div class="aws"><p class="ctl">Business value and ownership</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span></div></div></li><li><p class="id">C1<span>risk</span></p><div><h3>Quality you can measure</h3><p class="meaning">Every change is tested on real cases before it ships, so answers can&#x27;t quietly get worse.</p></div><div class="aws"><p class="ctl">Evaluations gate every release</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Evaluations</span></div></div></li><li><p class="id">C2<span>risk</span></p><div><h3>Every decision visible</h3><p class="meaning">Your team can see what the agent did and why, and hears about failures in minutes.</p></div><div class="aws"><p class="ctl">End-to-end tracing</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Observability</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span></div></div></li><li><p class="id">C3<span>cost</span></p><div><h3>Predictable cost</h3><p class="meaning">You know what each task costs, and budgets stop a busy day or a loop becoming an unapproved bill.</p></div><div class="aws"><p class="ctl">Cost budgets and model routing</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Budgets_48.svg" alt="" width="24" height="24" loading="lazy">AWS Budgets</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" alt="" width="24" height="24" loading="lazy">Amazon Bedrock</span></div></div></li><li><p class="id">C4<span>risk</span></p><div><h3>The agent can only do what it should</h3><p class="meaning">Rules outside the prompt decide what the agent may do, and its permissions allow nothing more.</p></div><div class="aws"><p class="ctl">Policy and least privilege</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Policy</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Gateway</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Identity-and-Access-Management_48.svg" alt="" width="24" height="24" loading="lazy">AWS IAM</span></div></div></li><li><p class="id">C5<span>risk</span></p><div><h3>Access you can account for</h3><p class="meaning">The agent acts as the user or as its own named identity, never on a shared admin key.</p></div><div class="aws"><p class="ctl">Identity and secrets</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Identity</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Secrets-Manager_48.svg" alt="" width="24" height="24" loading="lazy">AWS Secrets Manager</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Identity-and-Access-Management_48.svg" alt="" width="24" height="24" loading="lazy">AWS IAM</span></div></div></li><li><p class="id">C6<span>risk</span></p><div><h3>A fast way back</h3><p class="meaning">Prompts, tools and settings are versioned, and the last good version is minutes away.</p></div><div class="aws"><p class="ctl">Rollback and recovery</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Runtime</span></div></div></li><li><p class="id">C7<span>risk</span></p><div><h3>Ready for incidents and audits</h3><p class="meaning">A rehearsed runbook and a current evidence pack, so incidents and reviews don&#x27;t hang on one person.</p></div><div class="aws"><p class="ctl">Runbook and evidence pack</p><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_AWS-CloudTrail_48.svg" alt="" width="24" height="24" loading="lazy">AWS CloudTrail</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span></div></div></li></ol>
+    <p class="mt4"><a class="arrow" href="/pages/how-it-works.html">The framework in detail</a></p>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">How it runs</p>
-    <h2>Fixed scope,<br>fixed <em>price</em>.</h2>
-    <p class="mt4"><strong>Readiness review, free.</strong> 45 minutes on your agent, scored
-    against the seven controls. You leave with the gaps whether or not you hire me.</p>
-    <p><strong>Production readiness sprint, CAD 6,000 to 12,000.</strong> Two weeks on one
-    agent. Quoted in writing after the review, before any work starts.</p>
-    <p><strong>After that, only if you want it.</strong> Hardening work on the backlog, or a
-    monthly agent operations retainer. AWS usage is billed to you by Amazon and I don't
-    mark it up.</p>
-    <p class="mt4"><a class="quiet" href="/pages/how-it-works.html">The sprint, day by day</a>
-    &nbsp;·&nbsp; <a class="quiet" href="/pages/pricing.html">All prices</a>
-    &nbsp;·&nbsp; <a class="quiet" href="/pages/use-cases.html">When teams call</a></p>
+<section class="sec alt" id="architecture" aria-labelledby="arch-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Reference architecture</p>
+      <h2 id="arch-h" class="mt2">What production-ready looks like on AWS</h2>
+      <p class="lead">One agent in your AWS account, with each control from the framework in place.</p>
+    </div>
+    <figure class="arch" aria-labelledby="arch-h">
+  <div class="arch-scroll"><svg viewBox="0 0 1200 500" role="img" aria-labelledby="ax-title ax-desc" xmlns="http://www.w3.org/2000/svg"><title id="ax-title">What production-ready looks like on AWS</title><desc id="ax-desc">Users reach the agent in AgentCore Runtime inside your AWS account. Every tool call passes AgentCore Policy and goes out through AgentCore Gateway to your business systems. The agent uses Amazon Bedrock models, Bedrock Knowledge Bases and AgentCore Memory; it acts through AgentCore Identity with keys in AWS Secrets Manager and an audit trail in AWS CloudTrail; AgentCore Observability with Amazon CloudWatch, AgentCore Evaluations and AWS Budgets measure quality, visibility and cost.</desc><style>.ax-box{fill:#FFFFFF;stroke:#DCD5C6;stroke-width:1}.ax-side{fill:none;stroke:#DCD5C6;stroke-width:1;stroke-dasharray:4 4}.ax-acct{fill:none;stroke:#2E2B26;stroke-width:1.25}.ax-t{font:600 12.5px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;fill:#2E2B26}.ax-s{font:400 11.5px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;fill:#6B655A}.ax-l{font:600 10.5px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;letter-spacing:1.4px;fill:#6B655A}.ax-h{font:600 14px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;fill:#2E2B26}.ax-flow{stroke:#5C6B4A;stroke-width:1.75;fill:none}</style><defs><marker id="ax-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5C6B4A"/></marker></defs><text x="8" y="84" class="ax-l">YOUR USERS</text><rect x="8" y="90" width="160" height="148" rx="2" class="ax-side"/><rect x="16" y="98" width="144" height="40" rx="2" class="ax-box"/><text x="88" y="123" text-anchor="middle" class="ax-t">Customers</text><rect x="16" y="144" width="144" height="40" rx="2" class="ax-box"/><text x="88" y="169" text-anchor="middle" class="ax-t">Employees</text><rect x="16" y="190" width="144" height="40" rx="2" class="ax-box"/><text x="88" y="215" text-anchor="middle" class="ax-t">Your app or channel</text><text x="1032" y="84" class="ax-l">YOUR SYSTEMS</text><rect x="1032" y="90" width="160" height="148" rx="2" class="ax-side"/><rect x="1040" y="98" width="144" height="40" rx="2" class="ax-box"/><text x="1112" y="123" text-anchor="middle" class="ax-t">CRM and sales</text><rect x="1040" y="144" width="144" height="40" rx="2" class="ax-box"/><text x="1112" y="169" text-anchor="middle" class="ax-t">Tickets and support</text><rect x="1040" y="190" width="144" height="40" rx="2" class="ax-box"/><text x="1112" y="215" text-anchor="middle" class="ax-t">Databases and APIs</text><rect x="184" y="16" width="824" height="468" rx="2" class="ax-acct"/><image href="/assets/aws-icons/AWS-Account_32.svg" x="184" y="16" width="32" height="32"/><text x="226" y="37" class="ax-h">Your AWS account</text><text x="226" y="54" class="ax-s">every service below runs here, under your IAM</text><text x="204" y="84" class="ax-l">RUNS THE AGENT</text><rect x="204" y="94" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="218" y="110" width="32" height="32"/><text x="262" y="123" class="ax-t">AgentCore Runtime</text><text x="262" y="142" class="ax-s">hosts and scales the agent</text><rect x="472" y="94" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="486" y="110" width="32" height="32"/><text x="530" y="123" class="ax-t">AgentCore Policy</text><text x="530" y="142" class="ax-s">checks every tool call</text><rect x="740" y="94" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="754" y="110" width="32" height="32"/><text x="798" y="123" class="ax-t">AgentCore Gateway</text><text x="798" y="142" class="ax-s">connects approved tools</text><text x="204" y="184" class="ax-l">MODELS, KNOWLEDGE, MEMORY</text><rect x="204" y="194" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" x="218" y="210" width="32" height="32"/><text x="262" y="223" class="ax-t">Amazon Bedrock</text><text x="262" y="242" class="ax-s">models, chosen per task</text><rect x="472" y="194" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" x="486" y="210" width="32" height="32"/><text x="530" y="223" class="ax-t">Bedrock Knowledge Bases</text><text x="530" y="242" class="ax-s">grounded in your documents</text><rect x="740" y="194" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="754" y="210" width="32" height="32"/><text x="798" y="223" class="ax-t">AgentCore Memory</text><text x="798" y="242" class="ax-s">context across sessions</text><text x="204" y="284" class="ax-l">IDENTITY AND AUDIT</text><rect x="204" y="294" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="218" y="310" width="32" height="32"/><text x="262" y="323" class="ax-t">AgentCore Identity</text><text x="262" y="342" class="ax-s">acts as the signed-in user</text><rect x="472" y="294" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_AWS-Secrets-Manager_48.svg" x="486" y="310" width="32" height="32"/><text x="530" y="323" class="ax-t">AWS Secrets Manager</text><text x="530" y="342" class="ax-s">keys stored and rotated</text><rect x="740" y="294" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_AWS-CloudTrail_48.svg" x="754" y="310" width="32" height="32"/><text x="798" y="323" class="ax-t">AWS CloudTrail</text><text x="798" y="342" class="ax-s">audit trail of API calls</text><text x="204" y="384" class="ax-l">QUALITY AND COST</text><rect x="204" y="394" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="218" y="410" width="32" height="32"/><text x="262" y="423" class="ax-t">AgentCore Observability</text><image href="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" x="262" y="430" width="16" height="16"/><text x="283" y="442" class="ax-s">with Amazon CloudWatch</text><rect x="472" y="394" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="486" y="410" width="32" height="32"/><text x="530" y="423" class="ax-t">AgentCore Evaluations</text><text x="530" y="442" class="ax-s">tests every release</text><rect x="740" y="394" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_AWS-Budgets_48.svg" x="754" y="410" width="32" height="32"/><text x="798" y="423" class="ax-t">AWS Budgets</text><text x="798" y="442" class="ax-s">alarms before overspend</text><path d="M168 126H202" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M444 126H470" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M712 126H738" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M980 126H1030" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M430 160V192" class="ax-flow" marker-start="url(#ax-arr)" marker-end="url(#ax-arr)"/></svg></div>
+  <figcaption><span class="arch-hint">Scroll sideways to see the whole diagram. </span>Logical view of
+  one production agent. Icons from the official AWS Architecture Icons set; AgentCore services share the
+  one AgentCore icon the set provides.</figcaption>
+</figure>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">Why your own account</p>
-    <h2>Your account, your team,<br><em>your</em> agent.</h2>
-    <p class="mt4">Everything runs in your AWS account, under your IAM, on AWS's own agent
-    services rather than a tool I sell. Your team gets the dashboards, the eval suite, the
-    policies and the runbook. When I finish, they can run it without me. That's my test of
-    done.</p>
+<section class="sec" aria-labelledby="eng-h">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Engagement model</p>
+      <h2 id="eng-h" class="mt2">Assess, launch, build, operate.</h2>
+      <p class="lead">Start free. Every paid step is a fixed fee, quoted in writing before work starts.
+      AWS usage is billed to you by Amazon, never marked up.</p></div>
+    <div class="offers"><article class="offer" id="offer-review"><p class="phase">Assess</p><h3>Readiness Review</h3><p class="price">Free</p><dl><dt>Duration</dt><dd>45 minutes, after the free online assessment</dd><dt>What you get</dt><dd>45 minutes with Alex Shaw to walk through your results and agree the first fixes.</dd></dl><a class="arrow push" href="/assessment/">Start with the assessment</a></article><article class="offer" id="offer-sprint"><p class="phase">Launch</p><h3>Pilot-to-Production Sprint</h3><p class="price">CAD 6,000-12,000, fixed</p><dl><dt>Duration</dt><dd>Typically 2 to 4 weeks, one agent</dd><dt>What you get</dt><dd>One agent, typically 2 to 4 weeks: evaluations, tracing, cost controls, policy, rollback, runbook and a before-and-after scorecard.</dd></dl><a class="arrow push" href="/pages/services.html#sprint">What is included</a></article><article class="offer" id="offer-build"><p class="phase">Build</p><h3>Production Build and Hardening</h3><p class="price">CAD 15,000-30,000, fixed</p><dl><dt>Duration</dt><dd>Scoped and fixed in writing before it starts</dd><dt>What you get</dt><dd>Work through the remaining backlog, or a scoped single-task agent built in your AWS account.</dd></dl><a class="arrow push" href="/pages/services.html#build">What is included</a></article><article class="offer" id="offer-operate"><p class="phase">Operate</p><h3>Managed Agent Operations</h3><p class="price">CAD 1,000-2,500 a month</p><dl><dt>Duration</dt><dd>Month to month, no minimum term</dd><dt>What you get</dt><dd>Monthly quality and cost reviews, evaluation regression runs and policy updates.</dd></dl><a class="arrow push" href="/pages/services.html#operate">What is included</a></article></div>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">What I won't do</p>
-    <ul class="rules">
-      <li>I won't sell you a platform. AgentCore already has the parts; I configure them and prove they work on your agent.</li>
-      <li>I won't take a second engagement while yours is running.</li>
-      <li>I won't be your 24/7 pager. Your team owns on-call, and leaves the sprint with the alarms, runbook and rollback to do it.</li>
-      <li>I won't build anything only I can maintain. If your team can't run it, it isn't finished.</li>
-      <li>If your agent shouldn't go to production yet, the scorecard will say so, in writing.</li>
-      <li>If it's a five-minute fix, I'll tell you it's a five-minute fix, and I won't turn it into a project.</li>
-    </ul>
+<section class="sec tight" aria-labelledby="agent-h">
+  <div class="wrap">
+    <div class="panel">
+      <div>
+        <p class="eyebrow">Built the way we build yours</p>
+        <h2 id="agent-h" class="mt2">We hold our own tools to the same standard.</h2>
+        <p class="mt2 muted">The AI report service behind this assessment is built to our own framework, so you
+        can judge the method before you hire it.</p>
+        <ul class="ticks mt4">
+          <li>Evaluated against a golden set of answer profiles, including a prompt-injection attempt, before each release</li>
+          <li>Spend-capped by design: daily limits, a size limit on every report, and an AWS Budget that alarms at 50%, 80% and 100%</li>
+          <li>Least-privilege IAM: it can call its model, write to its table and send one notification</li>
+          <li>Every report logged with tokens, latency and estimated cost, never with your personal details</li>
+          <li>Deployed and rolled back as versioned infrastructure</li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow ink">Built with</p>
+        <div class="built mt2"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" alt="" width="32" height="32" loading="lazy">Amazon Bedrock</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Lambda_48.svg" alt="" width="32" height="32" loading="lazy">AWS Lambda</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-DynamoDB_48.svg" alt="" width="32" height="32" loading="lazy">Amazon DynamoDB</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="32" height="32" loading="lazy">Amazon CloudWatch</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Budgets_48.svg" alt="" width="32" height="32" loading="lazy">AWS Budgets</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Identity-and-Access-Management_48.svg" alt="" width="32" height="32" loading="lazy">AWS IAM</span></div>
+        <p class="mt4"><a class="btn btn-primary" href="/assessment/">Try it on your agent</a></p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">For AWS partners and MSPs</p>
-    <p class="lead">Won an agent deal and short on GenAI delivery hands? I run the readiness
-    sprint under your contract, to a written scope. Your customer stays yours.</p>
-    <p class="mt3"><a class="quiet" href="/pages/partners.html">How subcontracting works</a></p>
+<section class="sec alt" aria-labelledby="who-h">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Who we work with</p><h2 id="who-h" class="mt2">Teams with a pilot on AWS and a deadline.</h2></div>
+    <div class="g2">
+      <article class="card"><p class="k">Companies and software vendors</p><h3 class="mt1">50 to 1,000 people, one agent that has to go live</h3>
+        <p class="mt2 muted">Your agent works in a demo and isn't yet trusted in production. Leadership wants a
+        date, a cost and an answer on risk.</p><p class="mt3"><a class="arrow" href="/pages/use-cases.html">Use cases</a></p></article>
+      <article class="card"><p class="k">AWS partners and MSPs</p><h3 class="mt1">You won the agent deal and need senior delivery</h3>
+        <p class="mt2 muted">We deliver the production readiness work under your contract and your brand. Your
+        customer stays yours.</p><p class="mt3"><a class="arrow" href="/pages/partners.html">For AWS partners</a></p></article>
+    </div>
+    <p class="mt4 lead">We work in English · <span lang="zh-Hant">普通話 · 廣東話</span>.</p>
   </div>
 </section>
 
-<section class="grid">
-  <div class="c2-6">
-    <h2>Is your agent<br><em>ready</em>?</h2>
-    <p class="mt4 mb6">Send me one paragraph: what the agent does, where it runs, and what's
-    stopping it from shipping. I'll reply with a time for the review. If production is the
-    wrong goal, I'll say so, and you'll have lost one email.</p>
-    <a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">hello@monovus.solutions</a>
+<section class="sec" aria-labelledby="whym-h">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Why Monovus</p><h2 id="whym-h" class="mt2">A senior-led boutique, built for this one problem.</h2></div>
+    <ul class="outcomes"><li><h3>Senior-led</h3><p>The person who scopes the work delivers it, with 15+ years of AWS solution architecture behind it.</p></li><li><h3>AWS-native</h3><p>Amazon Bedrock, AgentCore, CloudWatch and IAM in your account. Nothing proprietary to license.</p></li><li><h3>Fixed fee</h3><p>Quoted in writing before work starts. If it takes longer, that is our cost, not yours.</p></li><li><h3>Outcome-defined</h3><p>Every engagement ends with a before-and-after scorecard on the same eight dimensions.</p></li><li><h3>Canadian</h3><p>Based in Toronto, working under Canadian privacy law, in English, Mandarin and Cantonese.</p></li></ul>
+  </div>
+</section>
+
+<section class="sec rule" aria-labelledby="wont-h">
+  <div class="wrap split">
+    <div><p class="eyebrow">Plain terms</p><h2 id="wont-h" class="mt2">What we won't do.</h2></div>
+    <ul class="nots"><li>We won&#x27;t sell you a platform. AgentCore already has the parts; we configure them and prove they work on your agent.</li><li>We won&#x27;t hand your work to a junior team after the sale. The person who scopes it delivers it.</li><li>We won&#x27;t be your 24/7 pager. Your team owns on-call, and leaves with the alarms, runbook and rollback to do it.</li><li>We won&#x27;t build anything only we can maintain. If your team can&#x27;t run it, it isn&#x27;t finished.</li><li>We won&#x27;t call an agent ready when it isn&#x27;t. If it shouldn&#x27;t go to production yet, the scorecard says so in writing.</li><li>We won&#x27;t turn a five-minute fix into a project, and we won&#x27;t mark up your AWS bill.</li></ul>
+  </div>
+</section>
+
+<section class="sec alt" aria-labelledby="ins-h">
+  <div class="wrap split">
+    <div><p class="eyebrow">Insight</p><h2 id="ins-h" class="mt2">Why agents stall between pilot and production.</h2></div>
+    <article class="card">
+      <h3>Why AI agents stall between pilot and production, and the eight things production needs</h3>
+      <p class="mt2 muted">A demo proves an agent can do the task. Production asks whether the business can
+      afford it, defend it and run it. An eight-point checklist for leaders deciding whether to launch.</p>
+      <p class="mt3"><a class="arrow" href="/insights/agent-production-readiness.html">Read the article</a></p>
+    </article>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="faq-h">
+  <div class="wrap split">
+    <div><p class="eyebrow">Questions</p><h2 id="faq-h" class="mt2">What leaders ask us first.</h2>
+      <p class="mt2 muted">Something else? Email <a class="text" href="mailto:hello@monovus.solutions">hello@monovus.solutions</a>.</p></div>
+    <div class="faq"><details><summary>Do we need to be on AWS?</summary><div class="a"><p>Yes, or be willing to run the agent there. We work only with AWS services, in your own account. If your agent lives on another cloud, we are the wrong choice and we will say so.</p></div></details><details><summary>Who owns the work?</summary><div class="a"><p>You do. Everything is built in your AWS account and your repositories, under your IAM. When we finish, your team can run it without us.</p></div></details><details><summary>What does the agent cost to run?</summary><div class="a"><p>Amazon bills your account directly for usage, and we never mark it up. Part of the work is measuring cost per task and setting budgets with alarms, so you know the number before you scale.</p></div></details><details><summary>How long does it take?</summary><div class="a"><p>The assessment takes about five minutes and the Readiness Review 45. A Pilot-to-Production Sprint typically runs 2 to 4 weeks on one agent.</p></div></details><details><summary>What if our agent isn&#x27;t ready for production?</summary><div class="a"><p>Then the scorecard says so, in writing, with what would have to change. Sometimes the right answer is a narrower agent, and we would rather tell you that than sell you a sprint.</p></div></details><details><summary>Where does our data live?</summary><div class="a"><p>In your AWS account, in the Region you choose. We work through an IAM role you create and can revoke at any time, and we don&#x27;t copy your data into systems of our own.</p></div></details><details><summary>Can you work with our team or our existing partner?</summary><div class="a"><p>Yes. Your engineers work alongside us so the capability stays with you. AWS partners and MSPs can bring us in under their own contract.</p></div></details><details><summary>Do you build new agents?</summary><div class="a"><p>Yes, when the scope is one clear task. Most of our work takes an existing pilot to production; a scoped single-task agent is part of Production Build and Hardening.</p></div></details></div>
+  </div>
+</section>
+
+<section class="band-dark cta-band" aria-labelledby="cta-h">
+  <div class="wrap">
+    <h2 id="cta-h">Find out where your agent stands in five minutes.</h2>
+    <p>Answer 16 plain-language questions about your agent. Your score, stage and biggest risks appear on screen straight away, with no email needed.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a>
+      <a class="btn btn-secondary" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Email us about a readiness review</a>
+    </div>
   </div>
 </section>
 
 </main>
-<footer class="grid">
-  <div class="c2-11 foot">
-    Monovus · agent production readiness on AWS · Toronto, Ontario · one engagement at a time<br>
-    Alex Shaw · <a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a> · English · 普通話 · 廣東話
+<!-- site:footer -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="/assets/lockup-sumi.svg" alt="Monovus" width="144" height="20">
+        <p>An AWS-focused AI agent consultancy. From AI pilot to production, on AWS.</p>
+        <p><a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a><br>Toronto, Ontario, Canada<br>English · <span lang="zh-Hant">普通話 · 廣東話</span></p>
+      </div>
+      <div><h2>Work with us</h2><ul><li><a href="/assessment/">Free assessment</a></li><li><a href="/pages/services.html">Services</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li></ul></div>
+      <div><h2>Monovus</h2><ul><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/pages/use-cases.html">Use cases</a></li><li><a href="/pages/about.html">About</a></li><li><a href="/insights/agent-production-readiness.html">Insight: pilot to production</a></li></ul></div>
+      <div><h2>Legal</h2><ul><li><a href="/pages/privacy.html">Privacy</a></li><li><a href="/pages/terms.html">Terms</a></li></ul></div>
+    </div>
+    <div class="foot-legal">
+      <p>© 2026 Monovus. Fixed-fee AI agent consulting, delivered in your AWS account.</p>
+      <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is an independent consultancy, not affiliated with or endorsed by Amazon Web Services.</p>
+    </div>
   </div>
 </footer>
+<!-- /site:footer -->
 </body>
 </html>

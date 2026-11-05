@@ -3,72 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How it works · Monovus</title>
-<meta name="description" content="The Monovus production readiness sprint: ten working days on one AI agent on AWS.">
+<title>Approach · Monovus</title>
+<meta name="description" content="The Monovus Production Readiness Framework: eight dimensions, the AWS services behind each, a reference architecture and the sprint week by week.">
 <link rel="canonical" href="https://monovus.solutions/pages/how-it-works.html">
-<meta property="og:title" content="How it works · Monovus">
-<meta property="og:description" content="The Monovus production readiness sprint: ten working days on one AI agent on AWS.">
-<meta property="og:url" content="https://monovus.solutions/pages/how-it-works.html">
+<meta name="theme-color" content="#F5F1E8">
+<meta property="og:site_name" content="Monovus">
+<meta property="og:locale" content="en_CA">
 <meta property="og:type" content="website">
+<meta property="og:title" content="Approach · Monovus">
+<meta property="og:description" content="The Monovus Production Readiness Framework: eight dimensions, the AWS services behind each, a reference architecture and the sprint week by week.">
+<meta property="og:url" content="https://monovus.solutions/pages/how-it-works.html">
+<meta property="og:image" content="https://monovus.solutions/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Monovus. From AI pilot to production, on AWS.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Approach · Monovus">
+<meta name="twitter:description" content="The Monovus Production Readiness Framework: eight dimensions, the AWS services behind each, a reference architecture and the sprint week by week.">
+<meta name="twitter:image" content="https://monovus.solutions/assets/og.png">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/shippori-mincho-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
+
 </head>
 <body>
-<header class="grid">
-  <div class="c2-11 brandrow">
-    <a class="wordmark" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="187" height="26"></a>
-    <nav aria-label="Main"><ul><li><a href="/pages/how-it-works.html" aria-current=page>How it works</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+<!-- site:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="158" height="22"></a>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle">
+    <label class="nav-btn" for="nav-toggle"><span class="nav-bars" aria-hidden="true"></span><span class="nav-label">Menu</span></label>
+    <nav class="nav" aria-label="Main"><ul><li><a href="/pages/services.html">Services</a></li><li><a href="/pages/how-it-works.html" aria-current="page">Approach</a></li><li><a href="/pages/use-cases.html">Use cases</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+    <a class="btn btn-primary btn-sm" href="/assessment/">Free assessment</a>
   </div>
 </header>
-<main>
-
-<section class="grid first">
-  <div class="c2-8">
-    <p class="eyebrow mb4">How it works</p>
-    <h1>Two weeks,<br><em>one</em> agent.</h1>
-    <p class="lead mt6">The sprint is ten working days on a single agent that already works
-    in a demo. It ends with your agent measured, guarded and handed to your team, and a
-    written list of anything still standing between it and production.</p>
+<!-- /site:header -->
+<main id="main">
+<section class="page-hero"><div class="wrap">
+  <p class="eyebrow">Approach</p><h1>One framework, applied the same way every time.</h1><p class="lead">We judge every agent against the Monovus Production Readiness Framework: one dimension for business value and seven controls. The assessment, the sprint, the scorecard and the monthly review all use the same eight.</p><div class="btn-row"><a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a><a class="arrow" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Email us</a></div>
+</div></section>
+<section class="sec rule" aria-labelledby="fw-h"><div class="wrap">
+  <div class="sec-head"><p class="eyebrow">The framework</p><h2 id="fw-h" class="mt2">Eight dimensions, in business terms first.</h2>
+  <p class="mt2 muted">The first column is what the business gets. The second is what we put in place.
+  The third is the AWS service that does the work.</p></div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th scope="col">What the business gets</th><th scope="col">What we put in place</th><th scope="col">AWS services</th></tr></thead>
+    <tbody><tr><th scope="row"><span class="mono">V</span> A clear owner and a measurable payoff</th><td>A named owner, one target metric and today&#x27;s baseline, reported monthly.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span></div></td></tr><tr><th scope="row"><span class="mono">C1</span> Quality you can measure</th><td>A golden set of real cases that runs before every change and blocks a worse release.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Evaluations</span></div></td></tr><tr><th scope="row"><span class="mono">C2</span> Every decision visible</th><td>Traces of every model call, tool call and lookup, with dashboards and alarms.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Observability</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span></div></td></tr><tr><th scope="row"><span class="mono">C3</span> Predictable cost</th><td>Cost per task, a budget with alarms, and smaller models for simple turns.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Budgets_48.svg" alt="" width="24" height="24" loading="lazy">AWS Budgets</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" alt="" width="24" height="24" loading="lazy">Amazon Bedrock</span></div></td></tr><tr><th scope="row"><span class="mono">C4</span> The agent can only do what it should</th><td>A tested policy layer on every tool call and a role with only the permissions needed.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Policy</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Gateway</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Identity-and-Access-Management_48.svg" alt="" width="24" height="24" loading="lazy">AWS IAM</span></div></td></tr><tr><th scope="row"><span class="mono">C5</span> Access you can account for</th><td>An identity for the agent, the user&#x27;s identity where it acts for them, and keys in a vault.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Identity</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Secrets-Manager_48.svg" alt="" width="24" height="24" loading="lazy">AWS Secrets Manager</span><span class="chip"><img src="/assets/aws-icons/Arch_AWS-Identity-and-Access-Management_48.svg" alt="" width="24" height="24" loading="lazy">AWS IAM</span></div></td></tr><tr><th scope="row"><span class="mono">C6</span> A fast way back</th><td>Prompts, tools and settings in version control, and a rollback rehearsed before launch.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" alt="" width="24" height="24" loading="lazy">AgentCore Runtime</span></div></td></tr><tr><th scope="row"><span class="mono">C7</span> Ready for incidents and audits</th><td>A one-page runbook with named owners, and an evidence pack kept current.</td><td><div class="chips"><span class="chip"><img src="/assets/aws-icons/Arch_AWS-CloudTrail_48.svg" alt="" width="24" height="24" loading="lazy">AWS CloudTrail</span><span class="chip"><img src="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" alt="" width="24" height="24" loading="lazy">Amazon CloudWatch</span></div></td></tr></tbody></table></div>
+</div></section>
+<section class="sec alt" id="architecture" aria-labelledby="arch-h"><div class="wrap">
+  <div class="sec-head"><p class="eyebrow">Reference architecture</p><h2 id="arch-h" class="mt2">What production-ready looks like on AWS</h2></div>
+  <figure class="arch" aria-labelledby="arch-h">
+  <div class="arch-scroll"><svg viewBox="0 0 1200 500" role="img" aria-labelledby="ax-title ax-desc" xmlns="http://www.w3.org/2000/svg"><title id="ax-title">What production-ready looks like on AWS</title><desc id="ax-desc">Users reach the agent in AgentCore Runtime inside your AWS account. Every tool call passes AgentCore Policy and goes out through AgentCore Gateway to your business systems. The agent uses Amazon Bedrock models, Bedrock Knowledge Bases and AgentCore Memory; it acts through AgentCore Identity with keys in AWS Secrets Manager and an audit trail in AWS CloudTrail; AgentCore Observability with Amazon CloudWatch, AgentCore Evaluations and AWS Budgets measure quality, visibility and cost.</desc><style>.ax-box{fill:#FFFFFF;stroke:#DCD5C6;stroke-width:1}.ax-side{fill:none;stroke:#DCD5C6;stroke-width:1;stroke-dasharray:4 4}.ax-acct{fill:none;stroke:#2E2B26;stroke-width:1.25}.ax-t{font:600 12.5px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;fill:#2E2B26}.ax-s{font:400 11.5px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;fill:#6B655A}.ax-l{font:600 10.5px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;letter-spacing:1.4px;fill:#6B655A}.ax-h{font:600 14px "Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;fill:#2E2B26}.ax-flow{stroke:#5C6B4A;stroke-width:1.75;fill:none}</style><defs><marker id="ax-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5C6B4A"/></marker></defs><text x="8" y="84" class="ax-l">YOUR USERS</text><rect x="8" y="90" width="160" height="148" rx="2" class="ax-side"/><rect x="16" y="98" width="144" height="40" rx="2" class="ax-box"/><text x="88" y="123" text-anchor="middle" class="ax-t">Customers</text><rect x="16" y="144" width="144" height="40" rx="2" class="ax-box"/><text x="88" y="169" text-anchor="middle" class="ax-t">Employees</text><rect x="16" y="190" width="144" height="40" rx="2" class="ax-box"/><text x="88" y="215" text-anchor="middle" class="ax-t">Your app or channel</text><text x="1032" y="84" class="ax-l">YOUR SYSTEMS</text><rect x="1032" y="90" width="160" height="148" rx="2" class="ax-side"/><rect x="1040" y="98" width="144" height="40" rx="2" class="ax-box"/><text x="1112" y="123" text-anchor="middle" class="ax-t">CRM and sales</text><rect x="1040" y="144" width="144" height="40" rx="2" class="ax-box"/><text x="1112" y="169" text-anchor="middle" class="ax-t">Tickets and support</text><rect x="1040" y="190" width="144" height="40" rx="2" class="ax-box"/><text x="1112" y="215" text-anchor="middle" class="ax-t">Databases and APIs</text><rect x="184" y="16" width="824" height="468" rx="2" class="ax-acct"/><image href="/assets/aws-icons/AWS-Account_32.svg" x="184" y="16" width="32" height="32"/><text x="226" y="37" class="ax-h">Your AWS account</text><text x="226" y="54" class="ax-s">every service below runs here, under your IAM</text><text x="204" y="84" class="ax-l">RUNS THE AGENT</text><rect x="204" y="94" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="218" y="110" width="32" height="32"/><text x="262" y="123" class="ax-t">AgentCore Runtime</text><text x="262" y="142" class="ax-s">hosts and scales the agent</text><rect x="472" y="94" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="486" y="110" width="32" height="32"/><text x="530" y="123" class="ax-t">AgentCore Policy</text><text x="530" y="142" class="ax-s">checks every tool call</text><rect x="740" y="94" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="754" y="110" width="32" height="32"/><text x="798" y="123" class="ax-t">AgentCore Gateway</text><text x="798" y="142" class="ax-s">connects approved tools</text><text x="204" y="184" class="ax-l">MODELS, KNOWLEDGE, MEMORY</text><rect x="204" y="194" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" x="218" y="210" width="32" height="32"/><text x="262" y="223" class="ax-t">Amazon Bedrock</text><text x="262" y="242" class="ax-s">models, chosen per task</text><rect x="472" y="194" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock_48.svg" x="486" y="210" width="32" height="32"/><text x="530" y="223" class="ax-t">Bedrock Knowledge Bases</text><text x="530" y="242" class="ax-s">grounded in your documents</text><rect x="740" y="194" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="754" y="210" width="32" height="32"/><text x="798" y="223" class="ax-t">AgentCore Memory</text><text x="798" y="242" class="ax-s">context across sessions</text><text x="204" y="284" class="ax-l">IDENTITY AND AUDIT</text><rect x="204" y="294" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="218" y="310" width="32" height="32"/><text x="262" y="323" class="ax-t">AgentCore Identity</text><text x="262" y="342" class="ax-s">acts as the signed-in user</text><rect x="472" y="294" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_AWS-Secrets-Manager_48.svg" x="486" y="310" width="32" height="32"/><text x="530" y="323" class="ax-t">AWS Secrets Manager</text><text x="530" y="342" class="ax-s">keys stored and rotated</text><rect x="740" y="294" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_AWS-CloudTrail_48.svg" x="754" y="310" width="32" height="32"/><text x="798" y="323" class="ax-t">AWS CloudTrail</text><text x="798" y="342" class="ax-s">audit trail of API calls</text><text x="204" y="384" class="ax-l">QUALITY AND COST</text><rect x="204" y="394" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="218" y="410" width="32" height="32"/><text x="262" y="423" class="ax-t">AgentCore Observability</text><image href="/assets/aws-icons/Arch_Amazon-CloudWatch_48.svg" x="262" y="430" width="16" height="16"/><text x="283" y="442" class="ax-s">with Amazon CloudWatch</text><rect x="472" y="394" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_Amazon-Bedrock-AgentCore_48.svg" x="486" y="410" width="32" height="32"/><text x="530" y="423" class="ax-t">AgentCore Evaluations</text><text x="530" y="442" class="ax-s">tests every release</text><rect x="740" y="394" width="240" height="64" rx="2" class="ax-box"/><image href="/assets/aws-icons/Arch_AWS-Budgets_48.svg" x="754" y="410" width="32" height="32"/><text x="798" y="423" class="ax-t">AWS Budgets</text><text x="798" y="442" class="ax-s">alarms before overspend</text><path d="M168 126H202" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M444 126H470" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M712 126H738" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M980 126H1030" class="ax-flow" marker-end="url(#ax-arr)"/><path d="M430 160V192" class="ax-flow" marker-start="url(#ax-arr)" marker-end="url(#ax-arr)"/></svg></div>
+  <figcaption><span class="arch-hint">Scroll sideways to see the whole diagram. </span>Logical view of
+  one production agent. Icons from the official AWS Architecture Icons set; AgentCore services share the
+  one AgentCore icon the set provides.</figcaption>
+</figure>
+</div></section>
+<section class="sec" aria-labelledby="wk-h"><div class="wrap">
+  <div class="sec-head"><p class="eyebrow">The Pilot-to-Production Sprint</p><h2 id="wk-h" class="mt2">Week by week.</h2>
+  <p class="mt2 muted">Typically 2 to 4 weeks on one agent that already works in a demo. A smaller agent
+  compresses weeks 2 and 3. The scope and fee are fixed in writing before day one.</p></div>
+  <div class="weeks"><div class="week"><p class="when">Week 1</p><h3>Baseline and value</h3><ul><li>Access through an IAM role you control</li><li>Tools, data and permissions mapped</li><li>Tracing switched on</li><li>Owner and target agreed</li></ul><p class="out"><strong>Result:</strong> A scorecard of the eight dimensions as they stand.</p></div><div class="week"><p class="when">Week 2</p><h3>Quality and visibility</h3><ul><li>A golden set of at least 25 real cases</li><li>Evaluations wired into releases</li><li>Dashboards and an error alarm</li></ul><p class="out"><strong>Result:</strong> A release that scores worse than the last one can't ship.</p></div><div class="week"><p class="when">Week 3</p><h3>Cost, policy and identity</h3><ul><li>Cost per task measured</li><li>Budget alarms at 50%, 80% and 100%</li><li>Policy on every tool call</li><li>Agent identity and secrets in a vault</li></ul><p class="out"><strong>Result:</strong> The agent can only do what it should, at a cost you know.</p></div><div class="week"><p class="when">Week 4</p><h3>The way back, and handover</h3><ul><li>A rollback rehearsed</li><li>Runbook and evidence pack</li><li>Before-and-after scorecard</li><li>Ranked backlog of what is left</li></ul><p class="out"><strong>Result:</strong> Your team runs the agent without us.</p></div></div>
+</div></section>
+<section class="sec alt" aria-labelledby="need-h"><div class="wrap split">
+  <div><p class="eyebrow">What we need from you</p><h2 id="need-h" class="mt2">Four things, agreed up front.</h2></div>
+  <ul class="ticks"><li><strong>One named owner</strong>Accountable for the agent's results on your side.</li><li><strong>About two hours a week of an engineer</strong>Someone who knows the agent and its systems.</li><li><strong>Real examples</strong>Conversations or tasks to build the golden set from.</li><li><strong>One AWS account</strong>Reached through a role you create and can revoke.</li></ul>
+</div></section>
+<section class="band-dark cta-band" aria-labelledby="cta-h">
+  <div class="wrap">
+    <h2 id="cta-h">Find out where your agent stands in five minutes.</h2>
+    <p>Answer 16 plain-language questions about your agent. Your score, stage and biggest risks appear on screen straight away, with no email needed.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a>
+      <a class="btn btn-secondary" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a readiness review</a>
+    </div>
   </div>
 </section>
-<section class="grid">
-  <div class="c2-11"><div class="step"><div class="when">Before</div><div><h3>The free review</h3><p class="mt2">45 minutes on a call. You show me the agent; I score it against the seven controls. If a sprint makes sense, you get a fixed quote and a written scope within two working days.</p></div></div><div class="step"><div class="when">Days 1–2</div><div><h3>Baseline</h3><p class="mt2">Access through an IAM role you create and can revoke. I map the agent's tools, data and permissions, switch on tracing, and score the seven controls as they stand.</p></div></div><div class="step"><div class="when">Days 3–5</div><div><h3>Evals</h3><p class="mt2">With your team I build a golden set of at least 25 real cases, run it, and wire it into your release process so a worse score blocks the release.</p></div></div><div class="step"><div class="when">Days 6–8</div><div><h3>Guardrails</h3><p class="mt2">Policy on tool access, a least-privilege role, identity for the agent's actions, cost budgets with alarms, and model routing where a smaller model will do.</p></div></div><div class="step"><div class="when">Days 9–10</div><div><h3>The way back, and handover</h3><p class="mt2">A tested rollback, a runbook, the before-and-after scorecard, and a ranked backlog of what's left. We finish with a handover session for whoever will own the agent.</p></div></div></div>
-</section>
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">What you keep</p>
-    <ul class="rules">
-      <li><strong>An eval suite</strong>The golden set and the release gate, in your repository.</li>
-      <li><strong>Dashboards and alarms</strong>Traces, quality and cost, in your CloudWatch.</li>
-      <li><strong>Policies and roles</strong>As code, reviewed with your team.</li>
-      <li><strong>A runbook</strong>What to do when it misbehaves, and how to roll back.</li>
-      <li><strong>Two scorecards</strong>Before and after, against the same seven controls.</li>
-      <li><strong>A backlog</strong>What's left, ranked by risk, with rough effort.</li>
-    </ul>
-  </div>
-</section>
-<section class="grid">
-  <div class="c2-7">
-    <p class="eyebrow mb4">What I need from you</p>
-    <ul class="rules">
-      <li>One named owner for the agent on your side.</li>
-      <li>About two hours a week of an engineer who knows the agent.</li>
-      <li>Real example conversations or tasks, to build the golden set from.</li>
-      <li>One AWS account to work in, through a role you control.</li>
-    </ul>
-    <p class="mt6"><a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a free readiness review</a></p>
-  </div>
-</section>
-
 </main>
-<footer class="grid">
-  <div class="c2-11 foot">
-    Monovus · agent production readiness on AWS · Toronto, Ontario · one engagement at a time<br>
-    Alex Shaw · <a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a> · English · 普通話 · 廣東話
+<!-- site:footer -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="/assets/lockup-sumi.svg" alt="Monovus" width="144" height="20">
+        <p>An AWS-focused AI agent consultancy. From AI pilot to production, on AWS.</p>
+        <p><a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a><br>Toronto, Ontario, Canada<br>English · <span lang="zh-Hant">普通話 · 廣東話</span></p>
+      </div>
+      <div><h2>Work with us</h2><ul><li><a href="/assessment/">Free assessment</a></li><li><a href="/pages/services.html">Services</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li></ul></div>
+      <div><h2>Monovus</h2><ul><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/pages/use-cases.html">Use cases</a></li><li><a href="/pages/about.html">About</a></li><li><a href="/insights/agent-production-readiness.html">Insight: pilot to production</a></li></ul></div>
+      <div><h2>Legal</h2><ul><li><a href="/pages/privacy.html">Privacy</a></li><li><a href="/pages/terms.html">Terms</a></li></ul></div>
+    </div>
+    <div class="foot-legal">
+      <p>© 2026 Monovus. Fixed-fee AI agent consulting, delivered in your AWS account.</p>
+      <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is an independent consultancy, not affiliated with or endorsed by Amazon Web Services.</p>
+    </div>
   </div>
 </footer>
+<!-- /site:footer -->
 </body>
 </html>

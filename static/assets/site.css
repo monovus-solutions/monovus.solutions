@@ -1,0 +1,109 @@
+/* Monovus site, November 2026 (agent production readiness).
+   Editorial mode from design-systems/monovus/instrument/index-editorial.html.
+   Every colour below was emitted by gate-tokens.py (AA on --washi):
+   sumi 12.51, muted 5.13, matcha 5.09. --line is non-text by design. */
+@font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:400;font-display:swap;
+  src:url("/assets/fonts/shippori-mincho-400-latin.woff2") format("woff2")}
+@font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:500;font-display:swap;
+  src:url("/assets/fonts/shippori-mincho-500-latin.woff2") format("woff2")}
+:root{
+  --washi:#F5F1E8; --kozo:#FAF7F0; --line:#DCD5C6;
+  --muted:#6B655A; --sumi:#2E2B26; --matcha:#5C6B4A;
+  --u1:8px; --u2:16px; --u3:24px; --u4:32px; --u6:48px; --u8:64px; --u10:80px; --u16:128px;
+  --t--1:12.8px; --t-0:17px; --t-1:22.7px; --t-2:30.2px;
+  --d-2:clamp(2.3rem,1.7rem + 3vw,4.2rem);
+  --d-3:clamp(2.8rem,1.8rem + 5vw,6.2rem);
+  --display:"Shippori Mincho","Bodoni 72",Didot,Georgia,serif;
+  --sans:"Avenir Next",Avenir,"Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --measure:34rem;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-size-adjust:100%}
+body{background:var(--washi);color:var(--sumi);font:400 var(--t-0)/1.65 var(--sans)}
+a{color:inherit}
+.grid{max-width:1340px;margin:0 auto;padding-inline:var(--u4);
+  display:grid;grid-template-columns:repeat(12,1fr);gap:var(--u3)}
+.c2-8{grid-column:2/10}.c2-7{grid-column:2/9}.c2-6{grid-column:2/8}.c2-11{grid-column:2/12}
+@media(max-width:900px){.grid{grid-template-columns:repeat(4,1fr);padding-inline:var(--u3)}
+  .c2-8,.c2-7,.c2-6,.c2-11{grid-column:1/5}}
+section{padding-block:var(--u10)}
+section.first{padding-top:var(--u6)}
+header{padding-block:var(--u4) var(--u6)}
+footer{padding-block:var(--u8) var(--u10);border-top:1px solid var(--line);margin-top:var(--u8)}
+
+/* header */
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:var(--u3);flex-wrap:wrap}
+.wordmark{display:block;line-height:0}
+.wordmark img{height:26px;width:auto}
+nav ul{list-style:none;display:flex;gap:var(--u3);flex-wrap:wrap;align-items:baseline}
+nav a{font:400 var(--t--1)/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;padding-block:6px;border-bottom:1px solid transparent}
+nav a:hover,nav a[aria-current=page]{color:var(--sumi);border-bottom-color:var(--line)}
+
+/* type */
+.eyebrow{font:400 var(--t--1)/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+h1{font:400 var(--d-3)/1.08 var(--display);letter-spacing:-.012em}
+h2{font:400 var(--d-2)/1.12 var(--display);letter-spacing:-.01em}
+h3{font:400 var(--t-2)/1.25 var(--display)}
+h1 em,h2 em,h3 em{font-style:italic}
+p{max-width:var(--measure);color:var(--muted)}
+p+p{margin-top:var(--u3)}
+p.lead{font-size:var(--t-1);line-height:1.55;color:var(--sumi)}
+strong{font-weight:400;color:var(--sumi)}
+.mt1{margin-top:var(--u1)}.mt2{margin-top:var(--u2)}.mt3{margin-top:var(--u3)}.mt4{margin-top:var(--u4)}.mt6{margin-top:var(--u6)}
+.mb4{margin-bottom:var(--u4)}.mb6{margin-bottom:var(--u6)}
+
+/* links */
+a.cta{font:400 var(--t-1)/1.4 var(--sans);color:var(--matcha);text-decoration:none;
+  border-bottom:1px solid var(--matcha);padding-bottom:3px}
+a.cta:hover{color:var(--sumi);border-bottom-color:var(--sumi)}
+a.quiet{color:var(--sumi);text-decoration:none;border-bottom:1px solid var(--line)}
+a.quiet:hover{border-bottom-color:var(--sumi)}
+a:focus-visible{outline:2px solid var(--matcha);outline-offset:3px}
+
+/* editorial rows: content left, AWS service in small mono right */
+.row{display:grid;grid-template-columns:3rem 1fr 15rem;gap:var(--u4);
+  padding-block:var(--u4);border-top:1px solid var(--line)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row .n{font:400 var(--t-1)/1.3 var(--display);color:var(--muted)}
+.row .svc{font:400 var(--t--1)/1.8 var(--mono);color:var(--muted);letter-spacing:.02em}
+.row.plain{grid-template-columns:1fr 15rem}
+@media(max-width:900px){.row,.row.plain{grid-template-columns:1fr;gap:var(--u1)}}
+
+/* mono pane: example output, always captioned as an example */
+.pane{background:var(--kozo);border:1px solid var(--line);border-radius:2px;padding:var(--u3);
+  font:400 var(--t--1)/1.85 var(--mono);color:var(--sumi);overflow-x:auto;white-space:pre}
+.pane .k{color:var(--muted)}.pane .ok{color:var(--matcha)}
+.paneCap{font:400 var(--t--1)/1.6 var(--mono);color:var(--muted);margin-top:var(--u1);max-width:none}
+
+/* lists */
+ul.rules{list-style:none;max-width:var(--measure)}
+ul.rules li{padding-block:var(--u2);border-top:1px solid var(--line);color:var(--muted)}
+ul.rules li:last-child{border-bottom:1px solid var(--line)}
+ul.rules li strong{display:block;margin-bottom:2px}
+
+/* steps on how-it-works */
+.step{display:grid;grid-template-columns:9rem 1fr;gap:var(--u4);padding-block:var(--u4);border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .when{font:400 var(--t--1)/1.8 var(--mono);color:var(--muted)}
+@media(max-width:900px){.step{grid-template-columns:1fr;gap:var(--u1)}}
+
+/* price table */
+table.prices{width:100%;border-collapse:collapse;font-size:var(--t-0)}
+table.prices th,table.prices td{text-align:left;vertical-align:top;padding:var(--u3) var(--u3) var(--u3) 0;border-top:1px solid var(--line)}
+table.prices tr:last-child td{border-bottom:1px solid var(--line)}
+table.prices th{font:400 var(--t--1)/1.4 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border-top:none;padding-bottom:var(--u2)}
+table.prices td.name{font:400 var(--t-1)/1.3 var(--display);width:28%}
+table.prices td.what{color:var(--muted)}
+table.prices td.price{font:400 var(--t-0)/1.5 var(--mono);white-space:nowrap;width:22%}
+@media(max-width:900px){table.prices thead{display:none}
+  table.prices tr{display:block;border-top:1px solid var(--line);padding-block:var(--u3)}
+  table.prices td{display:block;border:none;padding:0 0 var(--u1);width:auto}
+  table.prices tr:last-child td{border:none}}
+
+dl.facts{display:grid;grid-template-columns:auto 1fr;gap:var(--u1) var(--u3);
+  font:400 var(--t--1)/1.85 var(--mono);color:var(--muted)}
+dl.facts dt{color:var(--sumi)}
+.foot{font:400 var(--t--1)/1.9 var(--mono);color:var(--muted);letter-spacing:.02em;max-width:none}
+.foot a{color:var(--muted)}

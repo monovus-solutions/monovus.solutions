@@ -1,322 +1,149 @@
-
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Monovus — Your own AI assistant. Set up in an afternoon.</title>
-  <meta name="description" content="Monovus helps non-technical operators install and run their own AI ops layer — so the AI actually does the work you keep meaning to do." />
-  <style>
-    /* ── Tokens ─────────────────────────────────────────────── */
-    :root {
-      --ink:        #0F1115;
-      --cream:      #F6F2EA;
-      --jade:       #1F6F5C;
-      --jade-deep:  #0E4A3D;
-      --signal:     #B23B2E;
-      --mute:       #5A5F66;
-      --bg:         #F6F2EA;
-      --fg:         #0F1115;
-      --border:     #DDD9D0;
-      --surface:    #FDFAF5;
-      --font-sans:  'Inter', 'Inter Tight', system-ui, -apple-system, sans-serif;
-      --font-serif: 'Newsreader', 'Source Serif 4', Georgia, serif;
-      --font-mono:  'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
-      --step--1: 14px; --step-0: 16px; --step-1: 18px;
-      --step-2: 22px;  --step-3: 28px; --step-4: 36px; --step-5: 48px;
-      --space-xs: 8px; --space-s: 16px; --space-m: 32px;
-      --space-l: 64px; --space-xl: 96px; --space-2xl: 128px;
-      --radius: 8px;
-      --max-prose: 680px; --max-wide: 1080px;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:      #0F1115;
-        --fg:      #F6F2EA;
-        --surface: #1A1D22;
-        --border:  #2A2D32;
-        --mute:    #8A8F96;
-      }
-    }
-
-    /* ── Reset ──────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--font-sans);
-      font-size: var(--step-0);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-    img, video { max-width: 100%; display: block; }
-    a { color: var(--jade); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-    a:hover { color: var(--jade-deep); }
-    p { margin: 0 0 1.4em; }
-    h1,h2,h3,h4 { margin: 0 0 0.5em; line-height: 1.15; letter-spacing: -0.015em; font-weight: 600; }
-
-    /* ── Layout ─────────────────────────────────────────────── */
-    .wrap       { max-width: var(--max-wide);  margin: 0 auto; padding: 0 var(--space-m); }
-    .wrap-prose { max-width: var(--max-prose); margin: 0 auto; padding: 0 var(--space-m); }
-
-    /* ── Nav ────────────────────────────────────────────────── */
-    .site-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: var(--space-m) 0; border-bottom: 1px solid var(--border);
-    }
-    .site-nav .wordmark {
-      font-family: var(--font-sans); font-size: var(--step-1);
-      font-weight: 600; letter-spacing: -0.03em; color: var(--fg); text-decoration: none;
-    }
-    .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--space-m); }
-    .site-nav ul a { font-size: var(--step--1); color: var(--mute); text-decoration: none; transition: color 0.15s; }
-    .site-nav ul a:hover { color: var(--fg); }
-    .site-nav .nav-cta {
-      font-size: var(--step--1); padding: 6px 14px; background: var(--ink); color: var(--cream);
-      text-decoration: none; border-radius: var(--radius); font-weight: 500; transition: background 0.15s;
-    }
-    .site-nav .nav-cta:hover { background: var(--jade-deep); color: var(--cream); }
-    @media (max-width: 768px) { .site-nav ul { display: none; } }
-    @media (prefers-color-scheme: dark) {
-      .site-nav .nav-cta { background: var(--cream); color: var(--ink); }
-      .site-nav .nav-cta:hover { background: var(--jade); color: var(--cream); }
-    }
-
-    /* ── Buttons ────────────────────────────────────────────── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
-      border-radius: var(--radius); font-family: var(--font-sans); font-size: var(--step-0);
-      font-weight: 500; text-decoration: none; cursor: pointer; border: none;
-      transition: background 0.15s, color 0.15s; white-space: nowrap;
-    }
-    .btn-primary { background: var(--ink); color: var(--cream); }
-    .btn-primary:hover { background: var(--jade-deep); color: var(--cream); }
-    .btn-secondary { background: transparent; color: var(--fg); border: 1px solid var(--ink); }
-    .btn-secondary:hover { background: var(--border); color: var(--fg); }
-    @media (prefers-color-scheme: dark) {
-      .btn-primary { background: var(--cream); color: var(--ink); }
-      .btn-primary:hover { background: var(--jade); color: var(--cream); }
-      .btn-secondary { border-color: var(--border); }
-    }
-
-    /* ── Footer ─────────────────────────────────────────────── */
-    .site-footer { border-top: 1px solid var(--border); padding: var(--space-l) 0; margin-top: var(--space-xl); }
-    .site-footer .footer-inner {
-      max-width: var(--max-wide); margin: 0 auto; padding: 0 var(--space-m);
-      display: flex; flex-direction: column; gap: var(--space-s);
-    }
-    .site-footer .footer-top {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: var(--space-m);
-    }
-    .site-footer .footer-links {
-      display: flex; gap: var(--space-m); list-style: none; margin: 0; padding: 0; flex-wrap: wrap;
-    }
-    .site-footer .footer-links a { font-size: var(--step--1); color: var(--mute); text-decoration: none; }
-    .site-footer .footer-links a:hover { color: var(--fg); }
-    .site-footer .footer-meta { font-size: var(--step--1); color: var(--mute); }
-
-    /* ── Page-specific ──────────────────────────────────────── */
-    .hero { padding: var(--space-xl) 0 var(--space-l); border-bottom: 1px solid var(--border); }
-    .hero-inner { max-width: 720px; }
-    .hero-date { font-size: var(--step--1); color: var(--mute); font-family: var(--font-mono); margin-bottom: var(--space-m); display: block; }
-    .hero h1 { font-size: clamp(36px, 6vw, 56px); letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 24px; font-weight: 600; }
-    .hero h1 em { font-style: normal; color: var(--jade); }
-    .hero-sub { font-size: var(--step-2); line-height: 1.5; color: var(--mute); max-width: 560px; margin-bottom: var(--space-m); }
-    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .pillars { padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
-    .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; }
-    .pillar { padding: var(--space-m) var(--space-m) var(--space-m) 0; border-right: 1px solid var(--border); }
-    .pillar:last-child { border-right: none; padding-right: 0; }
-    .pillar:not(:first-child) { padding-left: var(--space-m); }
-    .pillar-num { font-family: var(--font-mono); font-size: 11px; color: var(--mute); margin-bottom: var(--space-s); display: block; }
-    .pillar h3 { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 12px; }
-    .pillar p { font-size: var(--step-0); color: var(--mute); margin: 0; }
-    @media (max-width: 640px) {
-      .pillar { border-right: none; border-bottom: 1px solid var(--border); padding: var(--space-m) 0; }
-      .pillar:last-child { border-bottom: none; }
-      .pillar:not(:first-child) { padding-left: 0; }
-    }
-
-    .use-cases { padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
-    .section-eyebrow {
-      font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--jade); font-family: var(--font-mono); margin-bottom: var(--space-m); display: block;
-    }
-    .use-cases h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.025em; margin-bottom: var(--space-l); max-width: 600px; }
-    .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .case-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
-    .case-img { aspect-ratio: 16/9; background: var(--border); position: relative; overflow: hidden; }
-    .case-img-label {
-      position: absolute; bottom: 8px; left: 10px; font-size: 11px;
-      font-family: var(--font-mono); color: var(--mute); background: var(--surface);
-      padding: 2px 6px; border-radius: 3px;
-    }
-    .case-body { padding: 20px; }
-    .case-body h3 { font-size: var(--step-1); margin-bottom: 8px; }
-    .case-body .outcome { font-size: var(--step-0); color: var(--mute); margin-bottom: 16px; }
-    .case-body a { font-size: var(--step--1); font-weight: 500; color: var(--jade); text-decoration: none; }
-    .case-body a:hover { color: var(--jade-deep); text-decoration: underline; }
-
-    .proof { padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
-    .proof-inner { max-width: 600px; }
-    .proof-placeholder {
-      border: 1px dashed var(--border); border-radius: var(--radius);
-      padding: var(--space-m); background: var(--surface);
-    }
-    .proof-placeholder p { font-size: var(--step-0); color: var(--mute); margin: 0; font-style: italic; }
-    .proof-placeholder .proof-meta {
-      margin-top: 12px; font-size: var(--step--1); color: var(--border);
-      font-family: var(--font-mono); font-style: normal;
-    }
-
-    .closing-cta { padding: var(--space-xl) 0; }
-    .closing-cta h2 { font-size: clamp(24px, 3.5vw, 36px); letter-spacing: -0.025em; max-width: 520px; margin-bottom: var(--space-m); line-height: 1.2; }
-    .subscribe-form { display: flex; gap: 8px; flex-wrap: wrap; }
-    .subscribe-form input {
-      padding: 10px 16px; font-size: var(--step-0); font-family: var(--font-sans);
-      border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--surface); color: var(--fg); outline: none;
-      flex: 1; min-width: 240px; transition: border-color 0.15s;
-    }
-    .subscribe-form input:focus { border-color: var(--jade); }
-    .subscribe-fine { font-size: var(--step--1); color: var(--mute); margin-top: 10px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monovus · Agent production readiness on AWS</title>
+<meta name="description" content="Monovus takes one AI agent from pilot to production on Amazon Bedrock AgentCore, in your own AWS account, at a fixed price.">
+<link rel="canonical" href="https://monovus.solutions/">
+<meta property="og:title" content="Monovus · Agent production readiness on AWS">
+<meta property="og:description" content="Monovus takes one AI agent from pilot to production on Amazon Bedrock AgentCore, in your own AWS account, at a fixed price.">
+<meta property="og:url" content="https://monovus.solutions/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/shippori-mincho-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-
-<div class="wrap">
-  <nav class="site-nav">
-    <a class="wordmark" href="index.html">monovus</a>
-    <ul>
-      <li><a href="pages/how-it-works.html">How it works</a></li>
-      <li><a href="pages/use-cases.html">Use cases</a></li>
-      <li><a href="pages/about.html">About</a></li>
-      <li><a href="pages/pricing.html">Pricing</a></li>
-      <li><a href="pages/notes.html">Notes</a></li>
-    </ul>
-    <a class="nav-cta" href="pages/how-it-works.html">Install in an afternoon</a>
-  </nav>
-</div>
-
+<header class="grid">
+  <div class="c2-11 brandrow">
+    <a class="wordmark" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="187" height="26"></a>
+    <nav aria-label="Main"><ul><li><a href="/pages/how-it-works.html">How it works</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+  </div>
+</header>
 <main>
-  <div class="wrap">
-    <section class="hero" data-od-id="hero">
-      <span class="hero-date">May 6, 2026</span>
-      <div class="hero-inner">
-        <h1>Your own AI assistant.<br><em>Set up in an afternoon.</em></h1>
-        <p class="hero-sub">Monovus helps non-technical operators install and run their own AI ops layer — so the AI actually does the work you keep meaning to do.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="pages/how-it-works.html">See how it works</a>
-          <a class="btn btn-secondary" href="pages/how-it-works.html">Install in an afternoon</a>
-        </div>
-      </div>
-    </section>
-  </div>
 
-  <div class="wrap">
-    <section class="pillars" data-od-id="pillars">
-      <div class="pillars-grid">
-        <div class="pillar">
-          <span class="pillar-num">01</span>
-          <h3>Install with confidence</h3>
-          <p>A guided setup, not a 200-page README. Most people are running by sundown.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-num">02</span>
-          <h3>Operate with confidence</h3>
-          <p>Clear daily check-ins. You always know what your AI is doing and what it's about to do next.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-num">03</span>
-          <h3>Solve real things</h3>
-          <p>The inbox you avoid. The tracker you don't keep. The research that piles up. Real life, not demos.</p>
-        </div>
-      </div>
-    </section>
+<section class="grid first">
+  <div class="c2-8">
+    <p class="eyebrow mb4">Agent production readiness on AWS</p>
+    <h1>Your agent pilot,<br>ready for <em>production</em>.</h1>
+    <p class="lead mt6">Most agent pilots stall between the demo and production. Nobody can say
+    how often it's wrong, what it will cost, or what stops it doing something it shouldn't.
+    I take one agent and, in two weeks, put in the controls production needs, on Amazon
+    Bedrock AgentCore, in <strong>your own</strong> AWS account.</p>
+    <p class="mt6"><a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a free readiness review</a></p>
   </div>
+</section>
 
-  <div class="wrap">
-    <section class="use-cases" data-od-id="use-cases">
-      <span class="section-eyebrow">Real-life examples</span>
-      <h2>Three things people install on a Saturday and have running on Sunday.</h2>
-      <div class="cases-grid">
-        <div class="case-card">
-          <div class="case-img">
-            <span class="case-img-label">screenshot placeholder</span>
-          </div>
-          <div class="case-body">
-            <h3>The inbox that triages itself</h3>
-            <p class="outcome">Your email, sorted by what actually needs you — every morning, automatically.</p>
-            <a href="pages/use-cases.html#inbox">Install this in an afternoon →</a>
-          </div>
-        </div>
-        <div class="case-card">
-          <div class="case-img">
-            <span class="case-img-label">screenshot placeholder</span>
-          </div>
-          <div class="case-body">
-            <h3>The project tracker that remembers</h3>
-            <p class="outcome">Status updates written for you. No more end-of-week scramble.</p>
-            <a href="pages/use-cases.html#tracker">Install this in an afternoon →</a>
-          </div>
-        </div>
-        <div class="case-card">
-          <div class="case-img">
-            <span class="case-img-label">screenshot placeholder</span>
-          </div>
-          <div class="case-body">
-            <h3>The overnight research assistant</h3>
-            <p class="outcome">Brief it before you sleep. Wake up to a clear, sourced summary.</p>
-            <a href="pages/use-cases.html#research">Install this in an afternoon →</a>
-          </div>
-        </div>
-      </div>
-    </section>
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">Why pilots stall</p>
+    <h2>The demo was<br>the <em>easy</em> part.</h2>
+    <p class="mt4">Gartner expects over 40% of agentic AI projects to be cancelled by the end
+    of 2027, mostly over cost, unclear value and weak risk controls
+    (<a class="quiet" href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">source</a>).</p>
+    <p>The model is rarely the problem. What's missing is the unglamorous part: tests,
+    traces, budgets, permissions and a way back. AWS now ships most of those pieces inside
+    AgentCore. Someone still has to set them up, prove them on your agent, and hand them to
+    your team. That's the job.</p>
   </div>
+</section>
 
-  <div class="wrap">
-    <section class="proof" data-od-id="proof">
-      <div class="proof-inner">
-        <span class="section-eyebrow">From a real user</span>
-        <div class="proof-placeholder">
-          <p>"Placeholder — real user quote goes here when available."</p>
-          <p class="proof-meta">— Name, role · Month Year</p>
-        </div>
-      </div>
-    </section>
+<section class="grid">
+  <div class="c2-11">
+    <p class="eyebrow mb6">The seven controls</p>
+    <div class="row"><div class="n">1</div><div><h3>Evals gate every release</h3><p class="mt2">A golden set of real cases runs before any prompt, model or tool change goes out. A release that scores worse than the last one doesn't ship.</p></div><div class="svc">AgentCore Evaluations<br>golden set<br>release gate</div></div><div class="row"><div class="n">2</div><div><h3>End-to-end tracing</h3><p class="mt2">Every turn is traced through model calls, tool calls and retrieval, so a bad answer can be found and explained in minutes, not argued about.</p></div><div class="svc">AgentCore Observability<br>CloudWatch<br>OpenTelemetry</div></div><div class="row"><div class="n">3</div><div><h3>Cost budgets and model routing</h3><p class="mt2">A budget per agent, with alarms before the bill surprises anyone. Smaller models handle the turns that don't need a large one.</p></div><div class="svc">AWS Budgets<br>CloudWatch alarms<br>model routing</div></div><div class="row"><div class="n">4</div><div><h3>Policy and least privilege</h3><p class="mt2">Deterministic rules on which tools the agent may call, and with what, under an IAM role that can do only that.</p></div><div class="svc">AgentCore Policy<br>AgentCore Gateway<br>IAM</div></div><div class="row"><div class="n">5</div><div><h3>Identity and secrets</h3><p class="mt2">The agent acts as the signed-in user or as a named service, never on a shared admin key.</p></div><div class="svc">AgentCore Identity<br>Secrets Manager</div></div><div class="row"><div class="n">6</div><div><h3>Rollback and recovery</h3><p class="mt2">Prompts, tools and configuration are versioned, so the last good version is one tested step away.</p></div><div class="svc">versioned config<br>tested rollback</div></div><div class="row"><div class="n">7</div><div><h3>Runbook and evidence pack</h3><p class="mt2">What to do when it misbehaves, who owns it, and the evidence your security review will ask for.</p></div><div class="svc">runbook<br>audit evidence<br>handover</div></div>
   </div>
+</section>
 
-  <div class="wrap">
-    <section class="closing-cta" data-od-id="closing-cta">
-      <h2>Want one decision you can make tomorrow?</h2>
-      <form class="subscribe-form" onsubmit="return false;">
-        <input type="email" placeholder="your@email.com" aria-label="Email address" />
-        <button type="submit" class="btn btn-primary">Subscribe — free weekly note</button>
-      </form>
-      <p class="subscribe-fine">One note a week. Plain text. Unsubscribe any time.</p>
-    </section>
+<section class="grid">
+  <div class="c2-8">
+    <p class="eyebrow mb4">What day two looks like</p>
+    <div class="pane"><span class="k">readiness baseline · support-agent · day 2</span>
+
+ 1  evals gate releases       <span class="k">✗</span>  no golden set; changes tested by hand
+ 2  end-to-end tracing        <span class="k">~</span>  model calls traced, tool calls not
+ 3  cost budgets              <span class="k">✗</span>  no budget; one large model on every turn
+ 4  policy, least privilege   <span class="k">✗</span>  agent role can write to every table
+ 5  identity and secrets      <span class="ok">✓</span>  Secrets Manager, rotated
+ 6  rollback                  <span class="k">✗</span>  prompt edits go straight to production
+ 7  runbook and evidence      <span class="k">✗</span>  none
+
+<span class="ok">→</span> 1 of 7 in place · 6 to close in the sprint</div>
+    <p class="paneCap">Example shape of a baseline, not a client's data. You get the same
+    scorecard again at the end of the sprint.</p>
   </div>
+</section>
+
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">How it runs</p>
+    <h2>Fixed scope,<br>fixed <em>price</em>.</h2>
+    <p class="mt4"><strong>Readiness review, free.</strong> 45 minutes on your agent, scored
+    against the seven controls. You leave with the gaps whether or not you hire me.</p>
+    <p><strong>Production readiness sprint, CAD 6,000 to 12,000.</strong> Two weeks on one
+    agent. Quoted in writing after the review, before any work starts.</p>
+    <p><strong>After that, only if you want it.</strong> Hardening work on the backlog, or a
+    monthly agent operations retainer. AWS usage is billed to you by Amazon and I don't
+    mark it up.</p>
+    <p class="mt4"><a class="quiet" href="/pages/how-it-works.html">The sprint, day by day</a>
+    &nbsp;·&nbsp; <a class="quiet" href="/pages/pricing.html">All prices</a>
+    &nbsp;·&nbsp; <a class="quiet" href="/pages/use-cases.html">When teams call</a></p>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">Why your own account</p>
+    <h2>Your account, your team,<br><em>your</em> agent.</h2>
+    <p class="mt4">Everything runs in your AWS account, under your IAM, on AWS's own agent
+    services rather than a tool I sell. Your team gets the dashboards, the eval suite, the
+    policies and the runbook. When I finish, they can run it without me. That's my test of
+    done.</p>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">What I won't do</p>
+    <ul class="rules">
+      <li>I won't sell you a platform. AgentCore already has the parts; I configure them and prove they work on your agent.</li>
+      <li>I won't take a second engagement while yours is running.</li>
+      <li>I won't be your 24/7 pager. Your team owns on-call, and leaves the sprint with the alarms, runbook and rollback to do it.</li>
+      <li>I won't build anything only I can maintain. If your team can't run it, it isn't finished.</li>
+      <li>If your agent shouldn't go to production yet, the scorecard will say so, in writing.</li>
+      <li>If it's a five-minute fix, I'll tell you it's a five-minute fix, and I won't turn it into a project.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">For AWS partners and MSPs</p>
+    <p class="lead">Won an agent deal and short on GenAI delivery hands? I run the readiness
+    sprint under your contract, to a written scope. Your customer stays yours.</p>
+    <p class="mt3"><a class="quiet" href="/pages/partners.html">How subcontracting works</a></p>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="c2-6">
+    <h2>Is your agent<br><em>ready</em>?</h2>
+    <p class="mt4 mb6">Send me one paragraph: what the agent does, where it runs, and what's
+    stopping it from shipping. I'll reply with a time for the review. If production is the
+    wrong goal, I'll say so, and you'll have lost one email.</p>
+    <a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">hello@monovus.solutions</a>
+  </div>
+</section>
+
 </main>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <span style="font-size: var(--step--1); color: var(--mute);">monovus · install + operate AI with confidence · Toronto</span>
-      <ul class="footer-links">
-        <li><a href="pages/notes.html">Subscribe</a></li>
-        <li><a href="pages/how-it-works.html">How it works</a></li>
-        <li><a href="pages/use-cases.html">Use cases</a></li>
-        <li><a href="pages/about.html">About</a></li>
-        <li><a href="pages/pricing.html">Pricing</a></li>
-      </ul>
-    </div>
-    <p class="footer-meta">Last updated May 6, 2026. Frontier facts decay. So do these pages.</p>
+<footer class="grid">
+  <div class="c2-11 foot">
+    Monovus · agent production readiness on AWS · Toronto, Ontario · one engagement at a time<br>
+    Alex Shaw · <a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a> · English · 普通話 · 廣東話
   </div>
 </footer>
-
 </body>
 </html>

@@ -1,33 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Use Cases — Monovus</title>
-  <style>
-    :root{--ink:#0F1115;--cream:#F6F2EA;--jade:#1F6F5C;--jade-deep:#0E4A3D;--mute:#5A5F66;--bg:#F6F2EA;--fg:#0F1115;--border:#DDD9D0;--surface:#FDFAF5;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;--step--1:14px;--step-0:16px;--step-1:18px;--step-2:22px;--step-3:28px;--step-4:36px;--space-s:16px;--space-m:32px;--space-l:64px;--space-xl:96px;--radius:8px;--max-wide:1080px;}
-    @media(prefers-color-scheme:dark){:root{--bg:#0F1115;--fg:#F6F2EA;--surface:#1A1D22;--border:#2A2D32;--mute:#8A8F96;}}
-    *,*::before,*::after{box-sizing:border-box;}body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:var(--step-0);line-height:1.6;-webkit-font-smoothing:antialiased;}
-    a{color:var(--jade);text-decoration:underline;text-underline-offset:3px;}a:hover{color:var(--jade-deep);}h1,h2,h3{margin:0 0 .5em;line-height:1.15;letter-spacing:-.015em;font-weight:600;}p{margin:0 0 1.4em;}
-    .wrap{max-width:var(--max-wide);margin:0 auto;padding:0 var(--space-m);}.site-nav{display:flex;align-items:center;justify-content:space-between;padding:var(--space-m) 0;border-bottom:1px solid var(--border);}.site-nav .wordmark{font-size:var(--step-1);font-weight:600;letter-spacing:-.03em;color:var(--fg);text-decoration:none;}.site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:var(--space-m);}.site-nav ul a{font-size:var(--step--1);color:var(--mute);text-decoration:none;}.site-nav ul a:hover{color:var(--fg);}.site-nav .nav-cta{font-size:var(--step--1);padding:6px 14px;background:var(--ink);color:var(--cream);text-decoration:none;border-radius:var(--radius);font-weight:500;}
-    @media(max-width:768px){.site-nav ul{display:none;}}@media(prefers-color-scheme:dark){.site-nav .nav-cta{background:var(--cream);color:var(--ink);}}
-    .section-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--jade);font-family:var(--font-mono);margin-bottom:var(--space-m);display:block;}
-    .site-footer{border-top:1px solid var(--border);padding:var(--space-l) 0;margin-top:var(--space-xl);}.footer-inner{max-width:var(--max-wide);margin:0 auto;padding:0 var(--space-m);}.footer-links{display:flex;gap:var(--space-m);list-style:none;margin:0;padding:0;}.footer-links a{font-size:var(--step--1);color:var(--mute);text-decoration:none;}.footer-meta{font-size:var(--step--1);color:var(--mute);margin-top:var(--space-s);}
-    .page-hero{padding:var(--space-xl) 0 var(--space-l);border-bottom:1px solid var(--border);}.page-hero h1{font-size:clamp(32px,5vw,48px);letter-spacing:-.03em;}.page-hero p{font-size:var(--step-2);color:var(--mute);max-width:560px;}
-    .cases{padding:var(--space-xl) 0;}.case{padding:var(--space-l) 0;border-bottom:1px solid var(--border);}.case:last-child{border-bottom:none;}.case h3{font-size:var(--step-3);margin-bottom:12px;}.case .outcome{font-size:var(--step-1);color:var(--mute);margin-bottom:16px;max-width:600px;}.case .detail{font-size:var(--step-0);max-width:600px;}.case-id{font-family:var(--font-mono);font-size:var(--step--1);color:var(--jade);margin-bottom:var(--space-s);display:block;}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When teams call · Monovus</title>
+<meta name="description" content="When to bring in Monovus: surprise bills, bad answers, security reviews, and AI risk questions.">
+<link rel="canonical" href="https://monovus.solutions/pages/use-cases.html">
+<meta property="og:title" content="When teams call · Monovus">
+<meta property="og:description" content="When to bring in Monovus: surprise bills, bad answers, security reviews, and AI risk questions.">
+<meta property="og:url" content="https://monovus.solutions/pages/use-cases.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/shippori-mincho-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<div class="wrap"><nav class="site-nav"><a class="wordmark" href="../index.html">monovus</a><ul><li><a href="how-it-works.html">How it works</a></li><li><a href="use-cases.html">Use cases</a></li><li><a href="about.html">About</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="notes.html">Notes</a></li></ul><a class="nav-cta" href="how-it-works.html">Install in an afternoon</a></nav></div>
+<header class="grid">
+  <div class="c2-11 brandrow">
+    <a class="wordmark" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="187" height="26"></a>
+    <nav aria-label="Main"><ul><li><a href="/pages/how-it-works.html">How it works</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+  </div>
+</header>
 <main>
-<div class="wrap"><section class="page-hero"><span class="section-eyebrow">Use cases</span><h1>Real things. Not demos.</h1><p>Each of these is something a real person installed on a Saturday and had running by Sunday.</p></section></div>
-<div class="wrap"><section class="cases">
-<div class="case" id="inbox"><span class="case-id">01 — inbox</span><h3>The inbox that triages itself</h3><p class="outcome">Your email, sorted by what actually needs you — every morning, automatically.</p><p class="detail">The AI reads your inbox overnight. It drafts replies to routine messages, flags urgent ones, and archives noise. You wake up to a 5-line brief: "3 need you, 12 handled, 47 archived."</p></div>
-<div class="case" id="tracker"><span class="case-id">02 — tracking</span><h3>The project tracker that remembers</h3><p class="outcome">Status updates written for you. No more end-of-week scramble.</p><p class="detail">The AI watches your tools — Slack, GitHub, Notion, calendar. Every Friday it writes a status update: what shipped, what's blocked, what's next. You edit one line and hit send.</p></div>
-<div class="case" id="research"><span class="case-id">03 — research</span><h3>The overnight research assistant</h3><p class="outcome">Brief it before you sleep. Wake up to a clear, sourced summary.</p><p class="detail">You paste a question at 11pm. By 7am you have a structured brief with sources, pricing tables, and a one-paragraph recommendation. No tabs. No rabbit holes.</p></div>
-<div class="case" id="meetings"><span class="case-id">04 — meetings</span><h3>The meeting prep that writes itself</h3><p class="outcome">Walk into every meeting knowing what happened last time and what you need to decide.</p><p class="detail">Before each calendar event, the AI pulls context: last meeting's notes, relevant threads, open action items. It writes a 1-page brief. You're the most prepared person in the room.</p></div>
-<div class="case" id="expenses"><span class="case-id">05 — expenses</span><h3>The expense report that files itself</h3><p class="outcome">Forward receipts. The report writes itself. You just approve.</p><p class="detail">Every receipt you forward gets categorized, matched to a project, and added to a running report. End of month: one click to submit. No spreadsheet. No lost receipts.</p></div>
-</section></div>
+
+<section class="grid first">
+  <div class="c2-8">
+    <p class="eyebrow mb4">When teams call</p>
+    <h1>The pilot works.<br>Something <em>else</em> doesn't.</h1>
+    <p class="lead mt6">The best fit is a company of roughly 50 to 1,000 people, or a software
+    vendor, with an agent on AWS that works in a demo and isn't trusted in production.
+    Usually one of these happened first.</p>
+  </div>
+</section>
+<section class="grid"><div class="c2-11"><div class="row plain"><div><h3>The bill surprised someone</h3><p class="mt2">Inference cost grew faster than usage and nobody can say which turns are expensive. Controls 2 and 3 answer that in the first week.</p></div><div></div></div><div class="row plain"><div><h3>It said something it shouldn't</h3><p class="mt2">A wrong or off-policy answer reached a customer or a colleague. Tracing finds why; evals stop the same class of mistake shipping again.</p></div><div></div></div><div class="row plain"><div><h3>A security review is coming</h3><p class="mt2">Security, a customer or an auditor wants to know what the agent can touch and how you would know if it went wrong. Controls 4 to 7 are that evidence.</p></div><div></div></div><div class="row plain"><div><h3>Leadership is asking about AI risk</h3><p class="mt2">Someone wants a straight answer on whether the pilot can go live. The before-and-after scorecard is that answer, in writing.</p></div><div></div></div></div></section>
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">When I'm the wrong call</p>
+    <ul class="rules">
+      <li>You don't have an agent yet and want a strategy for what to do with AI.</li>
+      <li>You need a multi-agent platform built from scratch.</li>
+      <li>Your procurement requires the vendor to hold SOC 2.</li>
+      <li>Your agent runs somewhere other than AWS.</li>
+    </ul>
+    <p class="mt4">If that's you, tell me anyway. I'll point you to someone better suited if I can.</p>
+  </div>
+</section>
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">In your language</p>
+    <p class="lead">I work in English, Mandarin and Cantonese. If your agent answers customers
+    in Chinese, I can read its transcripts and build its golden set without a translator.</p>
+    <p class="mt6"><a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a free readiness review</a></p>
+  </div>
+</section>
+
 </main>
-<footer class="site-footer"><div class="footer-inner"><div class="footer-top"><span style="font-size:var(--step--1);color:var(--mute);">monovus · Toronto</span><ul class="footer-links"><li><a href="notes.html">Subscribe</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="use-cases.html">Use cases</a></li><li><a href="about.html">About</a></li><li><a href="pricing.html">Pricing</a></li></ul></div><p class="footer-meta">Last updated May 2026.</p></div></footer>
-</body></html>
+<footer class="grid">
+  <div class="c2-11 foot">
+    Monovus · agent production readiness on AWS · Toronto, Ontario · one engagement at a time<br>
+    Alex Shaw · <a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a> · English · 普通話 · 廣東話
+  </div>
+</footer>
+</body>
+</html>

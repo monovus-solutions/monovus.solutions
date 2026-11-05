@@ -1,41 +1,74 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>How It Works — Monovus</title>
-  <meta name="description" content="Three steps to your own AI ops layer. Book, install, operate." />
-  <style>
-    :root{--ink:#0F1115;--cream:#F6F2EA;--jade:#1F6F5C;--jade-deep:#0E4A3D;--mute:#5A5F66;--bg:#F6F2EA;--fg:#0F1115;--border:#DDD9D0;--surface:#FDFAF5;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;--step--1:14px;--step-0:16px;--step-1:18px;--step-2:22px;--step-3:28px;--step-4:36px;--space-s:16px;--space-m:32px;--space-l:64px;--space-xl:96px;--radius:8px;--max-wide:1080px;}
-    @media(prefers-color-scheme:dark){:root{--bg:#0F1115;--fg:#F6F2EA;--surface:#1A1D22;--border:#2A2D32;--mute:#8A8F96;}}
-    *,*::before,*::after{box-sizing:border-box;}body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:var(--step-0);line-height:1.6;-webkit-font-smoothing:antialiased;}
-    a{color:var(--jade);text-decoration:underline;text-underline-offset:3px;}a:hover{color:var(--jade-deep);}h1,h2,h3{margin:0 0 .5em;line-height:1.15;letter-spacing:-.015em;font-weight:600;}p{margin:0 0 1.4em;}
-    .wrap{max-width:var(--max-wide);margin:0 auto;padding:0 var(--space-m);}
-    .site-nav{display:flex;align-items:center;justify-content:space-between;padding:var(--space-m) 0;border-bottom:1px solid var(--border);}.site-nav .wordmark{font-size:var(--step-1);font-weight:600;letter-spacing:-.03em;color:var(--fg);text-decoration:none;}.site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:var(--space-m);}.site-nav ul a{font-size:var(--step--1);color:var(--mute);text-decoration:none;}.site-nav ul a:hover{color:var(--fg);}.site-nav .nav-cta{font-size:var(--step--1);padding:6px 14px;background:var(--ink);color:var(--cream);text-decoration:none;border-radius:var(--radius);font-weight:500;}
-    @media(max-width:768px){.site-nav ul{display:none;}}@media(prefers-color-scheme:dark){.site-nav .nav-cta{background:var(--cream);color:var(--ink);}}
-    .section-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--jade);font-family:var(--font-mono);margin-bottom:var(--space-m);display:block;}
-    .site-footer{border-top:1px solid var(--border);padding:var(--space-l) 0;margin-top:var(--space-xl);}.footer-inner{max-width:var(--max-wide);margin:0 auto;padding:0 var(--space-m);}.footer-links{display:flex;gap:var(--space-m);list-style:none;margin:0;padding:0;}.footer-links a{font-size:var(--step--1);color:var(--mute);text-decoration:none;}.footer-meta{font-size:var(--step--1);color:var(--mute);margin-top:var(--space-s);}
-    .page-hero{padding:var(--space-xl) 0 var(--space-l);border-bottom:1px solid var(--border);}.page-hero h1{font-size:clamp(32px,5vw,48px);letter-spacing:-.03em;}.page-hero p{font-size:var(--step-2);color:var(--mute);max-width:560px;}
-    .steps{padding:var(--space-xl) 0;}.step{display:grid;grid-template-columns:80px 1fr;gap:var(--space-m);padding:var(--space-m) 0;border-bottom:1px solid var(--border);}.step:last-child{border-bottom:none;}.step-num{font-family:var(--font-mono);font-size:var(--step-4);color:var(--jade);font-weight:700;}.step h3{font-size:var(--step-2);margin-bottom:8px;}.step p{color:var(--mute);margin:0 0 8px;}.step-detail{font-size:var(--step--1);font-family:var(--font-mono);}
-    .timeline{padding:var(--space-xl) 0;border-top:1px solid var(--border);}.timeline h2{font-size:var(--step-3);margin-bottom:var(--space-l);}.tl-row{display:flex;gap:var(--space-m);padding:var(--space-s) 0;border-bottom:1px solid var(--border);}.tl-row:last-child{border-bottom:none;}.tl-time{font-family:var(--font-mono);font-size:var(--step--1);color:var(--mute);min-width:110px;}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works · Monovus</title>
+<meta name="description" content="The Monovus production readiness sprint: ten working days on one AI agent on AWS.">
+<link rel="canonical" href="https://monovus.solutions/pages/how-it-works.html">
+<meta property="og:title" content="How it works · Monovus">
+<meta property="og:description" content="The Monovus production readiness sprint: ten working days on one AI agent on AWS.">
+<meta property="og:url" content="https://monovus.solutions/pages/how-it-works.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/shippori-mincho-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<div class="wrap"><nav class="site-nav"><a class="wordmark" href="../index.html">monovus</a><ul><li><a href="how-it-works.html">How it works</a></li><li><a href="use-cases.html">Use cases</a></li><li><a href="about.html">About</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="notes.html">Notes</a></li></ul><a class="nav-cta" href="how-it-works.html">Install in an afternoon</a></nav></div>
+<header class="grid">
+  <div class="c2-11 brandrow">
+    <a class="wordmark" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="187" height="26"></a>
+    <nav aria-label="Main"><ul><li><a href="/pages/how-it-works.html" aria-current=page>How it works</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/pages/about.html">About</a></li></ul></nav>
+  </div>
+</header>
 <main>
-<div class="wrap"><section class="page-hero"><span class="section-eyebrow">How it works</span><h1>Three steps. One afternoon.</h1><p>You don't need to learn infrastructure. You just need to decide what you want automated.</p></section></div>
-<div class="wrap"><section class="steps">
-<div class="step"><div class="step-num">01</div><div><h3>Book a 30-minute call</h3><p>Tell us what's eating your time. Inbox? Reporting? Research? We'll scope exactly what your AI assistant should handle.</p><p class="step-detail">No prep needed. Just bring your frustrations.</p></div></div>
-<div class="step"><div class="step-num">02</div><div><h3>We install your AI stack</h3><p>We set up the agents, the automations, and the monitoring — on your infrastructure or ours. You watch, ask questions, learn the controls.</p><p class="step-detail">Typical install: 2–4 hours. You're running by sundown.</p></div></div>
-<div class="step"><div class="step-num">03</div><div><h3>Daily check-ins, not babysitting</h3><p>Your AI sends you a morning brief: what it did overnight, what it's about to do, what needs your approval. You stay in control without doing the work.</p><p class="step-detail">One glance. One approval. Back to your day.</p></div></div>
-</section></div>
-<div class="wrap"><section class="timeline"><h2>A typical first week</h2>
-<div class="tl-row"><span class="tl-time">Day 1</span><span>30-min scoping call. We agree on what to automate first.</span></div>
-<div class="tl-row"><span class="tl-time">Day 1 (PM)</span><span>Install session. Your AI stack is live by evening.</span></div>
-<div class="tl-row"><span class="tl-time">Day 2</span><span>First morning brief arrives. You see what it did overnight.</span></div>
-<div class="tl-row"><span class="tl-time">Day 3–5</span><span>We tune the rules together. Less noise, more signal.</span></div>
-<div class="tl-row"><span class="tl-time">Day 7</span><span>Check-in call. You're running independently.</span></div>
-</section></div>
+
+<section class="grid first">
+  <div class="c2-8">
+    <p class="eyebrow mb4">How it works</p>
+    <h1>Two weeks,<br><em>one</em> agent.</h1>
+    <p class="lead mt6">The sprint is ten working days on a single agent that already works
+    in a demo. It ends with your agent measured, guarded and handed to your team, and a
+    written list of anything still standing between it and production.</p>
+  </div>
+</section>
+<section class="grid">
+  <div class="c2-11"><div class="step"><div class="when">Before</div><div><h3>The free review</h3><p class="mt2">45 minutes on a call. You show me the agent; I score it against the seven controls. If a sprint makes sense, you get a fixed quote and a written scope within two working days.</p></div></div><div class="step"><div class="when">Days 1–2</div><div><h3>Baseline</h3><p class="mt2">Access through an IAM role you create and can revoke. I map the agent's tools, data and permissions, switch on tracing, and score the seven controls as they stand.</p></div></div><div class="step"><div class="when">Days 3–5</div><div><h3>Evals</h3><p class="mt2">With your team I build a golden set of at least 25 real cases, run it, and wire it into your release process so a worse score blocks the release.</p></div></div><div class="step"><div class="when">Days 6–8</div><div><h3>Guardrails</h3><p class="mt2">Policy on tool access, a least-privilege role, identity for the agent's actions, cost budgets with alarms, and model routing where a smaller model will do.</p></div></div><div class="step"><div class="when">Days 9–10</div><div><h3>The way back, and handover</h3><p class="mt2">A tested rollback, a runbook, the before-and-after scorecard, and a ranked backlog of what's left. We finish with a handover session for whoever will own the agent.</p></div></div></div>
+</section>
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">What you keep</p>
+    <ul class="rules">
+      <li><strong>An eval suite</strong>The golden set and the release gate, in your repository.</li>
+      <li><strong>Dashboards and alarms</strong>Traces, quality and cost, in your CloudWatch.</li>
+      <li><strong>Policies and roles</strong>As code, reviewed with your team.</li>
+      <li><strong>A runbook</strong>What to do when it misbehaves, and how to roll back.</li>
+      <li><strong>Two scorecards</strong>Before and after, against the same seven controls.</li>
+      <li><strong>A backlog</strong>What's left, ranked by risk, with rough effort.</li>
+    </ul>
+  </div>
+</section>
+<section class="grid">
+  <div class="c2-7">
+    <p class="eyebrow mb4">What I need from you</p>
+    <ul class="rules">
+      <li>One named owner for the agent on your side.</li>
+      <li>About two hours a week of an engineer who knows the agent.</li>
+      <li>Real example conversations or tasks, to build the golden set from.</li>
+      <li>One AWS account to work in, through a role you control.</li>
+    </ul>
+    <p class="mt6"><a class="cta" href="mailto:hello@monovus.solutions?subject=Readiness%20review">Book a free readiness review</a></p>
+  </div>
+</section>
+
 </main>
-<footer class="site-footer"><div class="footer-inner"><div class="footer-top"><span style="font-size:var(--step--1);color:var(--mute);">monovus · Toronto</span><ul class="footer-links"><li><a href="notes.html">Subscribe</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="use-cases.html">Use cases</a></li><li><a href="about.html">About</a></li><li><a href="pricing.html">Pricing</a></li></ul></div><p class="footer-meta">Last updated May 2026.</p></div></footer>
-</body></html>
+<footer class="grid">
+  <div class="c2-11 foot">
+    Monovus · agent production readiness on AWS · Toronto, Ontario · one engagement at a time<br>
+    Alex Shaw · <a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a> · English · 普通話 · 廣東話
+  </div>
+</footer>
+</body>
+</html>

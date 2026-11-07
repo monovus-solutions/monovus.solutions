@@ -146,9 +146,9 @@
   "aws_services_allowed": ["Amazon Bedrock", "Amazon Bedrock AgentCore Runtime", "Amazon Bedrock AgentCore Gateway", "Amazon Bedrock AgentCore Policy", "Amazon Bedrock AgentCore Identity", "Amazon Bedrock AgentCore Memory", "Amazon Bedrock AgentCore Observability", "Amazon Bedrock AgentCore Evaluations", "Amazon Bedrock Guardrails", "Amazon Bedrock Knowledge Bases", "Amazon CloudWatch", "AWS CloudTrail", "AWS Budgets", "AWS IAM", "AWS Secrets Manager", "AWS Lambda", "Amazon S3", "Amazon DynamoDB"],
   "offers": {
     "review": {"name": "Readiness Check", "price": "Free", "what": "This assessment and its report: your score, your three biggest gaps and a 30-day plan."},
-    "sprint": {"name": "Pilot-to-Production Sprint", "price": "CAD 6,000-12,000, fixed", "what": "One agent, typically 2 to 4 weeks: evaluations, tracing, cost controls, policy, rollback, runbook and a before-and-after scorecard."},
-    "build": {"name": "Production Build and Hardening", "price": "CAD 15,000-30,000, fixed", "what": "Work through the remaining backlog, or a scoped single-task agent built in your AWS account."},
-    "operate": {"name": "Managed Agent Operations", "price": "CAD 1,000-2,500 a month", "what": "Monthly quality and cost reviews, evaluation regression runs and policy updates."}
+    "sprint": {"name": "Launch", "price": "CAD 6,000-12,000, fixed", "what": "One agent taken to production with all seven controls in place, typically in 2 to 4 weeks: evaluations, tracing, cost controls, policy, rollback, a runbook and a before-and-after scorecard."},
+    "build": {"name": "Launch: build", "price": "CAD 15,000-30,000, fixed", "what": "A new single-task agent built production-ready in your AWS account, or your remaining backlog worked through."},
+    "operate": {"name": "Control", "price": "CAD 1,000-2,500 a month", "what": "Keeps the controls in force after launch: monthly evaluation runs, cost and quality reviews and policy updates. Our engineers deliver it while the Control software is in development."}
   },
   "personalisation": {
     "about": "Wording for the report that scoring.js buildReport() assembles in the browser. Keys under role, stage, timeline, lens, industry_notes, platform_notes and offerings are the exact option labels in context_questions; the tests check every label is covered. Words in braces are filled in by scoring.js.",
@@ -265,13 +265,13 @@
     },
     "engagement": [
       {"id": "sprint_then_build", "min": 0, "max": 34, "offers": ["sprint", "build"],
-       "text": "Start with a Pilot-to-Production Sprint to close any red flags and the three biggest gaps, then a Production Build to work through the rest of the backlog."},
+       "text": "Start with Launch to close any red flags and the three biggest gaps, then Launch: build to work through the rest of the backlog."},
       {"id": "sprint", "min": 35, "max": 59, "offers": ["sprint"],
-       "text": "A Pilot-to-Production Sprint covers the gaps in this report for one agent: evaluations, tracing, cost controls, policy, rollback and a runbook, with a before-and-after scorecard."},
+       "text": "Launch covers the gaps in this report for one agent: evaluations, tracing, cost controls, policy, rollback and a runbook, with a before-and-after scorecard."},
       {"id": "focused_sprint", "min": 60, "max": 84, "offers": ["sprint"],
-       "text": "A Sprint focused on your three weakest dimensions, {gaps}, closes the remaining gaps without rebuilding what already works."},
+       "text": "A Launch focused on your three weakest dimensions, {gaps}, closes the remaining gaps without rebuilding what already works."},
       {"id": "operate", "min": 85, "max": 100, "offers": ["operate"],
-       "text": "The controls are in place. Managed Agent Operations keeps them there as the agent, its models and its users change."}
+       "text": "The controls are in place. Control keeps them there as the agent, its models and its users change."}
     ],
     "offerings": {
       "Customer service and support": {"name": "Launch for a support agent", "href": "/#monovus",

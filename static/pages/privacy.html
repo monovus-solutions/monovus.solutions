@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en" data-type="sumi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy · Monovus</title>
+<meta name="description" content="What Monovus collects, why, where it goes and how to have it deleted, including the assessment, the design-partner application and the Monovus backup application.">
+<link rel="canonical" href="https://monovus.solutions/pages/privacy.html">
+<meta name="theme-color" content="#F3EFE7">
+<meta property="og:site_name" content="Monovus">
+<meta property="og:locale" content="en_CA">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy · Monovus">
+<meta property="og:description" content="What Monovus collects, why, where it goes and how to have it deleted, including the assessment, the design-partner application and the Monovus backup application.">
+<meta property="og:url" content="https://monovus.solutions/pages/privacy.html">
+<meta property="og:image" content="https://monovus.solutions/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy · Monovus">
+<meta name="twitter:description" content="What Monovus collects, why, where it goes and how to have it deleted, including the assessment, the design-partner application and the Monovus backup application.">
+<meta name="twitter:image" content="https://monovus.solutions/assets/og.png">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Inter"; src: url("/assets/fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/assets/fonts/JetBrainsMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+:root {
+  --paper: #F3EFE7; --ink: #1C1F1C; --muted: #57554E; --moss: #3F5A30; --shu: #963820; --rule: rgba(28,31,28,.14);
+  --text: -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --disp: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; color: var(--ink); font: 17px/1.6 var(--text); letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.page { max-width: 1060px; margin: 0 auto; padding: 72px 64px 88px; }
+
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: rgba(28,31,28,.4); }
+a:hover { color: var(--moss); text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 2px; }
+.skip { position: absolute; left: 16px; top: -60px; padding: 10px 14px; background: var(--ink); color: var(--paper);
+  border-radius: 4px; text-decoration: none; }
+.skip:focus { top: 16px; }
+
+header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 88px; }
+header a { display: block; }
+header img { height: 18px; width: auto; display: block; }
+.meta { font: 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+/* the site's nav in the header's right slot */
+.links { display: flex; align-items: center; column-gap: 28px; font: 500 15px/1.2 var(--text); }
+.links a { text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.links .start { font-weight: 600; color: var(--moss); }
+
+.lead { margin-left: 256px; }
+.lead p.meta { margin: 0 0 22px; color: var(--muted); }
+h1 { font: 600 68px/1.0 var(--disp); letter-spacing: -0.038em; margin: 0 0 30px; }
+.stand { font: 400 24px/1.4 var(--disp); letter-spacing: -0.014em; margin: 0 0 56px; max-width: 27em; text-wrap: balance; }
+
+section { display: grid; grid-template-columns: 200px minmax(0, 1fr); column-gap: 56px;
+  padding: 44px 0 34px; border-top: 1px solid var(--rule); scroll-margin-top: 24px; }
+.k { font: 11.5px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 6px; }
+/* a legal page's section heading sits in the kicker column, in the kicker's voice */
+html .k h2, html[data-type] .k h2 { font: inherit; font-size: 21px; line-height: 1.22; font-variation-settings: inherit;
+  letter-spacing: inherit; color: inherit; margin: 0; max-width: none; text-wrap: balance; }
+h2 { font: 600 29px/1.14 var(--disp); letter-spacing: -0.022em; margin: 0 0 16px; max-width: 22em; text-wrap: balance; }
+h3 { font: 600 17px/1.4 var(--text); letter-spacing: -0.006em; color: var(--ink); margin: 28px 0 8px; }
+.body > h3:first-child { margin-top: 0; }
+p { margin: 0 0 15px; max-width: 37em; text-wrap: pretty; }
+.body > :last-child { margin-bottom: 8px; }
+strong { font-weight: 600; color: var(--ink); }
+code { font-size: .9em; }
+.body ul { list-style: none; margin: 0 0 15px; padding: 0; max-width: 37em; }
+.body li { position: relative; padding-left: 18px; }
+.body li + li { margin-top: 6px; }
+.body li::before { content: ""; position: absolute; left: 0; top: .78em; width: 8px; height: 1.5px; background: var(--muted); }
+.callout { max-width: 37em; margin: 2px 0 20px; padding-top: 14px; border-top: 1px solid var(--ink); }
+html[data-type] .callout p, html[data-type] .short p { color: var(--ink); }
+.short { border-top: 1px solid var(--ink); }
+.short p { font-size: 19px; line-height: 1.55; }
+
+footer { margin: 72px 0 0 256px; font: 11.5px/1.65 var(--mono); color: var(--muted); max-width: 66em; }
+footer p { max-width: none; margin: 0 0 10px; }
+
+@media (max-width: 860px) {
+  .page { padding: 32px 22px 64px; }
+  header { flex-direction: column; align-items: flex-start; gap: 14px; padding-bottom: 48px; }
+  .links { flex-wrap: wrap; column-gap: 22px; row-gap: 10px; }
+  .lead, footer { margin-left: 0; }
+  h1 { font-size: 46px; }
+  .stand { font-size: 20px; margin-bottom: 40px; }
+  section { grid-template-columns: 1fr; padding: 32px 0 22px; }
+  .k { margin-bottom: 12px; }
+  .short p { font-size: 18px; }
+}
+@media print {
+  @page { size: letter; margin: 16mm 16mm 18mm; }
+  .page { padding: 0; max-width: none; }
+  .links, .skip { display: none; }
+  section { break-inside: avoid; }
+}
+</style>
+<link rel="stylesheet" href="/assets/type.css?v=8">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="page">
+
+<header>
+  <a href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <nav class="links" aria-label="Main"><a href="/blueprint/">Blueprint</a><a href="/assessment/">Readiness Check</a><a class="start" href="/#begin">Start</a></nav>
+</header>
+
+<main id="main">
+<div class="lead">
+  <p class="meta">Last updated: 7 November 2026</p>
+  <h1>Privacy</h1>
+  <p class="stand">What Monovus collects, why, where it is kept, and how to have it deleted.</p>
+</div>
+
+<section class="short">
+  <div class="k"><strong>The short version.</strong></div>
+  <div class="body">
+    <p>This website sets no cookies, runs no analytics
+and loads no third-party scripts, fonts or trackers. The assessment runs in your browser, and nothing is sent to us
+unless you choose to send your report or a design-partner application. Those submissions reach us through our form provider
+and are kept for 24 months. We never sell your data, and we delete it when you ask.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="website">This website</h2></div>
+  <div class="body">
+<p>monovus.solutions is a set of static pages. There is no cookie banner because there are no cookies, and there
+is no analytics script, tag manager, session recording, fingerprinting or embedded third-party content. Fonts are
+served from this site.</p>
+<p>Two infrastructure providers necessarily see the request that delivers a page to you: <strong>GitHub
+Pages</strong> hosts the files and, like any web server, records requests in its own logs, and
+<strong>Cloudflare</strong> provides DNS for the domain. We do not receive or combine those logs with anything
+else. Each provider handles that data under its own privacy policy.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="assessment">The AI agent readiness assessment</h2></div>
+  <div class="body">
+<h3>While you answer</h3>
+<p>The assessment and its report run in your browser. Your answers are scored on your own device and are not sent to us
+or to anyone else. Your progress is saved in your browser's local storage so you can come back to it, and "Start over"
+clears it.</p>
+<h3>If you send us your report</h3>
+<p>Nothing leaves your browser unless you choose to send us your report. If you do, we receive the details you enter
+(name, work email and company), your consent choices, your context answers and assessment answers, your scores and
+stage, your main gaps and your optional note.</p>
+<p>They are sent to us by email through our form provider, Formspree, which processes the submission on our behalf in
+the United States (<a href="https://formspree.io/security/">Formspree security</a>). If the form is not connected, the site offers to
+open your own email app instead, and nothing is sent unless you send that email yourself.</p>
+<h3>Why</h3>
+<p>To reply to you about your results, to arrange a Readiness Review if you ask for one, and to keep a record of our
+correspondence. We use your email for marketing only if you tick the separate, optional box that asks for it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="design-partners">The design-partner application</h2></div>
+  <div class="body">
+<p>The design-partner application works the same way. It sends the details you enter (name, work email, company and
+what your first agent will do) to us through Formspree or, if the form is not connected, opens your own email app
+with them filled in. We use them only to reply to you about the design-partner programme.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="retention">How long we keep it</h2></div>
+  <div class="body">
+<p>We keep assessment and design-partner submissions, and the emails they create, for 24 months, then delete them. Email
+<code>hello@monovus.solutions</code> and we will delete them sooner.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="marketing">Marketing email</h2></div>
+  <div class="body">
+<p>Occasional insights are sent only if you tick the optional, unticked consent box, in line with Canada's anti-spam
+legislation (CASL). Every message has an unsubscribe link, and you can also email us to stop them.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="email">Email</h2></div>
+  <div class="body">
+<p>When you email <code>hello@monovus.solutions</code>, we use what you send only to answer you and to keep a record of our own
+correspondence. We do not add you to a mailing list because you emailed us, and we do not pass your message to
+anyone else.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="backup-app">The Monovus backup application</h2></div>
+  <div class="body">
+    <p>Monovus operates a private application, registered with Google as <strong>NAS Offsite Backup</strong>, whose only job is to copy backup archives from a machine you control into a Google Drive account you control.</p>
+
+    <h3>What it accesses, and why</h3>
+    <p>The application requests Google Drive access so it can create a backup folder and write, read back, verify, and prune archive files inside it. Reading is needed because a backup you cannot restore is not a backup: the application must list and download its own files to verify and restore them.</p>
+
+    <h3>What it can actually see</h3>
+    <p>Archives are encrypted on the source machine, before upload, using restic with AES-256. Google Drive receives opaque encrypted blocks. The encryption key never leaves the source machine and is never transmitted to Monovus or to Google.</p>
+    <p>The practical consequence: <strong>neither Monovus nor any Monovus employee can read the contents of your backups.</strong> Not because we promise not to — because we do not hold the key.</p>
+
+    <h3>Where the data goes</h3>
+    <p>Into your Google Drive, and nowhere else. The application has no Monovus-operated server component. There is no telemetry, no analytics, and no copy sent to us. Nothing is transferred to any third party.</p>
+
+    <h3>Retention and deletion</h3>
+    <p>Backup archives stay in your Drive until you or your retention policy removes them, because they are your files in your account. You can delete them yourself at any time, and you can revoke the application's access entirely at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>. Revoking access stops all further reading and writing immediately.</p>
+    <p>The only Google data the application stores locally is the OAuth token that lets it reconnect without asking you again. Revoking access invalidates it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="limited-use">Google API Services Limited Use</h2></div>
+  <div class="body">
+    <div class="callout">
+      <p>Monovus's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including its Limited Use requirements.</p>
+    </div>
+    <p>Concretely, we do not and will not:</p>
+    <ul>
+      <li>transfer Google user data to third parties, except as required by law;</li>
+      <li>use it for advertising, ad targeting, or audience building;</li>
+      <li>use it to train, fine-tune, or evaluate generalised machine-learning or AI models;</li>
+      <li>sell it, ever;</li>
+      <li>allow a human to read it, except with your explicit permission for a specific support request, or where required by law.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="what-we-do-not-do">What we do not do</h2></div>
+  <div class="body">
+<p>We do not sell or rent personal information, run third-party trackers, serve advertising, build profiles or
+use dark patterns to obtain consent. If we ever need to do something this page does not describe, we will
+change this page before we do it, not after.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="choices">Your choices</h2></div>
+  <div class="body">
+<p>Email <code>hello@monovus.solutions</code> and we will tell you what we hold about you, correct it or delete it, within 30
+days. We will not ask you to justify the request.</p>
+<p>Monovus operates from Ontario, Canada, and handles personal information under the Personal Information
+Protection and Electronic Documents Act (PIPEDA). If you are unhappy with how we handled a request, tell us
+first; you can also contact the Office of the Privacy Commissioner of Canada.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="children">Children</h2></div>
+  <div class="body">
+<p>Monovus sells to businesses and is not directed at children. We do not knowingly collect information from
+anyone under 16.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="changes">Changes</h2></div>
+  <div class="body">
+<p>The date at the top of this page is the date it last changed. If a change materially affects how we handle
+your data, we will say so plainly at the top rather than quietly editing a clause.</p>
+  </div>
+</section>
+
+<section>
+  <div class="k"><h2 id="contact">Contact</h2></div>
+  <div class="body">
+<p>Monovus, <a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a>, Toronto, Ontario, Canada. Write to
+that address to reach the person accountable for privacy at Monovus; we will give you their name on request.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p><a href="/pages/privacy.html" aria-current="page">Privacy</a> · <a href="/pages/terms.html">Terms</a></p>
+  <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS. © 2026 Monovus</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -31,3 +31,20 @@ jobs:
       - name: Validate HTML
         run: |
           grep -q '<!doctype html>' static/index.html && echo "HTML valid" || exit 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Site checks
+        run: |
+          # every check runs even after one fails, so one CI round reports them all
+          fail=0
+          for check in gate-contrast gate-contrast-assessment gate-type gate-words check-legal-verbatim; do
+            echo "::group::$check"
+            python3 "tools/site-checks/$check.py" || { echo "::error::$check failed"; fail=1; }
+            echo "::endgroup::"
+          done
+          node static/assessment/tests/scoring.test.mjs || { echo "::error::scoring tests failed"; fail=1; }
+          exit $fail

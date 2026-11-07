@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-type="sumi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Readiness Check · Monovus</title>
+<meta name="description" content="Score your AI agent for production in about five minutes: value and the seven controls, with an instant result in your browser.">
+<link rel="canonical" href="https://monovus.solutions/assessment/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Monovus">
+<meta property="og:title" content="Readiness Check · Monovus">
+<meta property="og:description" content="Score your AI agent for production in about five minutes: value and the seven controls, with an instant result in your browser.">
+<meta property="og:url" content="https://monovus.solutions/assessment/">
+<meta property="og:image" content="https://monovus.solutions/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Monovus. Delegation at machine speed.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assessment.css">
+<link rel="stylesheet" href="../assets/type.css?v=8">
+</head>
+<body class="as-page">
+<div class="field" aria-hidden="true"></div>
+<a class="skip" href="#app">Skip to content</a>
+
+<header class="nav" role="banner">
+  <a class="nav__brand" href="/" aria-label="Monovus home"><img src="../assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <nav class="nav__links" aria-label="Main">
+    <a class="nav__link" href="/blueprint/">Blueprint</a>
+    <a class="nav__link" href="/assessment/" aria-current="page">Readiness Check</a>
+  </nav>
+  <a class="nav__start" href="/#begin">Start</a>
+</header>
+
+<main class="as-wrap">
+  <div id="app" class="as-app">
+    <noscript><p class="lead">The Readiness Check needs JavaScript to build your score in this browser.</p></noscript>
+  </div>
+</main>
+
+<footer class="as-foot">
+  <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS.</p>
+  <p><a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a> · &copy; 2026 Monovus</p>
+</footer>
+
+<script src="../assets/config.js"></script>
+<script src="scoring.js"></script>
+<script src="assessment.js"></script>
+<script>
+/* Presentation only: questions reveal one at a time (CSS), so bring the next one into view after an answer.
+   It reads the DOM that assessment.js renders and never touches its state. */
+(function () {
+  var app = document.getElementById("app");
+  if (!app || !window.matchMedia) return;
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  app.addEventListener("change", function (e) {
+    var t = e.target;
+    if (!t || t.type !== "radio") return;
+    var q = t.closest(".as-q");
+    if (!q) return;
+    var next = q.nextElementSibling;
+    while (next && !next.classList.contains("as-q")) next = next.nextElementSibling;
+    var target = next && !next.querySelector("input:checked") ? next : app.querySelector(".as-nav");
+    if (!target) return;
+    requestAnimationFrame(function () {
+      var r = target.getBoundingClientRect();
+      if (r.top > 96 && r.bottom < window.innerHeight - 24) return;
+      target.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: next === target ? "center" : "end" });
+    });
+  });
+})();
+</script>
+</body>
+</html>

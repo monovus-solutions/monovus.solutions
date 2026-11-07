@@ -35,8 +35,10 @@ jobs:
 
       - name: Copy static landing page
         run: |
-          # The new landing page overrides Hugo's generated index
+          # The static pages override what Hugo generates at the same paths
           cp static/index.html public/index.html
+          cp static/404.html public/404.html
+          cp static/sitemap.xml public/sitemap.xml
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

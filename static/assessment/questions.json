@@ -1,0 +1,294 @@
+{
+  "version": "2026-11",
+  "title": "AI Agent Readiness Assessment",
+  "minutes": 5,
+  "scoring": {
+    "option_points": "Each scored question has options worth 0-3 points. 'Not sure' is worth 0 and adds the dimension to unknowns.",
+    "dimension_score": "p = sum of the dimension's 2 question points (0-6). dimension = floor((200*p + 6) / 12), integer arithmetic only. p=0..6 gives 0,17,33,50,67,83,100",
+    "overall": "t = sum of all 16 scored question points (0-48). overall = floor((200*t + 48) / 96), integer arithmetic only. Never average rounded or floating-point dimension values: t=6,18,30,42 sit exactly on .5 and floats can round them the wrong way",
+    "round_half_up": "Both formulas above are round-half-up of 100p/6 and 100t/48, computed exactly with integers.",
+    "stages": [
+      {"min": 0, "max": 34, "id": 1, "name": "Exposed", "summary": "The agent works, but the business is carrying risks it can't see or measure yet."},
+      {"min": 35, "max": 59, "id": 2, "name": "Emerging", "summary": "Some controls exist, but the gaps are the kind that stall a launch or surprise you after it."},
+      {"min": 60, "max": 84, "id": 3, "name": "Controlled", "summary": "A solid base. A few targeted fixes stand between this agent and a confident launch."},
+      {"min": 85, "max": 100, "id": 4, "name": "Production-grade", "summary": "Measured, guarded and owned. The work now is keeping it that way as it changes."}
+    ],
+    "fixtures": [
+      {"name": "all-max", "answers": "every scored question = 3", "dimensions": "all 100", "overall": 100, "stage": 4},
+      {"name": "all-zero", "answers": "every scored question = 0", "dimensions": "all 0", "overall": 0, "stage": 1},
+      {"name": "mixed", "answers": {"V1": 2, "V2": 1, "C1a": 1, "C1b": 0, "C2a": 2, "C2b": 1, "C3a": 1, "C3b": 1, "C4a": 2, "C4b": 1, "C5a": 2, "C5b": 2, "C6a": 1, "C6b": 2, "C7a": 1, "C7b": 0},
+       "dimensions": {"V": 50, "C1": 17, "C2": 50, "C3": 33, "C4": 50, "C5": 67, "C6": 50, "C7": 17}, "overall": 42, "stage": 2, "red_flags": []}
+    ]
+  },
+  "context_questions": [
+    {"id": "role", "label": "What's your role?", "options": ["CEO, founder or general manager", "COO or operations leader", "CFO or finance leader", "CTO or engineering leader", "Product leader", "IT or security leader", "Other"]},
+    {"id": "size", "label": "How many people work at your company?", "options": ["1-49", "50-249", "250-1,000", "More than 1,000"]},
+    {"id": "industry", "label": "Which industry are you in?", "options": ["Software and SaaS", "Financial services", "Retail and e-commerce", "Professional services", "Healthcare", "Manufacturing and logistics", "Public sector and education", "Other"]},
+    {"id": "use_case", "label": "What does the agent do?", "options": ["Customer service and support", "Internal knowledge and employee help", "Document processing and back office", "Sales and marketing", "AI features inside our product", "Other"]},
+    {"id": "stage", "label": "Where is the agent today?", "options": ["Idea or early exploration", "Prototype or demo", "Pilot with real users", "Limited production", "Full production"]},
+    {"id": "platform", "label": "Where does it run, or will it run?", "options": ["Mostly on AWS", "Partly on AWS", "Not on AWS yet", "Not sure"]},
+    {"id": "timeline", "label": "When do you need it live, or fully trusted?", "options": ["Within 30 days", "This quarter", "This year", "No date yet"]}
+  ],
+  "free_text": {"id": "blocker", "label": "In one or two sentences, what's stopping this agent from going live? (optional)", "max_chars": 400},
+  "dimensions": [
+    {
+      "id": "V", "name": "Business value and ownership", "business_name": "A clear owner and a measurable payoff",
+      "gartner_reason": "unclear business value",
+      "questions": [
+        {"id": "V1", "label": "Is there a named business owner accountable for this agent's results?",
+         "options": [["No one specific", 0], ["The project team, informally", 1], ["A named owner, but no agreed targets", 2], ["A named executive owner with agreed targets", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "V2", "label": "How will you know the agent is worth what it costs?",
+         "options": [["We haven't defined that yet", 0], ["A general goal, such as 'save time'", 1], ["A measurable target we don't track yet", 2], ["A measurable target we track against a baseline", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "Without an owner and a target, nobody can say whether the agent is paying back, and AI projects without proven value are the first to be cut.",
+                  "first_step": "Name one accountable owner and agree one number the agent must move, such as hours saved per week or tickets resolved without a person, with today's baseline.",
+                  "aws_services": ["Amazon CloudWatch"]}
+    },
+    {
+      "id": "C1", "name": "Evaluations gate every release", "business_name": "Quality you can measure",
+      "gartner_reason": "inadequate risk controls",
+      "questions": [
+        {"id": "C1a", "label": "Before a change to the agent goes live, how do you check it hasn't got worse?",
+         "options": [["We don't check systematically", 0], ["Someone tries a few questions by hand", 1], ["We run a fixed set of test cases by hand", 2], ["Automated tests run and block the release if quality drops", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C1b", "label": "Do you know how often the agent gives a wrong or unacceptable answer today?",
+         "options": [["No idea", 0], ["Only from anecdotes and complaints", 1], ["We measured it once", 2], ["We measure it continuously against a target", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "Every change is a gamble: a prompt edit or model upgrade can make answers worse and you find out from a customer.",
+                  "first_step": "Collect 25 real questions with known good answers and run them before every change. Treat a lower score as a failed release.",
+                  "aws_services": ["Amazon Bedrock AgentCore Evaluations"]}
+    },
+    {
+      "id": "C2", "name": "End-to-end tracing", "business_name": "Every decision visible",
+      "gartner_reason": "inadequate risk controls",
+      "questions": [
+        {"id": "C2a", "label": "If a customer complains about an answer, can your team see exactly what the agent did and why?",
+         "options": [["No", 0], ["Partly: only the final answer", 1], ["The model calls, but not the tools or data it used", 2], ["Every step: model calls, tools and data retrieved", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C2b", "label": "How quickly would you notice if the agent started failing in production?",
+         "options": [["When someone complains", 0], ["Within days, in a periodic review", 1], ["Within hours, from dashboards someone watches", 2], ["Within minutes, from automatic alarms", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "When something goes wrong you can't explain it, which turns a fixable bug into a trust problem with customers and leadership.",
+                  "first_step": "Turn on tracing for every model call, tool call and data lookup, and set one alarm on error rate.",
+                  "aws_services": ["Amazon Bedrock AgentCore Observability", "Amazon CloudWatch"]}
+    },
+    {
+      "id": "C3", "name": "Cost budgets and model routing", "business_name": "Predictable cost",
+      "gartner_reason": "escalating costs",
+      "questions": [
+        {"id": "C3a", "label": "Do you know what one conversation or task costs to run?",
+         "options": [["No", 0], ["Only the total monthly bill", 1], ["A rough estimate", 2], ["Yes, measured per task, for each agent", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C3b", "label": "What stops AI usage costs from running away?",
+         "options": [["Nothing is in place", 0, "red_flag"], ["We look at the bill after the fact", 1], ["A billing alert", 2], ["Budgets with alarms, plus limits per user or per task", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "Usage can grow faster than value. A popular launch or a looping agent can produce a bill nobody approved.",
+                  "first_step": "Measure cost per task, set a monthly budget with alarms at 50%, 80% and 100%, and route simple turns to a smaller model.",
+                  "aws_services": ["AWS Budgets", "Amazon CloudWatch", "Amazon Bedrock"]}
+    },
+    {
+      "id": "C4", "name": "Policy and least privilege", "business_name": "The agent can only do what it should",
+      "gartner_reason": "inadequate risk controls",
+      "questions": [
+        {"id": "C4a", "label": "What can the agent change in your systems?",
+         "options": [["It can write to production systems with broad access", 0, "red_flag"], ["It can write, with some restrictions", 1], ["Only specific records, with human approval for risky actions", 2], ["Read-only, or narrow changes enforced by policy", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C4b", "label": "How are the agent's rules about what it may and may not do enforced?",
+         "options": [["Only by instructions in the prompt", 0], ["The prompt plus a few code checks", 1], ["Code-level checks on each tool", 2], ["A separate, tested policy layer plus least-privilege permissions", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "A prompt is a request, not a control. A confused or manipulated agent can take actions that are expensive or impossible to undo.",
+                  "first_step": "List every action the agent can take, remove what it doesn't need, and enforce the rest with policy rules outside the prompt.",
+                  "aws_services": ["Amazon Bedrock AgentCore Policy", "Amazon Bedrock AgentCore Gateway", "AWS IAM"]}
+    },
+    {
+      "id": "C5", "name": "Identity and secrets", "business_name": "Access you can account for",
+      "gartner_reason": "inadequate risk controls",
+      "questions": [
+        {"id": "C5a", "label": "When the agent acts in another system, whose identity does it use?",
+         "options": [["A shared admin account or key", 0, "red_flag"], ["A shared service account", 1], ["A dedicated identity for the agent", 2], ["The signed-in user's identity, or a dedicated identity with scoped permissions", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C5b", "label": "Where are the agent's passwords and API keys kept?",
+         "options": [["In code or configuration files", 0, "red_flag"], ["In environment variables", 1], ["In a secrets manager", 2], ["In a secrets manager, rotated automatically, with access logged", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "If you can't say who the agent acted as, you can't answer an auditor, and one leaked key can expose every system it touches.",
+                  "first_step": "Give the agent its own identity with only the permissions it needs, and move every key into a secrets manager with rotation on.",
+                  "aws_services": ["Amazon Bedrock AgentCore Identity", "AWS Secrets Manager", "AWS IAM"]}
+    },
+    {
+      "id": "C6", "name": "Rollback and recovery", "business_name": "A fast way back",
+      "gartner_reason": "inadequate risk controls",
+      "questions": [
+        {"id": "C6a", "label": "If a change makes the agent worse, how fast can you return to the last good version?",
+         "options": [["We couldn't easily", 0], ["Hours, by hand", 1], ["Under an hour, following written steps", 2], ["Minutes, and we've tested it", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C6b", "label": "Are the agent's prompts, tools and settings under version control?",
+         "options": [["No, they're edited directly in production", 0, "red_flag"], ["Some of them", 1], ["Yes, all in version control", 2], ["Yes, and every change goes through review and testing", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "A bad change stays live while someone works out what changed, and customers are affected for the whole time.",
+                  "first_step": "Put prompts, tool definitions and settings in version control and rehearse one rollback before launch.",
+                  "aws_services": ["Amazon Bedrock AgentCore Runtime"]}
+    },
+    {
+      "id": "C7", "name": "Runbook and evidence pack", "business_name": "Ready for incidents and audits",
+      "gartner_reason": "inadequate risk controls",
+      "questions": [
+        {"id": "C7a", "label": "If the agent misbehaves at 9am on a Monday, does your team know what to do?",
+         "options": [["There's no plan", 0], ["Whoever built it would work it out", 1], ["There's an informal plan", 2], ["A written runbook with named owners, rehearsed", 3], ["Not sure", 0, "unknown"]]},
+        {"id": "C7b", "label": "If security, a customer or an auditor asked for evidence that the agent is controlled, could you provide it?",
+         "options": [["No", 0], ["It would take weeks to put together", 1], ["Partly", 2], ["Yes, we keep an up-to-date evidence pack", 3], ["Not sure", 0, "unknown"]]}
+      ],
+      "if_weak": {"business_risk": "Launches stall in security review, and incidents depend on one person being available.",
+                  "first_step": "Write a one-page runbook (symptoms, owner, how to pause the agent, how to roll back) and keep the evidence your reviewers will ask for in one place.",
+                  "aws_services": ["AWS CloudTrail", "Amazon CloudWatch"]}
+    }
+  ],
+  "red_flag_text": {
+    "C3b": "No limit on AI spend: one busy day or a looping agent can produce an unapproved bill.",
+    "C4a": "The agent can write to production systems with broad access.",
+    "C5a": "The agent acts through a shared admin account or key.",
+    "C5b": "Credentials are stored in code or configuration files.",
+    "C6b": "Prompts and settings are edited directly in production with no version history."
+  },
+  "aws_services_allowed": ["Amazon Bedrock", "Amazon Bedrock AgentCore Runtime", "Amazon Bedrock AgentCore Gateway", "Amazon Bedrock AgentCore Policy", "Amazon Bedrock AgentCore Identity", "Amazon Bedrock AgentCore Memory", "Amazon Bedrock AgentCore Observability", "Amazon Bedrock AgentCore Evaluations", "Amazon Bedrock Guardrails", "Amazon Bedrock Knowledge Bases", "Amazon CloudWatch", "AWS CloudTrail", "AWS Budgets", "AWS IAM", "AWS Secrets Manager", "AWS Lambda", "Amazon S3", "Amazon DynamoDB"],
+  "offers": {
+    "review": {"name": "Readiness Check", "price": "Free", "what": "This assessment and its report: your score, your three biggest gaps and a 30-day plan."},
+    "sprint": {"name": "Pilot-to-Production Sprint", "price": "CAD 6,000-12,000, fixed", "what": "One agent, typically 2 to 4 weeks: evaluations, tracing, cost controls, policy, rollback, runbook and a before-and-after scorecard."},
+    "build": {"name": "Production Build and Hardening", "price": "CAD 15,000-30,000, fixed", "what": "Work through the remaining backlog, or a scoped single-task agent built in your AWS account."},
+    "operate": {"name": "Managed Agent Operations", "price": "CAD 1,000-2,500 a month", "what": "Monthly quality and cost reviews, evaluation regression runs and policy updates."}
+  },
+  "personalisation": {
+    "about": "Wording for the report that scoring.js buildReport() assembles in the browser. Keys under role, stage, timeline, lens, industry_notes, platform_notes and offerings are the exact option labels in context_questions; the tests check every label is covered. Words in braces are filled in by scoring.js.",
+    "role": {
+      "leadership": ["CEO, founder or general manager", "COO or operations leader", "CFO or finance leader", "Product leader", "Other"],
+      "technical": ["CTO or engineering leader", "IT or security leader"]
+    },
+    "summary": {
+      "score": "Your agent scores {overall} out of 100: stage {stage_id} of 4, {stage_name}. {stage_summary}",
+      "leadership": "{Phase}, leadership's decision is which risks to accept and which to fix first. The three biggest are {gaps}. Each appears below as a business risk with a first step you can fund.",
+      "technical": "{Phase}, the work is building the controls that are missing. The three biggest gaps are {gaps}. Each appears below with the first control to build and the AWS services that implement it."
+    },
+    "stage": {
+      "before_pilot": {"options": ["Idea or early exploration", "Prototype or demo"], "phase": "before your pilot", "urgent": false,
+        "flags_title": "Fix before launch", "flags_intro": "Fix these before real users rely on the agent, even in a pilot.",
+        "criteria": "criteria the pilot must meet", "decision": "decide whether the agent is ready for a pilot with real users"},
+      "before_launch": {"options": ["Pilot with real users", "Limited production"], "phase": "before launch", "urgent": false,
+        "flags_title": "Fix before launch", "flags_intro": "Each of these can cause real harm on its own. Fix them before the agent reaches more users.",
+        "criteria": "launch criteria", "decision": "decide go or no-go against the launch criteria"},
+      "live": {"options": ["Full production"], "phase": "while it's live", "urgent": true,
+        "flags_title": "Fix now: the agent is live", "flags_intro": "Your agent is in full production, so real users are exposed to each of these today. Treat them as urgent.",
+        "criteria": "operating targets", "decision": "check the live agent against its operating targets and agree the next fixes"}
+    },
+    "red_flag_fix": {
+      "C3b": "Set a monthly AI budget with alarms, plus a hard limit per user or per task, before usage grows.",
+      "C4a": "Remove the agent's broad write access. Allow only the specific actions it needs, with a person approving anything risky.",
+      "C5a": "Replace the shared admin account with a dedicated identity for the agent that has only the permissions it needs.",
+      "C5b": "Move every password and API key into a secrets manager, replace the exposed ones, and turn on automatic rotation.",
+      "C6b": "Put prompts and settings under version control, and stop editing them directly in production."
+    },
+    "owners": {"V": "Business owner", "C1": "Engineering lead", "C2": "Engineering lead", "C3": "Finance and engineering",
+               "C4": "Security and engineering", "C5": "Security lead", "C6": "Engineering lead", "C7": "Operations lead"},
+    "plan": {
+      "start": {"action": "Name one accountable owner for the agent and agree the {criteria}: the quality, cost and risk levels it must meet.", "owner_role": "Business owner"},
+      "start_no_date": {"action": "Agree the value case, meaning the one number this agent must move from today's baseline, and the {criteria}: the quality, cost and risk levels it must meet.", "owner_role": "Business owner"},
+      "review": {"action": "Re-run this assessment, compare the scores, and {decision}.", "owner_role": "Business owner"}
+    },
+    "timeline": {
+      "Within 30 days": {"mode": "compressed", "intro": "Your date is within 30 days, so the plan fits into two weeks, with any red flags first."},
+      "This quarter": {"mode": "standard", "intro": ""},
+      "This year": {"mode": "standard", "intro": ""},
+      "No date yet": {"mode": "no_date", "intro": "There's no date yet, so the plan starts by agreeing what the agent is worth and what it must meet before it goes live."}
+    },
+    "lens": {
+      "Customer service and support": {
+        "V": "For a support agent, nobody can show whether it actually resolves tickets or just passes them to a person later, so it is hard to defend at the next budget review.",
+        "C1": "A prompt edit or model change can start giving customers wrong refund, delivery or policy answers, and you hear about it from complaints.",
+        "C2": "When a customer disputes what the agent told them, you need the conversation, the policy it looked up and the tools it called to settle it fairly.",
+        "C3": "Support volume spikes after an outage or a launch, and long or looping conversations on a busy day multiply the bill with nobody approving it.",
+        "C4": "A support agent should never refund, change an address or close an account unless the customer is verified and the action is within policy.",
+        "C5": "If the agent reaches your CRM or billing system through a shared admin key, one leaked key exposes every customer record that key can see.",
+        "C6": "Every hour a bad change stays live means more customers with wrong answers, more tickets to reopen and more apologies to send.",
+        "C7": "When the agent misbehaves in front of customers, the support lead needs to pause it and route every conversation to people within minutes."
+      },
+      "Internal knowledge and employee help": {
+        "V": "An internal assistant is easy to launch and hard to justify, and without a target such as hours saved per week it is the first line cut in a budget review.",
+        "C1": "Staff act on what the assistant tells them, so an outdated policy or an invented answer goes straight into a real decision about pay, leave or a client.",
+        "C2": "When someone reports a wrong answer, you need to see which documents the assistant retrieved to tell whether the fault is the model or the source.",
+        "C3": "Long documents make long prompts, so a few heavy users pasting whole contracts or reports can drive most of the monthly bill.",
+        "C4": "If the assistant can search every document it reaches, an employee can ask it about salaries, reviews or board papers they were never meant to see.",
+        "C5": "If the assistant reads your document stores through one shared account, it can't respect who may see what, and an auditor will ask how it decides.",
+        "C6": "A bad change to the prompt or the document index changes every employee's answers at once, so you need to undo it in minutes.",
+        "C7": "When HR, legal or security asks how the assistant decides what each person can see, you need a written answer and the evidence ready to hand over."
+      },
+      "Document processing and back office": {
+        "V": "Document automation pays back only when fewer documents need a person to check them, and without a baseline you can't show the saving or decide when to scale.",
+        "C1": "A small drop in extraction accuracy sends wrong amounts, dates or account numbers from invoices and claims straight into your business systems.",
+        "C2": "When a payment, claim or record is wrong, you need to trace it back to the exact document, the fields extracted and the rule that routed it.",
+        "C3": "Cost grows with every page, so a backlog import or a batch of long scanned files can cost more in a day than the monthly budget.",
+        "C4": "An agent that can post entries, approve payments or update records needs hard limits, and a person approving anything above a set amount.",
+        "C5": "Documents carry personal and financial data, so the agent needs its own identity with access only to the folders and systems this process uses.",
+        "C6": "If a change starts misreading one document type, every batch processed before the rollback has to be found and corrected by hand.",
+        "C7": "Back-office processes get audited, and you will be asked who or what approved each record and what happens when a document can't be read."
+      },
+      "Sales and marketing": {
+        "V": "A sales or marketing agent needs a target such as qualified leads or hours saved per campaign, or its cost is hard to defend against other spend.",
+        "C1": "One wrong price, discount or product claim sent to a prospect can become a commitment you have to honour or a complaint you have to answer.",
+        "C2": "When a prospect complains about a message, you need to see what data the agent used and why it chose to send it.",
+        "C3": "Outreach and content agents run at volume, so a loop or a large list can make thousands of model calls before anyone looks at the bill.",
+        "C4": "Sending to customers, changing CRM records or offering discounts should be limited by rules outside the prompt, with a person approving anything unusual.",
+        "C5": "Marketing tools often share one login, and if the agent uses it you can't tell its actions from your team's or answer a privacy request properly.",
+        "C6": "A bad change can send off-brand or wrong messages to a whole list before anyone notices, so stopping it and rolling back must take minutes.",
+        "C7": "Canada's anti-spam law (CASL) and privacy rules apply to what the agent sends, so you need records of consent and of what went to whom."
+      },
+      "AI features inside our product": {
+        "V": "A product feature needs its own payoff measure, such as adoption, retention or upgrades, or it becomes a cost you carry for every customer.",
+        "C1": "Every model or prompt change ships to all your customers at once, so a quality drop shows up in their support tickets and renewal calls.",
+        "C2": "When a customer reports a bad result, your support and engineering teams need the trace for that customer's exact request to answer them.",
+        "C3": "AI cost grows with your customers' usage, and one heavy customer on a flat-price plan can turn the feature's margin negative.",
+        "C4": "The feature must only ever act inside the signed-in customer's own data and permissions, since one answer drawn from another customer's data is a breach.",
+        "C5": "The agent should act as the signed-in user, with credentials kept per customer, so one customer's request can never reach another customer's data.",
+        "C6": "You need to roll back a model or prompt change for every customer in minutes, without redeploying the whole product.",
+        "C7": "Enterprise buyers send security questionnaires about AI features, and slow or missing answers stall the deals that need the feature."
+      },
+      "Other": {
+        "V": "Whatever the agent does, agree one number it must move from today's baseline, so the decision to keep funding it rests on evidence.",
+        "C1": "Without a fixed set of test cases, the first sign that a change made answers worse is usually a complaint from the people who rely on it.",
+        "C2": "When an answer or action is questioned, you need a full record of what the agent saw and did to explain it.",
+        "C3": "Cost grows with usage and with every step the agent takes, so a busy week or a looping task can overrun the budget unnoticed.",
+        "C4": "Anything the agent can do that changes data, moves money or sends messages to people needs limits enforced outside the prompt.",
+        "C5": "Every system the agent touches should see the agent's own identity, so each action can be traced and its access withdrawn on its own.",
+        "C6": "If a change goes wrong, the time it takes to return to the last good version is the time people are affected.",
+        "C7": "Someone other than the person who built the agent should know how to pause it, and the evidence reviewers ask for should already exist."
+      }
+    },
+    "industry_notes": {
+      "Financial services": "In financial services, a formal security and privacy review before launch is likely. That makes the evidence pack (test results, access records and the runbook) matter more for you than the scores alone suggest.",
+      "Healthcare": "In healthcare, a formal security and privacy review before launch is likely, especially if the agent sees patient information. That makes the evidence pack (test results, access records and the runbook) matter more for you than the scores alone suggest.",
+      "Public sector and education": "In the public sector and education, a formal security and privacy review before launch is likely, and it may be part of procurement. That makes the evidence pack (test results, access records and the runbook) matter more for you than the scores alone suggest."
+    },
+    "platform_notes": {
+      "Not on AWS yet": "The framework applies on any platform. The AWS services named in this report show how each control would be implemented on AWS.",
+      "Not sure": "The framework applies on any platform. The AWS services named in this report show how each control would be implemented on AWS."
+    },
+    "engagement": [
+      {"id": "sprint_then_build", "min": 0, "max": 34, "offers": ["sprint", "build"],
+       "text": "Start with a Pilot-to-Production Sprint to close any red flags and the three biggest gaps, then a Production Build to work through the rest of the backlog."},
+      {"id": "sprint", "min": 35, "max": 59, "offers": ["sprint"],
+       "text": "A Pilot-to-Production Sprint covers the gaps in this report for one agent: evaluations, tracing, cost controls, policy, rollback and a runbook, with a before-and-after scorecard."},
+      {"id": "focused_sprint", "min": 60, "max": 84, "offers": ["sprint"],
+       "text": "A Sprint focused on your three weakest dimensions, {gaps}, closes the remaining gaps without rebuilding what already works."},
+      {"id": "operate", "min": 85, "max": 100, "offers": ["operate"],
+       "text": "The controls are in place. Managed Agent Operations keeps them there as the agent, its models and its users change."}
+    ],
+    "offerings": {
+      "Customer service and support": {"name": "Launch for a support agent", "href": "/#monovus",
+        "text": "Your first support agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."},
+      "Internal knowledge and employee help": {"name": "Launch for a knowledge assistant", "href": "/#monovus",
+        "text": "Your first internal assistant taken to production with all seven controls, answering only from the sources it is allowed to read."},
+      "Document processing and back office": {"name": "Launch for a document agent", "href": "/#monovus",
+        "text": "Your first document agent taken to production with all seven controls, with every extraction traced to its source."},
+      "Sales and marketing": {"name": "Launch", "href": "/#monovus",
+        "text": "Your first agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."},
+      "AI features inside our product": {"name": "Launch for a product feature", "href": "/#monovus",
+        "text": "Your first agent feature shipped with all seven controls, so every action it takes for your customers stays within its rules."},
+      "Other": {"name": "Launch", "href": "/#monovus",
+        "text": "Your first agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."}
+    },
+    "closing": "The next step and its fixed price are listed above. If you'd like to shape Control, our software that keeps every agent within its rules, apply to be a design partner.",
+    "cta": {"label": "Become a design partner", "href": "/#begin"}
+  },
+  "disclaimer": "This assessment is an indicative self-assessment based on your answers. It is not an audit, a security review or professional advice."
+}

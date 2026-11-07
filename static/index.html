@@ -1,322 +1,257 @@
-
 <!doctype html>
-<html lang="en">
+<html lang="en" data-type="sumi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Monovus — Your own AI assistant. Set up in an afternoon.</title>
-  <meta name="description" content="Monovus helps non-technical operators install and run their own AI ops layer — so the AI actually does the work you keep meaning to do." />
-  <style>
-    /* ── Tokens ─────────────────────────────────────────────── */
-    :root {
-      --ink:        #0F1115;
-      --cream:      #F6F2EA;
-      --jade:       #1F6F5C;
-      --jade-deep:  #0E4A3D;
-      --signal:     #B23B2E;
-      --mute:       #5A5F66;
-      --bg:         #F6F2EA;
-      --fg:         #0F1115;
-      --border:     #DDD9D0;
-      --surface:    #FDFAF5;
-      --font-sans:  'Inter', 'Inter Tight', system-ui, -apple-system, sans-serif;
-      --font-serif: 'Newsreader', 'Source Serif 4', Georgia, serif;
-      --font-mono:  'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
-      --step--1: 14px; --step-0: 16px; --step-1: 18px;
-      --step-2: 22px;  --step-3: 28px; --step-4: 36px; --step-5: 48px;
-      --space-xs: 8px; --space-s: 16px; --space-m: 32px;
-      --space-l: 64px; --space-xl: 96px; --space-2xl: 128px;
-      --radius: 8px;
-      --max-prose: 680px; --max-wide: 1080px;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:      #0F1115;
-        --fg:      #F6F2EA;
-        --surface: #1A1D22;
-        --border:  #2A2D32;
-        --mute:    #8A8F96;
-      }
-    }
-
-    /* ── Reset ──────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--font-sans);
-      font-size: var(--step-0);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-    img, video { max-width: 100%; display: block; }
-    a { color: var(--jade); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-    a:hover { color: var(--jade-deep); }
-    p { margin: 0 0 1.4em; }
-    h1,h2,h3,h4 { margin: 0 0 0.5em; line-height: 1.15; letter-spacing: -0.015em; font-weight: 600; }
-
-    /* ── Layout ─────────────────────────────────────────────── */
-    .wrap       { max-width: var(--max-wide);  margin: 0 auto; padding: 0 var(--space-m); }
-    .wrap-prose { max-width: var(--max-prose); margin: 0 auto; padding: 0 var(--space-m); }
-
-    /* ── Nav ────────────────────────────────────────────────── */
-    .site-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: var(--space-m) 0; border-bottom: 1px solid var(--border);
-    }
-    .site-nav .wordmark {
-      font-family: var(--font-sans); font-size: var(--step-1);
-      font-weight: 600; letter-spacing: -0.03em; color: var(--fg); text-decoration: none;
-    }
-    .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--space-m); }
-    .site-nav ul a { font-size: var(--step--1); color: var(--mute); text-decoration: none; transition: color 0.15s; }
-    .site-nav ul a:hover { color: var(--fg); }
-    .site-nav .nav-cta {
-      font-size: var(--step--1); padding: 6px 14px; background: var(--ink); color: var(--cream);
-      text-decoration: none; border-radius: var(--radius); font-weight: 500; transition: background 0.15s;
-    }
-    .site-nav .nav-cta:hover { background: var(--jade-deep); color: var(--cream); }
-    @media (max-width: 768px) { .site-nav ul { display: none; } }
-    @media (prefers-color-scheme: dark) {
-      .site-nav .nav-cta { background: var(--cream); color: var(--ink); }
-      .site-nav .nav-cta:hover { background: var(--jade); color: var(--cream); }
-    }
-
-    /* ── Buttons ────────────────────────────────────────────── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
-      border-radius: var(--radius); font-family: var(--font-sans); font-size: var(--step-0);
-      font-weight: 500; text-decoration: none; cursor: pointer; border: none;
-      transition: background 0.15s, color 0.15s; white-space: nowrap;
-    }
-    .btn-primary { background: var(--ink); color: var(--cream); }
-    .btn-primary:hover { background: var(--jade-deep); color: var(--cream); }
-    .btn-secondary { background: transparent; color: var(--fg); border: 1px solid var(--ink); }
-    .btn-secondary:hover { background: var(--border); color: var(--fg); }
-    @media (prefers-color-scheme: dark) {
-      .btn-primary { background: var(--cream); color: var(--ink); }
-      .btn-primary:hover { background: var(--jade); color: var(--cream); }
-      .btn-secondary { border-color: var(--border); }
-    }
-
-    /* ── Footer ─────────────────────────────────────────────── */
-    .site-footer { border-top: 1px solid var(--border); padding: var(--space-l) 0; margin-top: var(--space-xl); }
-    .site-footer .footer-inner {
-      max-width: var(--max-wide); margin: 0 auto; padding: 0 var(--space-m);
-      display: flex; flex-direction: column; gap: var(--space-s);
-    }
-    .site-footer .footer-top {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: var(--space-m);
-    }
-    .site-footer .footer-links {
-      display: flex; gap: var(--space-m); list-style: none; margin: 0; padding: 0; flex-wrap: wrap;
-    }
-    .site-footer .footer-links a { font-size: var(--step--1); color: var(--mute); text-decoration: none; }
-    .site-footer .footer-links a:hover { color: var(--fg); }
-    .site-footer .footer-meta { font-size: var(--step--1); color: var(--mute); }
-
-    /* ── Page-specific ──────────────────────────────────────── */
-    .hero { padding: var(--space-xl) 0 var(--space-l); border-bottom: 1px solid var(--border); }
-    .hero-inner { max-width: 720px; }
-    .hero-date { font-size: var(--step--1); color: var(--mute); font-family: var(--font-mono); margin-bottom: var(--space-m); display: block; }
-    .hero h1 { font-size: clamp(36px, 6vw, 56px); letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 24px; font-weight: 600; }
-    .hero h1 em { font-style: normal; color: var(--jade); }
-    .hero-sub { font-size: var(--step-2); line-height: 1.5; color: var(--mute); max-width: 560px; margin-bottom: var(--space-m); }
-    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .pillars { padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
-    .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; }
-    .pillar { padding: var(--space-m) var(--space-m) var(--space-m) 0; border-right: 1px solid var(--border); }
-    .pillar:last-child { border-right: none; padding-right: 0; }
-    .pillar:not(:first-child) { padding-left: var(--space-m); }
-    .pillar-num { font-family: var(--font-mono); font-size: 11px; color: var(--mute); margin-bottom: var(--space-s); display: block; }
-    .pillar h3 { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 12px; }
-    .pillar p { font-size: var(--step-0); color: var(--mute); margin: 0; }
-    @media (max-width: 640px) {
-      .pillar { border-right: none; border-bottom: 1px solid var(--border); padding: var(--space-m) 0; }
-      .pillar:last-child { border-bottom: none; }
-      .pillar:not(:first-child) { padding-left: 0; }
-    }
-
-    .use-cases { padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
-    .section-eyebrow {
-      font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--jade); font-family: var(--font-mono); margin-bottom: var(--space-m); display: block;
-    }
-    .use-cases h2 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.025em; margin-bottom: var(--space-l); max-width: 600px; }
-    .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .case-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
-    .case-img { aspect-ratio: 16/9; background: var(--border); position: relative; overflow: hidden; }
-    .case-img-label {
-      position: absolute; bottom: 8px; left: 10px; font-size: 11px;
-      font-family: var(--font-mono); color: var(--mute); background: var(--surface);
-      padding: 2px 6px; border-radius: 3px;
-    }
-    .case-body { padding: 20px; }
-    .case-body h3 { font-size: var(--step-1); margin-bottom: 8px; }
-    .case-body .outcome { font-size: var(--step-0); color: var(--mute); margin-bottom: 16px; }
-    .case-body a { font-size: var(--step--1); font-weight: 500; color: var(--jade); text-decoration: none; }
-    .case-body a:hover { color: var(--jade-deep); text-decoration: underline; }
-
-    .proof { padding: var(--space-xl) 0; border-bottom: 1px solid var(--border); }
-    .proof-inner { max-width: 600px; }
-    .proof-placeholder {
-      border: 1px dashed var(--border); border-radius: var(--radius);
-      padding: var(--space-m); background: var(--surface);
-    }
-    .proof-placeholder p { font-size: var(--step-0); color: var(--mute); margin: 0; font-style: italic; }
-    .proof-placeholder .proof-meta {
-      margin-top: 12px; font-size: var(--step--1); color: var(--border);
-      font-family: var(--font-mono); font-style: normal;
-    }
-
-    .closing-cta { padding: var(--space-xl) 0; }
-    .closing-cta h2 { font-size: clamp(24px, 3.5vw, 36px); letter-spacing: -0.025em; max-width: 520px; margin-bottom: var(--space-m); line-height: 1.2; }
-    .subscribe-form { display: flex; gap: 8px; flex-wrap: wrap; }
-    .subscribe-form input {
-      padding: 10px 16px; font-size: var(--step-0); font-family: var(--font-sans);
-      border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--surface); color: var(--fg); outline: none;
-      flex: 1; min-width: 240px; transition: border-color 0.15s;
-    }
-    .subscribe-form input:focus { border-color: var(--jade); }
-    .subscribe-fine { font-size: var(--step--1); color: var(--mute); margin-top: 10px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monovus · Delegation at machine speed</title>
+<meta name="description" content="AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, so you can hand them real work.">
+<meta name="theme-color" content="#F3EFE7">
+<link rel="canonical" href="https://monovus.solutions/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Monovus">
+<meta property="og:title" content="Monovus · Delegation at machine speed">
+<meta property="og:description" content="AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, so you can hand them real work.">
+<meta property="og:url" content="https://monovus.solutions/">
+<meta property="og:image" content="https://monovus.solutions/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Monovus. Delegation at machine speed.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="components/arch.css?v=8">
+<link rel="stylesheet" href="components/econ.css?v=8">
+<link rel="stylesheet" href="components/apply.css?v=8">
+<link rel="preload" href="assets/fonts/Fraunces-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/type.css?v=8">
+<script>/* capture-only: ?og=1 hides the dock, glance strip and legal line, for making assets/og.png */
+  if (/[?&]og=1(&|$)/.test(location.search)) document.documentElement.classList.add('og');</script>
 </head>
-<body>
+<body class="boot" data-ch="overview">
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="field" aria-hidden="true"></div>
 
-<div class="wrap">
-  <nav class="site-nav">
-    <a class="wordmark" href="index.html">monovus</a>
-    <ul>
-      <li><a href="pages/how-it-works.html">How it works</a></li>
-      <li><a href="pages/use-cases.html">Use cases</a></li>
-      <li><a href="pages/about.html">About</a></li>
-      <li><a href="pages/pricing.html">Pricing</a></li>
-      <li><a href="pages/notes.html">Notes</a></li>
-    </ul>
-    <a class="nav-cta" href="pages/how-it-works.html">Install in an afternoon</a>
-  </nav>
+<!-- The one lens: a delegate, seen clearly. Seven rim arcs = the seven controls. With WebGL this element is only an anchor. -->
+<div class="lens" id="lens" data-lens data-rim="7" data-rim-on="1111111" aria-hidden="true"><svg class="rim" viewBox="-100 -100 200 200"></svg></div>
+<!-- Society, Companies, People: ten delegates that bud from the lens and return into it -->
+<div class="net" aria-hidden="true">
+  <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
+  <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
+  <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
+  <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
+  <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
 </div>
+<!-- Monovus: a thin flat sheet and a small moss bead merge into the lens -->
+<div class="forms" aria-hidden="true"><i class="form form--sheet" data-glass data-present="0"></i><i class="form form--bead" data-lens data-tint="moss" data-present="0"></i></div>
+<!-- Shu hairlines: where a control is missing -->
+<div class="marks" aria-hidden="true"></div>
 
-<main>
-  <div class="wrap">
-    <section class="hero" data-od-id="hero">
-      <span class="hero-date">May 6, 2026</span>
-      <div class="hero-inner">
-        <h1>Your own AI assistant.<br><em>Set up in an afternoon.</em></h1>
-        <p class="hero-sub">Monovus helps non-technical operators install and run their own AI ops layer — so the AI actually does the work you keep meaning to do.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="pages/how-it-works.html">See how it works</a>
-          <a class="btn btn-secondary" href="pages/how-it-works.html">Install in an afternoon</a>
+<header class="nav" data-glass>
+  <a class="nav__brand" href="#overview" data-go="overview" aria-label="Monovus, overview"><img src="assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <a class="nav__link" href="/blueprint/">Blueprint</a>
+  <a class="nav__link" href="/assessment/">Readiness Check</a>
+  <a class="nav__start" href="#begin" data-go="begin" data-glass data-inner data-tint="moss"><span>Start</span></a>
+</header>
+
+<main class="chapters">
+  <!-- 1 Overview -->
+  <section class="ch is-active" data-chapter="overview" aria-labelledby="h-overview">
+    <h1 id="h-overview" class="h h--hero"><span class="ln" style="--i:0">Delegation at</span> <span class="ln" style="--i:1">machine speed.</span></h1>
+    <p class="sub" style="--i:2">AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, so you can hand them real work.</p>
+    <div class="actions" style="--i:3">
+      <a class="btn" href="/assessment/" data-glass data-tint="moss" data-morph="cta"><span>Check your readiness</span></a>
+      <a class="quiet" href="#society" data-go="society">How it works <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="hint mono" style="--i:3">Free · about 5 minutes · in your browser</p>
+    <ul class="glance frost" data-glass data-glass-variant="frost" aria-label="At a glance" style="--i:4">
+      <li><b>Inside your own AWS account</b><span>Your data, knowledge and keys stay yours.</span></li>
+      <li><b>Seven controls</b><span>Checked on every action an agent takes.</span></li>
+      <li><b>One view of every agent</b><span>What each one knows, does and spends.</span></li>
+    </ul>
+  </section>
+
+  <!-- 2 Society -->
+  <section class="ch" data-chapter="society" aria-labelledby="h-society">
+    <p class="kick mono" style="--i:0">Society</p>
+    <h2 id="h-society" class="h"><span class="ln" style="--i:0">Delegation needs</span> <span class="ln" style="--i:1">oversight.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">Water systems, hospitals and pension funds run on people handing work to others they can&rsquo;t watch. Signatures, job descriptions, ledgers and audits make that safe.</p>
+    <p class="src mono" style="--i:3">Double-entry bookkeeping was first printed in 1494.</p>
+  </section>
+
+  <!-- 3 Companies -->
+  <section class="ch" data-chapter="companies" aria-labelledby="h-companies">
+    <p class="kick mono" style="--i:0">Companies</p>
+    <h2 id="h-companies" class="h"><span class="ln" style="--i:0">Oversight has</span> <span class="ln" style="--i:1">a price.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">Economists call it agency costs: watching the work, proving it was done right, and the losses that get through anyway. Most companies pay it in approvals, reviews and audits.</p>
+    <p class="src mono" style="--i:3">Jensen and Meckling, 1976</p>
+  </section>
+
+  <!-- 4 People -->
+  <section class="ch" data-chapter="people" aria-labelledby="h-people">
+    <p class="kick mono" style="--i:0">People</p>
+    <h2 id="h-people" class="h"><span class="ln" style="--i:0">Responsibility stays</span> <span class="ln" style="--i:1">with people.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">When a clerk approves a claim, a manager still answers for it. The people who answer for the work have to be able to see it.</p>
+  </section>
+
+  <!-- 5 Agents -->
+  <section class="ch" data-chapter="agents" aria-labelledby="h-agents">
+    <p class="kick mono" style="--i:0">Agents</p>
+    <h2 id="h-agents" class="h"><span class="ln" style="--i:0">Agents are a new kind</span> <span class="ln" style="--i:1">of delegate.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">They read what your company knows, decide and act: a refund, a price change, an invoice. They work at software speed, with none of the oversight built for people.</p>
+    <div class="figs" style="--i:3">
+      <p class="fig"><b class="fig__n">15%</b><span class="fig__t">of day-to-day work decisions made autonomously by agentic AI by 2028, up from almost none in 2024.</span><span class="fig__s mono">Gartner, October 2024</span></p>
+      <p class="fig"><b class="fig__n">40%+</b><span class="fig__t">of agentic AI projects expected to be cancelled by the end of 2027.</span><span class="fig__s mono">Gartner, June 2025</span></p>
+    </div>
+    <ol class="faults" aria-label="What an agent leaves open">
+      <li class="fault" data-k="identity"><i class="hair" aria-hidden="true"></i><span class="fault__q">Who is it acting as?</span><span class="fault__c mono">Identity</span></li>
+      <li class="fault" data-k="record"><i class="hair" aria-hidden="true"></i><span class="fault__q">What did it just do, and why?</span><span class="fault__c mono">Record</span></li>
+      <li class="fault" data-k="budget"><i class="hair" aria-hidden="true"></i><span class="fault__q">What will it cost next month?</span><span class="fault__c mono">Budget</span></li>
+      <li class="fault" data-k="review"><i class="hair" aria-hidden="true"></i><span class="fault__q">Is it still right after the next release?</span><span class="fault__c mono">Review</span></li>
+    </ol>
+  </section>
+
+  <!-- 6 Economics -->
+  <section class="ch" data-chapter="economics" aria-labelledby="h-economics">
+    <p class="kick mono" style="--i:0">Economics</p>
+    <h2 id="h-economics" class="h h--long"><span class="ln" style="--i:0">Worth what it saves, minus</span> <span class="ln" style="--i:1">what it costs to oversee.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">Change the numbers. When a person checks every action, oversight eats the saving. When the system enforces the rules, people review only the exceptions.</p>
+    <div class="econbox">
+      <mv-econ id="econ" values="4000,2,5"><div class="econ-fb frost" data-glass data-glass-variant="frost">
+        <p class="econ-fb__row"><span>Every action checked by a person</span><b>133 hours a month</b></p>
+        <p class="econ-fb__row econ-fb__row--moss"><span>Rules enforced by the system; people review exceptions</span><b>7 hours a month</b></p>
+        <p class="econ-fb__sum">Review time saved: 126 hours a month, about 0.8 full-time people</p>
+        <p class="econ-fb__tag mono">Illustrative simulation</p>
+      </div></mv-econ>
+      <script>(function () { var q = new URLSearchParams(location.search).get('econ'); if (q && /^[0-9.]+,[0-9.]+,[0-9.]+$/.test(q)) document.getElementById('econ').setAttribute('values', q); })();</script>
+    </div>
+  </section>
+
+  <!-- 7 Behaviour -->
+  <section class="ch" data-chapter="behaviour" aria-labelledby="h-behaviour">
+    <p class="kick mono" style="--i:0">Behaviour</p>
+    <h2 id="h-behaviour" class="h h--long"><span class="ln" style="--i:0">Agents must behave like</span> <span class="ln" style="--i:1">accountable colleagues.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">Your company already has the rules. Monovus rebuilds them as software. Switch one off to see what goes wrong.</p>
+    <p class="conseq" style="--i:3" aria-live="polite"><span class="conseq__tag mono">Illustrative simulation</span><span class="conseq__msg" id="conseq">All seven on. Every action within its rules.</span></p>
+    <div class="tg-space" aria-hidden="true"></div>
+    <div class="detail frost" data-glass data-glass-variant="frost" style="--i:4">
+      <p class="detail__name"><span id="d-name">Identity</span><span class="detail__state" id="d-state">On</span></p>
+      <p class="detail__row"><span class="detail__k">People have</span><span id="d-ppl">An employee ID and a signature</span></p>
+      <p class="detail__row"><span class="detail__k">An agent needs</span><span id="d-need">Its own identity</span></p>
+      <p class="detail__row"><span class="detail__k">The system</span><span id="d-sys">A named role with its own credentials. No shared keys.</span></p>
+      <p class="detail__row detail__row--off"><span class="detail__k">Without it <small class="detail__sim mono">Simulated</small></span><span id="d-off">Acted with a shared admin key.</span></p>
+    </div>
+    <div class="toggles" role="group" aria-label="The seven controls">
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="identity"><span class="tg__label">Identity</span><span class="tg__sw" aria-hidden="true"></span></button>
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="mandate"><span class="tg__label">Mandate</span><span class="tg__sw" aria-hidden="true"></span></button>
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="record"><span class="tg__label">Record</span><span class="tg__sw" aria-hidden="true"></span></button>
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="review"><span class="tg__label">Review</span><span class="tg__sw" aria-hidden="true"></span></button>
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="budget"><span class="tg__label">Budget</span><span class="tg__sw" aria-hidden="true"></span></button>
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="rollback"><span class="tg__label">Rollback</span><span class="tg__sw" aria-hidden="true"></span></button>
+      <button class="tg" type="button" role="switch" aria-checked="true" data-glass data-home="lens" data-key="evidence"><span class="tg__label">Evidence</span><span class="tg__sw" aria-hidden="true"></span></button>
+    </div>
+  </section>
+
+  <!-- 8 Systems -->
+  <section class="ch" data-chapter="systems" aria-labelledby="h-systems">
+    <p class="kick mono" style="--i:0">Systems</p>
+    <h2 id="h-systems" class="h h--mid"><span class="ln" style="--i:0">The rules live outside</span> <span class="ln" style="--i:1">the model.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">A model follows its instructions most of the time. Your rules have to hold every time, so they are checked on every action, inside your own AWS account.</p>
+    <div class="actions actions--tight" style="--i:3">
+      <button class="btn btn--clear" type="button" id="play" data-glass><span>Send a test request</span></button>
+    </div>
+    <div class="archbox">
+      <mv-arch id="arch"></mv-arch>
+      <div class="arch-fb">
+        <p class="arch-fb__app"><b>Your app</b><span>Website, chat or help desk</span></p>
+        <div class="arch-fb__slab">
+          <p class="arch-fb__head">Your AWS account</p>
+          <ul class="arch-fb__row" aria-label="The agent's path">
+            <li><b>Sign-in</b><span class="mono">Amazon Cognito</span></li>
+            <li data-node="agent"><i class="sock" aria-hidden="true"></i><b>The agent</b><span class="mono">AgentCore Runtime</span></li>
+            <li><b>Guardrails</b><span class="mono">Amazon Bedrock Guardrails</span></li>
+            <li><b>Models</b><span class="mono">Amazon Bedrock</span></li>
+          </ul>
+          <ul class="arch-fb__row" aria-label="What it may do">
+            <li><b>Tools</b><span class="mono">AgentCore Gateway · AWS Lambda</span></li>
+            <li><b>Mandate</b><span class="mono">AgentCore Policy</span></li>
+            <li><b>Identity</b><span class="mono">AgentCore Identity · AWS Secrets Manager</span></li>
+            <li><b>Memory</b><span class="mono">AgentCore Memory</span></li>
+          </ul>
+          <ul class="arch-fb__row arch-fb__row--band" aria-label="Watched and recorded">
+            <li><b>Record</b><span class="mono">AgentCore Observability · Amazon CloudWatch</span></li>
+            <li><b>Evidence</b><span class="mono">AWS CloudTrail</span></li>
+            <li><b>Budget</b><span class="mono">AWS Budgets</span></li>
+            <li><b>Review</b><span class="mono">AgentCore Evaluations</span></li>
+          </ul>
         </div>
+        <p class="arch-fb__tag mono">Illustrative simulation</p>
       </div>
-    </section>
-  </div>
+      <p class="archbox__note">You keep the data, the knowledge and the keys. AWS bills you directly, and we never mark it up.</p>
+    </div>
+  </section>
 
-  <div class="wrap">
-    <section class="pillars" data-od-id="pillars">
-      <div class="pillars-grid">
-        <div class="pillar">
-          <span class="pillar-num">01</span>
-          <h3>Install with confidence</h3>
-          <p>A guided setup, not a 200-page README. Most people are running by sundown.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-num">02</span>
-          <h3>Operate with confidence</h3>
-          <p>Clear daily check-ins. You always know what your AI is doing and what it's about to do next.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-num">03</span>
-          <h3>Solve real things</h3>
-          <p>The inbox you avoid. The tracker you don't keep. The research that piles up. Real life, not demos.</p>
-        </div>
-      </div>
-    </section>
-  </div>
+  <!-- 9 Monovus -->
+  <section class="ch" data-chapter="monovus" aria-labelledby="h-monovus">
+    <p class="kick mono" style="--i:0">Monovus</p>
+    <h2 id="h-monovus" class="h"><span class="ln" style="--i:0">From your first agent</span> <span class="ln" style="--i:1">to all of them.</span></h2>
+    <ul class="tiles" style="--i:3" aria-label="What Monovus offers">
+      <li class="tile frost" data-glass data-glass-variant="frost"><b class="tile__n">Blueprint</b><span class="tile__tag mono">Free</span><span class="tile__d">The seven controls as a reference design, with a Readiness Check that scores you against them.</span><a class="tile__a" href="/blueprint/">Read the Blueprint <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="tile frost" data-glass data-glass-variant="frost"><b class="tile__n">Launch</b><span class="tile__tag mono">Fixed price</span><span class="tile__d">We put your first agent into production with every control in place, typically in two to four weeks.</span><a class="tile__a" href="/assessment/">Your price is in your readiness report <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="tile frost" data-glass data-glass-variant="frost"><b class="tile__n">Control</b><span class="tile__tag mono">In development</span><span class="tile__d">Software that installs the controls in one step, checks them continuously, and shows what every agent knows, does and spends.</span><a class="tile__a" href="#begin" data-go="begin" data-apply>Become a design partner <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+    <p class="src mono" style="--i:4">Monovus: from the Greek mono and the Latin visus. One sight.</p>
+  </section>
 
-  <div class="wrap">
-    <section class="use-cases" data-od-id="use-cases">
-      <span class="section-eyebrow">Real-life examples</span>
-      <h2>Three things people install on a Saturday and have running on Sunday.</h2>
-      <div class="cases-grid">
-        <div class="case-card">
-          <div class="case-img">
-            <span class="case-img-label">screenshot placeholder</span>
-          </div>
-          <div class="case-body">
-            <h3>The inbox that triages itself</h3>
-            <p class="outcome">Your email, sorted by what actually needs you — every morning, automatically.</p>
-            <a href="pages/use-cases.html#inbox">Install this in an afternoon →</a>
-          </div>
-        </div>
-        <div class="case-card">
-          <div class="case-img">
-            <span class="case-img-label">screenshot placeholder</span>
-          </div>
-          <div class="case-body">
-            <h3>The project tracker that remembers</h3>
-            <p class="outcome">Status updates written for you. No more end-of-week scramble.</p>
-            <a href="pages/use-cases.html#tracker">Install this in an afternoon →</a>
-          </div>
-        </div>
-        <div class="case-card">
-          <div class="case-img">
-            <span class="case-img-label">screenshot placeholder</span>
-          </div>
-          <div class="case-body">
-            <h3>The overnight research assistant</h3>
-            <p class="outcome">Brief it before you sleep. Wake up to a clear, sourced summary.</p>
-            <a href="pages/use-cases.html#research">Install this in an afternoon →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <div class="wrap">
-    <section class="proof" data-od-id="proof">
-      <div class="proof-inner">
-        <span class="section-eyebrow">From a real user</span>
-        <div class="proof-placeholder">
-          <p>"Placeholder — real user quote goes here when available."</p>
-          <p class="proof-meta">— Name, role · Month Year</p>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <div class="wrap">
-    <section class="closing-cta" data-od-id="closing-cta">
-      <h2>Want one decision you can make tomorrow?</h2>
-      <form class="subscribe-form" onsubmit="return false;">
-        <input type="email" placeholder="your@email.com" aria-label="Email address" />
-        <button type="submit" class="btn btn-primary">Subscribe — free weekly note</button>
-      </form>
-      <p class="subscribe-fine">One note a week. Plain text. Unsubscribe any time.</p>
-    </section>
-  </div>
+  <!-- 10 Begin -->
+  <section class="ch" data-chapter="begin" aria-labelledby="h-begin">
+    <p class="kick mono" style="--i:0">Begin</p>
+    <h2 id="h-begin" class="h"><span class="ln" style="--i:0">Start with</span> <span class="ln" style="--i:1">one agent.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">Check where you stand in five minutes. Your report shows your biggest gaps, a 30-day plan, and the right next step with its price.</p>
+    <div class="actions" style="--i:3">
+      <a class="btn" id="cta-final" href="/assessment/" data-glass data-tint="moss" data-morph="cta"><span>Check your readiness</span></a>
+      <button class="quiet" type="button" id="to-apply" data-apply>Become a design partner</button>
+    </div>
+    <div class="applybox">
+      <mv-apply id="apply"><div class="apply-fb frost" data-glass data-glass-variant="frost">
+        <p class="apply-fb__t">Design partners for Control</p>
+        <p class="apply-fb__l">We&rsquo;re choosing a small group of companies to shape Control with us, on a real agent in their own AWS account.</p>
+      </div></mv-apply>
+    </div>
+  </section>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <span style="font-size: var(--step--1); color: var(--mute);">monovus · install + operate AI with confidence · Toronto</span>
-      <ul class="footer-links">
-        <li><a href="pages/notes.html">Subscribe</a></li>
-        <li><a href="pages/how-it-works.html">How it works</a></li>
-        <li><a href="pages/use-cases.html">Use cases</a></li>
-        <li><a href="pages/about.html">About</a></li>
-        <li><a href="pages/pricing.html">Pricing</a></li>
-      </ul>
-    </div>
-    <p class="footer-meta">Last updated May 6, 2026. Frontier facts decay. So do these pages.</p>
-  </div>
-</footer>
+<nav class="dock" data-glass aria-label="Chapters">
+  <span class="dock__ind" data-glass data-inner data-tint="white" aria-hidden="true"></span>
+  <button type="button" data-go="overview" aria-current="true">Overview</button>
+  <button type="button" data-go="society">Society</button>
+  <button type="button" data-go="companies">Companies</button>
+  <button type="button" data-go="people">People</button>
+  <button type="button" data-go="agents">Agents</button>
+  <button type="button" data-go="economics">Economics</button>
+  <button type="button" data-go="behaviour">Behaviour</button>
+  <button type="button" data-go="systems">Systems</button>
+  <button type="button" data-go="monovus">Monovus</button>
+  <button type="button" data-go="begin">Begin</button>
+  <span class="dock__m">
+    <button type="button" class="dock__step" data-step="-1" aria-label="Previous chapter">&lsaquo;</button>
+    <span class="dock__cur" aria-live="polite">Overview</span>
+    <button type="button" class="dock__step" data-step="1" aria-label="Next chapter">&rsaquo;</button>
+  </span>
+  <span class="dock__dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="dock__bar" aria-hidden="true"><i></i></span>
+</nav>
 
+<p class="legal"><a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a> · <span class="legal__l">Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS. &copy; 2026 Monovus</span><span class="legal__s">Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS.</span></p>
+
+<div class="dbg" id="dbg" hidden></div>
+<script src="assets/config.js?v=8"></script>
+<script src="components/arch.js?v=8"></script>
+<script src="components/econ.js?v=8"></script>
+<script src="components/apply.js?v=8"></script>
+<script src="stage.js?v=8"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

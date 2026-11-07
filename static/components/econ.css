@@ -1,0 +1,74 @@
+/* <mv-econ> styles. Tokens come from ../styles.css (--ink, --muted, --moss, --text, --sans, --mono, --ease).
+   Text on frost glass (#E9E5DD floor): ink 13.24, muted 5.94, moss 6.15 (>= 4.5:1).
+   Non-text: slider track #7D796F 3.46, moss fill and thumb ring 6.15, focus ring moss 6.15 (>= 3:1). */
+mv-econ { display: block; width: 100%; max-width: 540px; color: var(--ink, #1C1F1C); font-family: var(--text, system-ui, sans-serif);
+  --mve-track: #7D796F; --mve-thumb: #FBFAF7; --mve-hair: rgba(28, 31, 28, .14); container-type: inline-size; }
+.mve { position: relative; border-radius: 28px; padding: 24px 30px 28px; }
+:where(.mve p) { margin: 0; }
+.mve__tag { font-family: var(--mono, ui-monospace, monospace); font-size: 11.5px; line-height: 1; letter-spacing: 0; color: var(--muted, #57554E); }
+.mve__row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+
+/* ---------- inputs ---------- */
+.mve__inputs { display: grid; gap: 14px; margin-top: 18px; }
+.mve__lab { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; cursor: pointer; }
+.mve__val { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--moss, #3F5A30); white-space: nowrap; }
+
+.mve__range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 30px; margin: 2px 0 0; padding: 0;
+  background: transparent; cursor: pointer; --p: .5; touch-action: pan-y; }
+.mve__range:focus { outline: none; }
+.mve__range::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; border: 0;
+  background: linear-gradient(90deg, var(--moss, #3F5A30) 0 calc(11px + (100% - 22px) * var(--p)), var(--mve-track) 0); }
+.mve__range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; box-sizing: border-box; width: 22px; height: 22px; margin-top: -9.5px;
+  border-radius: 50%; border: 2px solid var(--moss, #3F5A30); background: var(--mve-thumb);
+  box-shadow: 0 1px 2px rgba(28, 31, 28, .16), 0 5px 12px -5px rgba(28, 31, 28, .4); transition: box-shadow .2s, transform .2s var(--ease, ease); }
+.mve__range::-moz-range-track { height: 3px; border-radius: 2px; border: 0; background: var(--mve-track); }
+.mve__range::-moz-range-progress { height: 3px; border-radius: 2px; background: var(--moss, #3F5A30); }
+.mve__range::-moz-range-thumb { box-sizing: border-box; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--moss, #3F5A30);
+  background: var(--mve-thumb); box-shadow: 0 1px 2px rgba(28, 31, 28, .16), 0 5px 12px -5px rgba(28, 31, 28, .4); transition: box-shadow .2s; }
+.mve__range:hover::-webkit-slider-thumb { transform: scale(1.06); }
+/* visible focus: a moss ring round the thumb, separated by a light gap (.is-focus: capture hook, same look) */
+.mve__range:focus-visible::-webkit-slider-thumb, .mve__range.is-focus::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--mve-thumb), 0 0 0 5px var(--moss, #3F5A30), 0 5px 12px -5px rgba(28, 31, 28, .4); }
+.mve__range:focus-visible::-moz-range-thumb, .mve__range.is-focus::-moz-range-thumb { box-shadow: 0 0 0 3px var(--mve-thumb), 0 0 0 5px var(--moss, #3F5A30); }
+.mve__range.is-focus::-webkit-slider-thumb { transition: none; }
+.mve__range.is-focus::-moz-range-thumb { transition: none; }
+.mve__in:focus-within .mve__lab { color: var(--moss, #3F5A30); }
+.mve__in:has(.is-focus) .mve__lab { color: var(--moss, #3F5A30); }
+
+/* ---------- bars ---------- */
+.mve__bars { display: grid; gap: 14px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--mve-hair); }
+.mve__bl { font-size: 14px; line-height: 1.35; color: var(--muted, #57554E); }
+.mve__bv { font-size: 14px; line-height: 1.35; color: var(--muted, #57554E); white-space: nowrap; text-align: right; }
+.mve__bv b { font-family: var(--sans, system-ui, sans-serif); font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink, #1C1F1C);
+  font-variant-numeric: tabular-nums; margin-right: 1px; }
+.mve__bar--system .mve__bv b { color: var(--moss, #3F5A30); }
+.mve__track { position: relative; height: 10px; margin-top: 7px; border-radius: 5px; background: rgba(28, 31, 28, .06);
+  box-shadow: inset 0 0 0 1px rgba(28, 31, 28, .07); }
+.mve__track i { position: absolute; left: 0; top: 0; bottom: 0; min-width: 10px; border-radius: 5px; background: var(--ink, #1C1F1C);
+  transition: width .5s var(--ease, ease); }
+.mve__bar--system .mve__track i { background: var(--moss, #3F5A30); }
+
+/* ---------- result ---------- */
+.mve__saved { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--mve-hair);
+  font-family: var(--sans, system-ui, sans-serif); font-size: 21px; line-height: 1.28; font-weight: 500; letter-spacing: -0.018em; text-wrap: pretty; }
+.mve__saved b { font-weight: 650; color: var(--moss, #3F5A30); font-variant-numeric: tabular-nums; }
+.mve__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+/* narrow: follows the component's own width (phones, or a slim column) */
+@container (max-width: 459px) {
+  .mve { border-radius: 24px; padding: 20px 20px 22px; }
+  .mve__inputs { gap: 10px; }
+  .mve__bar .mve__row { display: grid; gap: 1px; }
+  .mve__bv { text-align: left; }
+  .mve__bv b { font-size: 20px; }
+  .mve__saved { font-size: 19px; }
+}
+@supports not (container-type: inline-size) {
+  @media (max-width: 559px) {
+    .mve { border-radius: 24px; padding: 20px 20px 22px; }
+    .mve__bar .mve__row { display: grid; gap: 1px; }
+    .mve__bv { text-align: left; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mve__track i, .mve__range::-webkit-slider-thumb, .mve__range::-moz-range-thumb { transition: none; }
+}

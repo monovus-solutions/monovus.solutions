@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-type="sumi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not found · Monovus</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F3EFE7">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Inter"; src: url("/assets/fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/assets/fonts/JetBrainsMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+:root {
+  --paper: #F3EFE7; --ink: #1C1F1C; --muted: #57554E; --moss: #3F5A30; --shu: #963820; --rule: rgba(28,31,28,.14);
+  --text: -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --disp: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body { margin: 0; color: var(--ink); font: 17px/1.6 var(--text); letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.page { max-width: 1060px; margin: 0 auto; padding: 72px 64px 88px; }
+
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: rgba(28,31,28,.4); }
+a:hover { color: var(--moss); text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 2px; }
+
+header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 88px; }
+header a { display: block; }
+header img { height: 18px; width: auto; display: block; }
+.meta { font: 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.links { display: flex; align-items: center; column-gap: 28px; font: 500 15px/1.2 var(--text); }
+.links a { text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.links .start { font-weight: 600; color: var(--moss); }
+
+.lead { margin-left: 256px; }
+.lead p.meta { margin: 0 0 22px; color: var(--muted); }
+h1 { font: 600 68px/1.0 var(--disp); letter-spacing: -0.038em; margin: 0 0 56px; }
+
+/* the way back: same rows as the Blueprint's contents */
+.contents { margin: 0 0 96px 256px; }
+.contents ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.contents a { display: grid; grid-template-columns: 160px minmax(0, 1fr); column-gap: 24px; padding: 12px 0;
+  border-bottom: 1px solid var(--rule); font-size: 15.5px; line-height: 1.45; text-decoration: none; }
+.contents a b { font: 400 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.contents a span { max-width: 40em; }
+.contents a:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.contents a:hover b { color: var(--moss); }
+
+footer { margin: 72px 0 0 256px; font: 11.5px/1.65 var(--mono); color: var(--muted); max-width: 66em; }
+footer p { max-width: none; margin: 0 0 10px; }
+
+@media (max-width: 860px) {
+  .page { padding: 32px 22px 64px; }
+  header { flex-direction: column; align-items: flex-start; gap: 14px; padding-bottom: 48px; }
+  .links { flex-wrap: wrap; column-gap: 22px; row-gap: 10px; }
+  .lead, .contents, footer { margin-left: 0; }
+  h1 { font-size: 46px; margin-bottom: 40px; }
+  .contents { margin-bottom: 56px; }
+  .contents a { grid-template-columns: 1fr; row-gap: 4px; }
+}
+</style>
+<link rel="stylesheet" href="/assets/type.css?v=8">
+</head>
+<body>
+<div class="page">
+
+<header>
+  <a href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <nav class="links" aria-label="Main"><a href="/blueprint/">Blueprint</a><a href="/assessment/">Readiness Check</a><a class="start" href="/#begin">Start</a></nav>
+</header>
+
+<main>
+<div class="lead">
+  <p class="meta">404 · Not found</p>
+  <h1>This page isn’t here.</h1>
+</div>
+
+<nav class="contents" aria-label="Where to go instead">
+  <ol>
+    <li><a href="/"><b>Home</b><span>The Monovus site</span></a></li>
+    <li><a href="/blueprint/"><b>Blueprint</b><span>Seven controls that let a company hand work to AI agents and still answer for it</span></a></li>
+    <li><a href="/assessment/"><b>Readiness Check</b><span>Score one of your agents in about 5 minutes, in your browser</span></a></li>
+  </ol>
+</nav>
+</main>
+
+<footer>
+  <p><a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a></p>
+  <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS. © 2026 Monovus</p>
+</footer>
+
+</div>
+</body>
+</html>

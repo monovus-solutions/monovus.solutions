@@ -254,6 +254,11 @@ ok("CTA goes to the design-partner application, never a call", () => {
   assert.doesNotMatch(JSON.stringify(q), /45-minute|book a free|Talk to us/);
 });
 
+ok("report offers use the site's names: Readiness Check, Launch and Control", () => {
+  assert.deepEqual(Object.values(q.offers).map((o) => o.name), ["Readiness Check", "Launch", "Launch: build", "Control"]);
+  assert.doesNotMatch(JSON.stringify(q), /Pilot-to-Production Sprint|Production Build|Managed Agent Operations|\bSprint\b/);
+});
+
 ok("lead payload carries labels, scores by name and an empty _gotcha", () => {
   const lead = { name: "Ana Example", email: "ana@example.com", company: "Example Co.", consent_privacy: true, consent_marketing: false };
   const body = S.leadPayload(q, zero, ctx({ timeline: "Within 30 days" }), lead, { blocker: "Security review.", elapsed_minutes: 4.5, page_url: "https://monovus.solutions/assessment/" });

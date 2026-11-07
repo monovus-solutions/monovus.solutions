@@ -145,7 +145,7 @@
   },
   "aws_services_allowed": ["Amazon Bedrock", "Amazon Bedrock AgentCore Runtime", "Amazon Bedrock AgentCore Gateway", "Amazon Bedrock AgentCore Policy", "Amazon Bedrock AgentCore Identity", "Amazon Bedrock AgentCore Memory", "Amazon Bedrock AgentCore Observability", "Amazon Bedrock AgentCore Evaluations", "Amazon Bedrock Guardrails", "Amazon Bedrock Knowledge Bases", "Amazon CloudWatch", "AWS CloudTrail", "AWS Budgets", "AWS IAM", "AWS Secrets Manager", "AWS Lambda", "Amazon S3", "Amazon DynamoDB"],
   "offers": {
-    "review": {"name": "Readiness Review", "price": "Free", "what": "A 45-minute call to walk through your results and agree the first fixes."},
+    "review": {"name": "Readiness Check", "price": "Free", "what": "This assessment and its report: your score, your three biggest gaps and a 30-day plan."},
     "sprint": {"name": "Pilot-to-Production Sprint", "price": "CAD 6,000-12,000, fixed", "what": "One agent, typically 2 to 4 weeks: evaluations, tracing, cost controls, policy, rollback, runbook and a before-and-after scorecard."},
     "build": {"name": "Production Build and Hardening", "price": "CAD 15,000-30,000, fixed", "what": "Work through the remaining backlog, or a scoped single-task agent built in your AWS account."},
     "operate": {"name": "Managed Agent Operations", "price": "CAD 1,000-2,500 a month", "what": "Monthly quality and cost reviews, evaluation regression runs and policy updates."}
@@ -224,7 +224,7 @@
         "C7": "Back-office processes get audited, and you will be asked who or what approved each record and what happens when a document can't be read."
       },
       "Sales and marketing": {
-        "V": "A sales or marketing agent needs a target such as qualified meetings booked or hours saved per campaign, or its cost is hard to defend against other spend.",
+        "V": "A sales or marketing agent needs a target such as qualified leads or hours saved per campaign, or its cost is hard to defend against other spend.",
         "C1": "One wrong price, discount or product claim sent to a prospect can become a commitment you have to honour or a complaint you have to answer.",
         "C2": "When a prospect complains about a message, you need to see what data the agent used and why it chose to send it.",
         "C3": "Outreach and content agents run at volume, so a loop or a large list can make thousands of model calls before anyone looks at the bill.",
@@ -274,21 +274,21 @@
        "text": "The controls are in place. Managed Agent Operations keeps them there as the agent, its models and its users change."}
     ],
     "offerings": {
-      "Customer service and support": {"name": "Monovus Launch for Customer Service Agents", "href": "/launch/customer-service-agents.html",
-        "text": "The use-case checklist, typical AWS architecture and fixed-scope path for support agents that answer your customers."},
-      "Internal knowledge and employee help": {"name": "Monovus Launch for Knowledge Assistants", "href": "/launch/knowledge-assistants.html",
-        "text": "The use-case checklist, typical AWS architecture and fixed-scope path for internal assistants that answer from company documents."},
-      "Document processing and back office": {"name": "Monovus Launch for Document Processing", "href": "/launch/document-processing.html",
-        "text": "The use-case checklist, typical AWS architecture and fixed-scope path for agents that read, extract and route documents into business systems."},
-      "Sales and marketing": {"name": "Monovus Launch", "href": "/launch/",
-        "text": "The delivery system behind every Monovus engagement: the Production Readiness Framework, a use-case checklist, and a fixed-scope path from pilot to production on AWS."},
-      "AI features inside our product": {"name": "Monovus Launch for SaaS AI Features", "href": "/launch/saas-ai-features.html",
-        "text": "The use-case checklist, typical AWS architecture and fixed-scope path for software vendors shipping agent features inside their product."},
-      "Other": {"name": "Monovus Launch", "href": "/launch/",
-        "text": "The delivery system behind every Monovus engagement: the Production Readiness Framework, a use-case checklist, and a fixed-scope path from pilot to production on AWS."}
+      "Customer service and support": {"name": "Launch for a support agent", "href": "/#monovus",
+        "text": "Your first support agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."},
+      "Internal knowledge and employee help": {"name": "Launch for a knowledge assistant", "href": "/#monovus",
+        "text": "Your first internal assistant taken to production with all seven controls, answering only from the sources it is allowed to read."},
+      "Document processing and back office": {"name": "Launch for a document agent", "href": "/#monovus",
+        "text": "Your first document agent taken to production with all seven controls, with every extraction traced to its source."},
+      "Sales and marketing": {"name": "Launch", "href": "/#monovus",
+        "text": "Your first agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."},
+      "AI features inside our product": {"name": "Launch for a product feature", "href": "/#monovus",
+        "text": "Your first agent feature shipped with all seven controls, so every action it takes for your customers stays within its rules."},
+      "Other": {"name": "Launch", "href": "/#monovus",
+        "text": "Your first agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."}
     },
-    "closing": "If you want a second opinion on this plan, book a free 45-minute Readiness Review. We'll walk through your results with you and agree the first fixes.",
-    "cta": {"label": "Talk to us about these results", "href": "/contact/?ref=assessment&score={overall}"}
+    "closing": "The next step and its fixed price are listed above. If you'd like to shape Control, our software that keeps every agent within its rules, apply to be a design partner.",
+    "cta": {"label": "Become a design partner", "href": "/#begin"}
   },
   "disclaimer": "This assessment is an indicative self-assessment based on your answers. It is not an audit, a security review or professional advice."
 }

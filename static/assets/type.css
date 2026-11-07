@@ -1,0 +1,85 @@
+/* Monovus type and colour system, approved 7 Nov 2026 (website v8). Load after styles.css and the component styles.
+   Two voices: people speak in a humane serif, systems speak in mono. Text colours are tinted toward the brand
+   (green-black sumi ink, moss graphite, lichen), never neutral grey. All values below are contrast-gated:
+   ink 15.4:1 on paper, body 8.8 (6.8 on the darkest glass shadow), captions 6.0 (4.6 on the darkest glass shadow),
+   headline gradient end 9.6 on the darkest field.
+   One route, locked: every page sets <html data-type="sumi"> in its markup. Without data-type nothing changes. */
+
+@font-face { font-family: "Fraunces"; src: url("fonts/Fraunces-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("fonts/Fraunces-Italic-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+
+html[data-type] {
+  --ink: #141A16;        /* sumi, green-black: headlines and strong text */
+  --ink-2: #3D443B;      /* moss graphite: sub-lines and body */
+  --muted: #555C51;      /* lichen: captions, sources, labels */
+  --ink-deep: #24361F;   /* deep moss: where headlines resolve */
+  --moss: #3F5A30;
+  --shu: #963820;
+}
+html[data-type="sumi"] {
+  --sans: "Fraunces", "Iowan Old Style", Georgia, serif;          /* display: the human voice */
+  --disp: "Fraunces", "Iowan Old Style", Georgia, serif;          /* same, for the Blueprint and memo pages */
+  --text: "Inter", -apple-system, system-ui, sans-serif;           /* reading text */
+  --mono: "Geist Mono", ui-monospace, "SF Mono", monospace;        /* the system voice */
+}
+
+html[data-type] body {
+  color: var(--ink-2);
+  font-family: var(--text);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  font-feature-settings: "kern", "liga", "calt";
+  hanging-punctuation: first last;
+}
+html[data-type] ::selection { background: rgba(63, 90, 48, .18); color: var(--ink); }
+
+/* ---------- headlines: large, calm, resolving into moss on the last line ---------- */
+html[data-type] .h, html[data-type] h1, html[data-type] h2 {
+  color: var(--ink);
+  text-wrap: balance;
+}
+html[data-type="sumi"] .h, html[data-type="sumi"] h1, html[data-type="sumi"] h2 {
+  font-family: var(--sans);
+  font-weight: 360;
+  font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 0;
+  letter-spacing: -0.026em;
+  line-height: 1.0;
+}
+/* the last line of every screen headline resolves from sumi ink into deep moss (the "on, yours" colour) */
+html[data-type] .h .ln:last-child {
+  background: linear-gradient(100deg, var(--ink) 0%, var(--ink) 30%, var(--ink-deep) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  padding-bottom: .06em;
+}
+
+/* ---------- sub-lines and body ---------- */
+html[data-type] .sub, html[data-type] p { color: var(--ink-2); text-wrap: pretty; }
+html[data-type] .sub { letter-spacing: -0.008em; font-weight: 400; }
+
+/* ---------- kickers: the human voice, small (replaces the generic uppercase mono label) ---------- */
+html[data-type="sumi"] .kick, html[data-type="sumi"] .kick.mono, html[data-type="sumi"] .k {
+  font-family: var(--sans); font-style: italic; font-weight: 420;
+  font-variation-settings: "opsz" 24, "SOFT" 100, "WONK" 0;
+  font-size: 19px; line-height: 1.2; letter-spacing: 0; text-transform: none; color: var(--moss);
+}
+html[data-type] .k .note { font-family: var(--mono); font-style: normal; font-size: 12px; color: var(--muted); }
+
+/* ---------- the system voice: sources, AWS names, numbers, simulated tags ---------- */
+html[data-type] code, html[data-type] .mono:not(.kick), html[data-type] .src, html[data-type] .note, html[data-type] .fig__s {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums slashed-zero;
+  letter-spacing: 0;
+}
+html[data-type] .fig__n, html[data-type] .num {
+  font-family: var(--sans); font-weight: 300; color: var(--moss);
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.03em;
+}
+html[data-type] .fig__t { color: var(--ink-2); }
+
+/* ---------- buttons and links ---------- */
+html[data-type] .btn, html[data-type] .nav__start { font-family: var(--text); font-weight: 560; letter-spacing: -0.008em; }
+html[data-type] .quiet, html[data-type] a { text-underline-offset: .18em; text-decoration-thickness: 1px; }

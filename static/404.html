@@ -1,87 +1,101 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-type="sumi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found · Monovus</title>
-<meta name="description" content="Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.">
-<link rel="canonical" href="https://monovus.solutions/404.html">
-<meta name="theme-color" content="#F5F1E8">
-<meta property="og:site_name" content="Monovus">
-<meta property="og:locale" content="en_CA">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Page not found · Monovus">
-<meta property="og:description" content="Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.">
-<meta property="og:url" content="https://monovus.solutions/404.html">
-<meta property="og:image" content="https://monovus.solutions/assets/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Monovus. From AI pilot to production, on AWS.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Page not found · Monovus">
-<meta name="twitter:description" content="Monovus takes AI agents that are stuck in pilot into production on Amazon Bedrock, with measured quality, predictable cost and the controls boards, customers and auditors ask for. Fixed fee, in your own AWS account.">
-<meta name="twitter:image" content="https://monovus.solutions/assets/og.png">
+<title>Not found · Monovus</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F3EFE7">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/shippori-mincho-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Inter"; src: url("/assets/fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/assets/fonts/JetBrainsMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+:root {
+  --paper: #F3EFE7; --ink: #1C1F1C; --muted: #57554E; --moss: #3F5A30; --shu: #963820; --rule: rgba(28,31,28,.14);
+  --text: -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --disp: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body { margin: 0; color: var(--ink); font: 17px/1.6 var(--text); letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.page { max-width: 1060px; margin: 0 auto; padding: 72px 64px 88px; }
 
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: rgba(28,31,28,.4); }
+a:hover { color: var(--moss); text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 2px; }
+
+header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 88px; }
+header a { display: block; }
+header img { height: 18px; width: auto; display: block; }
+.meta { font: 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.links { display: flex; align-items: center; column-gap: 28px; font: 500 15px/1.2 var(--text); }
+.links a { text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.links .start { font-weight: 600; color: var(--moss); }
+
+.lead { margin-left: 256px; }
+.lead p.meta { margin: 0 0 22px; color: var(--muted); }
+h1 { font: 600 68px/1.0 var(--disp); letter-spacing: -0.038em; margin: 0 0 56px; }
+
+/* the way back: same rows as the Blueprint's contents */
+.contents { margin: 0 0 96px 256px; }
+.contents ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.contents a { display: grid; grid-template-columns: 160px minmax(0, 1fr); column-gap: 24px; padding: 12px 0;
+  border-bottom: 1px solid var(--rule); font-size: 15.5px; line-height: 1.45; text-decoration: none; }
+.contents a b { font: 400 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.contents a span { max-width: 40em; }
+.contents a:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.contents a:hover b { color: var(--moss); }
+
+footer { margin: 72px 0 0 256px; font: 11.5px/1.65 var(--mono); color: var(--muted); max-width: 66em; }
+footer p { max-width: none; margin: 0 0 10px; }
+
+@media (max-width: 860px) {
+  .page { padding: 32px 22px 64px; }
+  header { flex-direction: column; align-items: flex-start; gap: 14px; padding-bottom: 48px; }
+  .links { flex-wrap: wrap; column-gap: 22px; row-gap: 10px; }
+  .lead, .contents, footer { margin-left: 0; }
+  h1 { font-size: 46px; margin-bottom: 40px; }
+  .contents { margin-bottom: 56px; }
+  .contents a { grid-template-columns: 1fr; row-gap: 4px; }
+}
+</style>
+<link rel="stylesheet" href="/assets/type.css?v=8">
 </head>
 <body>
-<!-- site:header -->
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="wrap hdr">
-    <a class="brand" href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="158" height="22"></a>
-    <input class="nav-toggle" type="checkbox" id="nav-toggle">
-    <label class="nav-btn" for="nav-toggle"><span class="nav-bars" aria-hidden="true"></span><span class="nav-label">Menu</span></label>
-    <nav class="nav" aria-label="Main"><ul>
-      <li class="dd"><details><summary>Offerings</summary><div class="dd-panel"><ul>
-        <li><a class="dd-lead" href="/launch/">Monovus Launch<span>The delivery system behind every engagement</span></a></li>
-        <li><a href="/launch/customer-service-agents.html">Customer Service Agents</a></li><li><a href="/launch/knowledge-assistants.html">Knowledge Assistants</a></li><li><a href="/launch/document-processing.html">Document Processing</a></li><li><a href="/launch/saas-ai-features.html">SaaS AI Features</a></li></ul></div></details></li>
-      <li><a href="/pages/services.html">Engagements</a></li><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/pages/partners.html">Partners</a></li><li><a href="/insights/">Insights</a></li>
-      <li class="dd"><details><summary>Company</summary><div class="dd-panel"><ul>
-        <li><a href="/pages/about.html">About Monovus</a></li>
-        <li><a href="/pages/trust.html">Trust &amp; security</a></li>
-        <li><a href="/contact/">Contact</a></li></ul></div></details></li>
-      <li class="nav-cta-m"><a href="/contact/">Talk to us</a></li>
-    </ul></nav>
-    <a class="btn btn-secondary btn-sm hdr-talk" href="/contact/">Talk to us</a>
-    <a class="btn btn-primary btn-sm" href="/assessment/">Free assessment</a>
-  </div>
+<div class="page">
+
+<header>
+  <a href="/" aria-label="Monovus home"><img src="/assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <nav class="links" aria-label="Main"><a href="/blueprint/">Blueprint</a><a href="/assessment/">Readiness Check</a><a class="start" href="/#begin">Start</a></nav>
 </header>
-<script src="/assets/site.js" defer></script>
-<!-- /site:header -->
-<main id="main">
-<section class="page-hero"><div class="wrap">
-  <p class="eyebrow">404</p><h1>This page isn't here.</h1>
-  <p class="lead">It may have moved when the site was rebuilt. These are the pages most people want.</p>
-  <div class="btn-row"><a class="btn btn-primary" href="/assessment/">Take the free 5-minute assessment</a>
-  <a class="arrow" href="/">Go to the home page</a></div>
-</div></section>
+
+<main>
+<div class="lead">
+  <p class="meta">404 · Not found</p>
+  <h1>This page isn’t here.</h1>
+</div>
+
+<nav class="contents" aria-label="Where to go instead">
+  <ol>
+    <li><a href="/"><b>Home</b><span>The Monovus site</span></a></li>
+    <li><a href="/blueprint/"><b>Blueprint</b><span>Seven controls that let a company hand work to AI agents and still answer for it</span></a></li>
+    <li><a href="/assessment/"><b>Readiness Check</b><span>Score one of your agents in about 5 minutes, in your browser</span></a></li>
+  </ol>
+</nav>
 </main>
-<!-- site:footer -->
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <img src="/assets/lockup-sumi.svg" alt="Monovus" width="144" height="20">
-        <p>An AWS-focused AI agent consultancy. From AI pilot to production, on AWS.</p>
-        <p><a href="mailto:hello@monovus.solutions">hello@monovus.solutions</a><br>Toronto, Ontario, Canada<br>English · <span lang="zh-Hant">普通話 · 廣東話</span></p>
-      </div>
-      <div><h2>Offerings</h2><ul><li><a href="/launch/">Monovus Launch</a></li><li><a href="/launch/customer-service-agents.html">Customer Service Agents</a></li><li><a href="/launch/knowledge-assistants.html">Knowledge Assistants</a></li><li><a href="/launch/document-processing.html">Document Processing</a></li><li><a href="/launch/saas-ai-features.html">SaaS AI Features</a></li></ul></div>
-      <div><h2>Engagements</h2><ul><li><a href="/pages/services.html#review">Readiness Review</a></li><li><a href="/pages/services.html#sprint">Pilot-to-Production Sprint</a></li><li><a href="/pages/services.html#build">Production Build</a></li><li><a href="/pages/services.html#operate">Managed Agent Operations</a></li><li><a href="/pages/pricing.html">Pricing</a></li></ul></div>
-      <div><h2>Company</h2><ul><li><a href="/pages/about.html">About Monovus</a></li><li><a href="/pages/trust.html">Trust &amp; security</a></li><li><a href="/pages/partners.html">For AWS partners</a></li><li><a href="/contact/">Contact</a></li></ul></div>
-      <div><h2>Resources</h2><ul><li><a href="/assessment/">Free assessment</a></li><li><a href="/assessment/?sample=1">Sample report</a></li><li><a href="/pages/how-it-works.html">Approach</a></li><li><a href="/insights/">Insights</a></li></ul></div>
-      <div><h2>Legal</h2><ul><li><a href="/pages/privacy.html">Privacy</a></li><li><a href="/pages/terms.html">Terms</a></li></ul></div>
-    </div>
-    <div class="foot-legal">
-      <p>© 2026 Monovus. Fixed-fee AI agent consulting, delivered in your AWS account.</p>
-      <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is an independent consultancy, not affiliated with or endorsed by Amazon Web Services.</p>
-    </div>
-  </div>
+
+<footer>
+  <p><a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a></p>
+  <p>Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS. © 2026 Monovus</p>
 </footer>
-<!-- /site:footer -->
+
+</div>
 </body>
 </html>

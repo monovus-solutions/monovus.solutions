@@ -236,21 +236,22 @@ ok("engagement mapping at 0/34/35/59/60/84/85/100", () => {
 
 ok("recommended offering link per use case", () => {
   const want = {
-    "Customer service and support": "/launch/customer-service-agents.html",
-    "Internal knowledge and employee help": "/launch/knowledge-assistants.html",
-    "Document processing and back office": "/launch/document-processing.html",
-    "AI features inside our product": "/launch/saas-ai-features.html",
-    "Sales and marketing": "/launch/",
-    "Other": "/launch/"
+    "Customer service and support": "/#monovus",
+    "Internal knowledge and employee help": "/#monovus",
+    "Document processing and back office": "/#monovus",
+    "AI features inside our product": "/#monovus",
+    "Sales and marketing": "/#monovus",
+    "Other": "/#monovus"
   };
   for (const [uc, href] of Object.entries(want)) assert.equal(S.buildReport(q, mixed, ctx({ use_case: uc })).offering.href, href, uc);
-  assert.equal(S.buildReport(q, mixed, {}).offering.href, "/launch/");
+  assert.equal(S.buildReport(q, mixed, {}).offering.href, "/#monovus");
 });
 
-ok("CTA goes to the contact page with the score", () => {
+ok("CTA goes to the design-partner application, never a call", () => {
   const rep = S.buildReport(q, mixed, ctx());
-  assert.equal(rep.cta.label, "Talk to us about these results");
-  assert.equal(rep.cta.href, "/contact/?ref=assessment&score=42");
+  assert.equal(rep.cta.label, "Become a design partner");
+  assert.equal(rep.cta.href, "/#begin");
+  assert.doesNotMatch(JSON.stringify(q), /45-minute|book a free|Talk to us/);
 });
 
 ok("lead payload carries labels, scores by name and an empty _gotcha", () => {

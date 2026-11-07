@@ -400,7 +400,7 @@
               }))
             : h("p", { class: "as-price", text: body.engagement.offers[0].price }),
           h("p", { text: body.engagement.text }),
-          h("p", {}, [h("a", { class: "quiet", href: "/pages/services.html", text: "How our engagements work" })])
+          h("p", {}, [h("a", { class: "quiet", href: "/#monovus", text: "How Launch and Control work" })])
         ]),
         h("section", { class: "as-card" }, [
           h("p", { class: "eyebrow", text: "Recommended offering" }),

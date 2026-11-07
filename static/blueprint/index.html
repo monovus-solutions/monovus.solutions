@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en" data-type="sumi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Monovus Blueprint · Seven controls for AI agents</title>
+<meta name="description" content="Seven controls that let a company hand work to AI agents and still answer for it. Aligned with the AWS Well-Architected Agentic AI Lens.">
+<link rel="canonical" href="https://monovus.solutions/blueprint/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Monovus">
+<meta property="og:title" content="The Monovus Blueprint · Seven controls for AI agents">
+<meta property="og:description" content="Seven controls that let a company hand work to AI agents and still answer for it. Aligned with the AWS Well-Architected Agentic AI Lens.">
+<meta property="og:url" content="https://monovus.solutions/blueprint/">
+<meta property="og:image" content="https://monovus.solutions/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Monovus. Delegation at machine speed.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Inter"; src: url("../assets/fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("../assets/fonts/JetBrainsMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+:root {
+  --paper: #F3EFE7; --ink: #1C1F1C; --muted: #57554E; --moss: #3F5A30; --shu: #963820; --rule: rgba(28,31,28,.14);
+  --text: -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --disp: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; color: var(--ink); font: 17px/1.6 var(--text); letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.page { max-width: 1060px; margin: 0 auto; padding: 72px 64px 88px; }
+
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: rgba(28,31,28,.4); }
+a:hover { color: var(--moss); text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 2px; }
+
+header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 88px; }
+header a { display: block; }
+header img { height: 18px; width: auto; display: block; }
+.meta { font: 11.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.lead { margin-left: 256px; }
+h1 { font: 600 68px/1.0 var(--disp); letter-spacing: -0.038em; margin: 0 0 30px; }
+.stand { font: 400 24px/1.4 var(--disp); letter-spacing: -0.014em; margin: 0 0 56px; max-width: 27em; text-wrap: balance; }
+
+/* contents: same rows as the memo's glance strip */
+.contents { margin: 0 0 96px 256px; }
+.contents h2 { font: 400 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  margin: 0 0 10px; max-width: none; }
+.contents ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.contents a { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 24px; padding: 12px 0;
+  border-bottom: 1px solid var(--rule); font-size: 15.5px; line-height: 1.45; text-decoration: none; }
+.contents a b { font: 400 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.contents a span { max-width: 40em; }
+.contents a:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.contents a:hover b { color: var(--moss); }
+
+section { display: grid; grid-template-columns: 200px minmax(0, 1fr); column-gap: 56px;
+  padding: 44px 0 34px; border-top: 1px solid var(--rule); scroll-margin-top: 24px; }
+.k { font: 11.5px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 6px; }
+.note { display: block; margin-top: 14px; font: 12px/1.55 var(--mono); letter-spacing: 0; text-transform: none; color: var(--muted); }
+h2 { font: 600 29px/1.14 var(--disp); letter-spacing: -0.022em; margin: 0 0 16px; max-width: 22em; text-wrap: balance; }
+p { margin: 0 0 15px; max-width: 37em; text-wrap: pretty; }
+.body > p:last-child { margin-bottom: 8px; }
+
+/* two sourced figures under the story */
+.figs { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; margin: 26px 0 18px; border-top: 1px solid var(--ink); }
+.figs > div { padding: 14px 0 4px; }
+.figs b { display: block; font: 600 40px/1 var(--disp); letter-spacing: -0.03em; margin-bottom: 10px; }
+.figs span { display: block; font-size: 15.5px; line-height: 1.45; }
+.figs small { display: block; margin-top: 8px; font: 11.5px/1.45 var(--mono); color: var(--muted); }
+
+/* one control: label column + content, hairlines between rows */
+.spec { margin: 6px 0 8px; border-top: 1px solid var(--ink); }
+.spec > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); column-gap: 24px; padding: 12px 0;
+  border-bottom: 1px solid var(--rule); font-size: 15.5px; line-height: 1.45; }
+.spec dt { font: 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.spec dd { margin: 0; max-width: 34em; }
+.spec .need { font-weight: 600; }
+.spec ul { list-style: none; margin: 0; padding: 0; }
+.spec li { position: relative; padding-left: 18px; }
+.spec li + li { margin-top: 6px; }
+.spec li::before { content: ""; position: absolute; left: 0; top: .72em; width: 8px; height: 1.5px; background: var(--muted); }
+.spec .aws li { padding-left: 0; }
+.spec .aws li::before { display: none; }
+.spec .good li::before { background: var(--moss); }
+.spec > .without { margin-top: -1px; border-top: 1px solid var(--shu); border-bottom: 0; padding-bottom: 4px; }
+.spec .cons { display: block; font-weight: 500; }
+.spec .cost { display: block; margin-top: 4px; color: var(--muted); }
+.sim { display: inline-block; margin: 0 0 6px; padding: 1px 6px 2px; border: 1px solid currentColor; border-radius: 4px;
+  font: 10px/1.35 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--shu); }
+
+.offer { margin: 6px 0 20px; }
+.offer > div { display: grid; grid-template-columns: 170px minmax(0, 1fr); column-gap: 24px; padding: 14px 0;
+  border-bottom: 1px solid var(--rule); }
+.offer > div:first-child { border-top: 1px solid var(--rule); }
+.offer dt { font: 600 18px/1.3 var(--disp); letter-spacing: -0.012em; }
+.offer dt span { display: block; margin-top: 6px; font: 400 11px/1.5 var(--mono); letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted); }
+.offer dd { margin: 0; max-width: 34em; }
+#next { border-top: 0; padding-top: 0; }
+#next .k { padding-top: 20px; }
+#next .offer { margin-top: 0; }
+#next .offer > div:first-child { border-top: 1px solid var(--ink); }
+.go { display: flex; flex-direction: column; align-items: flex-start; row-gap: 2px; margin-top: 10px; }
+.go a { font-weight: 600; color: var(--moss); text-decoration-color: rgba(63,90,48,.45); }
+.go small { font: 11.5px/1.5 var(--mono); color: var(--muted); }
+
+.close { margin: 48px 0 80px 256px; padding-top: 40px; border-top: 1px solid var(--ink);
+  font: 400 26px/1.36 var(--disp); letter-spacing: -0.016em; max-width: 29em; }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+footer { margin: 72px 0 0 256px; font: 11.5px/1.65 var(--mono); color: var(--muted); max-width: 66em; }
+footer p { max-width: none; margin: 0 0 10px; }
+
+@media (max-width: 860px) {
+  .page { padding: 32px 22px 64px; }
+  header { flex-direction: column; align-items: flex-start; gap: 14px; padding-bottom: 48px; }
+  .lead, .contents, .close, footer { margin-left: 0; }
+  h1 { font-size: 46px; }
+  .stand { font-size: 20px; margin-bottom: 40px; }
+  .contents { margin-bottom: 56px; }
+  section { grid-template-columns: 1fr; padding: 32px 0 22px; }
+  .k { margin-bottom: 12px; }
+  .note { display: inline; margin: 0 0 0 10px; }
+  h2 { font-size: 25px; }
+  .figs { grid-template-columns: 1fr; }
+  .offer > div, .spec > div, .contents a { grid-template-columns: 1fr; row-gap: 4px; }
+}
+@media print {
+  @page { size: letter; margin: 16mm 16mm 18mm; }
+  .page { padding: 0; max-width: none; }
+  section, .spec > div, .offer > div, .contents { break-inside: avoid; }
+}
+</style>
+<link rel="stylesheet" href="../assets/type.css?v=8">
+</head>
+<body>
+<div class="page">
+
+<header>
+  <a href="/" aria-label="Monovus home"><img src="../assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <span class="meta">Blueprint version 1 · November 2026</span>
+</header>
+
+<main>
+<div class="lead">
+  <h1>The Monovus Blueprint</h1>
+  <p class="stand">Seven controls that let a company hand work to AI agents and still answer for it. Aligned with the AWS Well-Architected Agentic AI Lens.</p>
+</div>
+
+<nav class="contents" aria-labelledby="contents-h">
+  <h2 id="contents-h">The seven controls</h2>
+  <ol>
+    <li><a href="#identity"><b>Identity</b><span>Who is it acting as?</span></a></li>
+    <li><a href="#mandate"><b>Mandate</b><span>What is it allowed to do?</span></a></li>
+    <li><a href="#record"><b>Record</b><span>What did it just do, and why?</span></a></li>
+    <li><a href="#review"><b>Review</b><span>Is it still right after the next release?</span></a></li>
+    <li><a href="#budget"><b>Budget</b><span>What will it cost next month?</span></a></li>
+    <li><a href="#rollback"><b>Rollback</b><span>How fast can a bad release be undone?</span></a></li>
+    <li><a href="#evidence"><b>Evidence</b><span>Can you show that the rules held?</span></a></li>
+  </ol>
+</nav>
+
+<section id="why" aria-labelledby="why-h">
+  <div class="k">Why<span class="note">Jensen and Meckling, 1976. Gartner, October 2024 and 25 June 2025.</span></div>
+  <div class="body">
+    <h2 id="why-h">Delegation at machine speed</h2>
+    <p>Water systems, hospitals and pension funds run on people handing work to others they can’t watch, and signatures, job descriptions, ledgers and audits make that safe. Companies pay for that oversight in approvals, reviews and audits, a price Jensen and Meckling named agency costs in 1976. Delegating a task never hands over the responsibility for it, so the people who answer for the work have to be able to see it.</p>
+    <p>AI agents are a new kind of delegate: they read what a company knows, decide and act at software speed, with none of the oversight built for people. A model follows its instructions most of the time, but a company’s rules have to hold every time, so the seven controls in this Blueprint are checked on every action, inside the company’s own AWS account.</p>
+    <div class="figs">
+      <div><b>15%</b><span>of day-to-day work decisions made autonomously by agentic AI by 2028, up from almost none in 2024.</span><small>Gartner, October 2024</small></div>
+      <div><b>40%+</b><span>of agentic AI projects expected to be cancelled by the end of 2027.</span><small>Gartner, June 2025</small></div>
+    </div>
+    <p>The reasons Gartner gives are escalating costs, unclear business value or inadequate risk controls.</p>
+  </div>
+</section>
+
+<section id="identity" aria-labelledby="identity-h">
+  <div class="k">Identity<span class="note">Control 1 of 7</span></div>
+  <div class="body">
+    <h2 id="identity-h">Who is it acting as?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>An employee ID and a signature</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">Its own identity</dd></div>
+      <div><dt>How it’s enforced</dt><dd>A named role with its own credentials. No shared keys.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>Amazon Bedrock AgentCore Identity</li>
+        <li>AWS IAM roles</li>
+        <li>AWS Secrets Manager</li>
+      </ul></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>The agent has its own role, with only the permissions its tools need.</li>
+        <li>When it acts for a signed-in user, the systems it reaches see that user, not a shared admin account or service account.</li>
+        <li>Every password and API key is in AWS Secrets Manager, rotated automatically, with access logged. None is in code, configuration files or environment variables.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>When the agent acts in another system, whose identity does it use?</li>
+        <li>Where are its passwords and API keys kept?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">The agent acted with a shared admin key.</span><span class="cost">If you can’t say who the agent acted as, you can’t answer an auditor, and one leaked key can expose every system it touches.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="mandate" aria-labelledby="mandate-h">
+  <div class="k">Mandate<span class="note">Control 2 of 7</span></div>
+  <div class="body">
+    <h2 id="mandate-h">What is it allowed to do?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>A job description and a signing limit</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">A mandate</dd></div>
+      <div><dt>How it’s enforced</dt><dd>Every action, and every source it reads, is checked against written rules first. Above a limit, it waits for a person.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>Amazon Bedrock AgentCore Policy, with rules checked at the AgentCore Gateway before each tool runs</li>
+        <li>AgentCore Gateway</li>
+        <li>Least-privilege AWS IAM</li>
+        <li>Amazon Bedrock Guardrails, for content</li>
+      </ul></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>Every action the agent can take is listed, and the ones it doesn’t need are removed.</li>
+        <li>Its rules are written down, tested, and checked outside the prompt before each tool runs.</li>
+        <li>Anything above a set limit, such as a refund over the approval amount, waits for a person to approve it.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>What can the agent change in your systems?</li>
+        <li>Are its rules enforced by instructions in the prompt, or by checks outside the model?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">A refund of $1,240 was issued without approval.</span><span class="cost">A prompt is a request, not a control. A confused or manipulated agent can take actions that are expensive or impossible to undo.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="record" aria-labelledby="record-h">
+  <div class="k">Record<span class="note">Control 3 of 7</span></div>
+  <div class="body">
+    <h2 id="record-h">What did it just do, and why?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>Minutes and ledgers</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">A record</dd></div>
+      <div><dt>How it’s enforced</dt><dd>Every step is traced, down to the source it relied on.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>AgentCore Observability, with OpenTelemetry traces</li>
+        <li>Amazon CloudWatch</li>
+      </ul></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>The trace of each request shows every step: what the model was asked, which tools it used and what data it retrieved.</li>
+        <li>For any complaint, someone on your team can open the trace of that request and see why the agent acted.</li>
+        <li>An alarm on the error rate flags a failing agent within minutes, without anyone watching a dashboard.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>If a customer complains about an answer, can your team see exactly what the agent did and why?</li>
+        <li>How quickly would you notice if the agent started failing?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">A complaint arrives. There is no record of what the agent did.</span><span class="cost">When something goes wrong and you can’t explain it, a fixable bug becomes a question of trust with customers and leadership.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="review" aria-labelledby="review-h">
+  <div class="k">Review<span class="note">Control 4 of 7</span></div>
+  <div class="body">
+    <h2 id="review-h">Is it still right after the next release?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>Probation and performance reviews</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">Review before trust</dd></div>
+      <div><dt>How it’s enforced</dt><dd>Each new version is tested on fixed cases and blocked if it scores below the bar.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>AgentCore Evaluations</li>
+        <li>A fixed set of test cases</li>
+        <li>A release gate in the deployment pipeline</li>
+      </ul></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>A fixed set of real questions with known good answers, starting with 25.</li>
+        <li>The pipeline runs the set on every change and blocks any version that scores below the agreed bar.</li>
+        <li>The rate of wrong or unacceptable answers is measured continuously against a target.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>Before a change goes live, how do you check the agent hasn’t got worse?</li>
+        <li>Do you know how often it gives a wrong or unacceptable answer today?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">Version 1.6 shipped at 88.9%, below the 92% bar.</span><span class="cost">A prompt edit or a model upgrade can make answers worse, and you find out from a customer.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="budget" aria-labelledby="budget-h">
+  <div class="k">Budget<span class="note">Control 5 of 7</span></div>
+  <div class="body">
+    <h2 id="budget-h">What will it cost next month?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>An expense limit</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">A budget</dd></div>
+      <div><dt>How it’s enforced</dt><dd>Spend is metered per agent, with alarms and hard limits.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>AWS Budgets</li>
+        <li>Amazon CloudWatch alarms</li>
+        <li>Model routing in Amazon Bedrock, with a small model first</li>
+      </ul></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>The cost of one task is measured for each agent, not only the monthly total.</li>
+        <li>Each agent has a monthly budget with alarms at 50%, 80% and 100%, and a hard limit per user or per task.</li>
+        <li>Simple turns go to a smaller model first, and only the turns that need it reach a larger one.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>Do you know what one conversation or task costs to run?</li>
+        <li>What stops AI usage costs from running away?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">Spend passes the monthly budget on day 19.</span><span class="cost">Usage can grow faster than value. A popular launch or a looping agent can produce a bill nobody approved.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="rollback" aria-labelledby="rollback-h">
+  <div class="k">Rollback<span class="note">Control 6 of 7</span></div>
+  <div class="body">
+    <h2 id="rollback-h">How fast can a bad release be undone?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>A way to correct or recall work</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">A way back</dd></div>
+      <div><dt>How it’s enforced</dt><dd>Any release can be rolled back in minutes.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>Versioned releases on AgentCore Runtime</li>
+        <li>Switching an endpoint back to the previous version</li>
+      </ul></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>Prompts, tool definitions and settings are in version control, and every change is reviewed and tested.</li>
+        <li>Every release is a numbered version, and the last good one is known.</li>
+        <li>A rollback has been rehearsed before launch and takes minutes.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>If a change makes the agent worse, how fast can you return to the last good version?</li>
+        <li>Are its prompts, tools and settings under version control?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">A bad release stays live for 3 h 20 min.</span><span class="cost">Customers are affected for the whole time someone works out what changed.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="k">Evidence<span class="note">Control 7 of 7</span></div>
+  <div class="body">
+    <h2 id="evidence-h">Can you show that the rules held?</h2>
+    <dl class="spec">
+      <div><dt>What people have</dt><dd>An audit file</dd></div>
+      <div><dt>What an agent needs</dt><dd class="need">Evidence</dd></div>
+      <div><dt>How it’s enforced</dt><dd>The record is packaged for auditors and security reviews.</dd></div>
+      <div><dt>On AWS</dt><dd><ul class="aws">
+        <li>AWS CloudTrail</li>
+        <li>The trace record</li>
+        <li>A runbook</li>
+      </ul><span class="cost">All three organised for security reviews and audits.</span></dd></div>
+      <div><dt>What good looks like</dt><dd><ul class="good">
+        <li>A one-page runbook gives the symptoms, a named owner, how to pause the agent and how to roll it back.</li>
+        <li>The runbook has been rehearsed, so an incident doesn’t depend on the person who built the agent.</li>
+        <li>Test results, access records and the runbook are kept up to date in one place, ready for a security review, a customer or an auditor.</li>
+      </ul></dd></div>
+      <div><dt>What we check</dt><dd><ul class="check">
+        <li>If the agent misbehaves at 9am on a Monday, does your team know what to do?</li>
+        <li>If security, a customer or an auditor asked for evidence that the agent is controlled, could you provide it?</li>
+      </ul></dd></div>
+      <div class="without"><dt>Without it</dt><dd><span class="sim">Simulated</span><span class="cons">The security review asks for evidence. There is none on file.</span><span class="cost">Launches stall in security review, and incidents depend on one person being available.</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<p class="close">The test for every agent: a company should be able to hand it work the way it hands work to a trusted colleague, knowing who acted, what it was allowed to do, what it did and how to undo it.</p>
+
+<section id="next" aria-labelledby="next-h">
+  <div class="k">Next</div>
+  <div class="body">
+    <h2 id="next-h" class="vh">Next steps</h2>
+    <dl class="offer">
+      <div><dt>Score yourself</dt><dd>The Readiness Check scores one of your agents on the questions in this Blueprint, plus two on who owns it and how you’ll know it is worth what it costs. Your report shows your biggest gaps and a 30-day plan.<span class="go"><a href="/assessment/">Check your readiness →</a><small>23 questions · about 5 minutes · in your browser</small></span></dd></div>
+      <div><dt>See it running</dt><dd>The reference architecture inside an AWS account, with a test request you can send through it.<span class="go"><a href="/#systems">See it running →</a><small>On the Monovus site</small></span></dd></div>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Sources. M. C. Jensen and W. H. Meckling, “Theory of the Firm: Managerial Behavior, Agency Costs and Ownership Structure,” Journal of Financial Economics, 1976. Gartner press releases: October 2024 (15% of day-to-day work decisions made autonomously by agentic AI by 2028); 25 June 2025 (over 40% of agentic AI projects cancelled by the end of 2027, because of escalating costs, unclear business value or inadequate risk controls). AWS documentation: Amazon Bedrock AgentCore (Runtime, Identity, Gateway, Policy, Observability and Evaluations), Amazon Bedrock, Amazon Bedrock Guardrails, AWS IAM, AWS Secrets Manager, Amazon CloudWatch, AWS Budgets and AWS CloudTrail; the AWS Well-Architected Agentic AI Lens.</p>
+  <p>Illustrative simulation: every “Without it” example is simulated and describes no real company or agent. The Blueprint is aligned with the AWS Well-Architected Agentic AI Lens and is not an AWS publication.</p>
+  <p><a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a> · Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS. © 2026 Monovus</p>
+</footer>
+
+</div>
+</body>
+</html>

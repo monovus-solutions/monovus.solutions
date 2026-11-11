@@ -144,6 +144,13 @@ FILL, _ = css_var("apply.css", "mvp-fill", "rgba(255, 255, 255, .5)")
 FIELD_FILL = over(FILL, frost_worst)
 print("components: slider track %s, thumb %s, field border %s, field fill %s -> %s on frost" % (TRACK, THUMB, LINE, FILL, FIELD_FILL))
 
+# v9: the type system's tokens (assets/type.css), which override the styles.css values on every page
+_tcss = open(os.path.join(STATIC, "assets", "type.css")).read()
+_tblock = re.search(r"html\[data-type\]\s*\{(.*?)\}", _tcss, re.S).group(1)
+_tok = dict(re.findall(r"--([\w-]+):\s*(#[0-9A-Fa-f]{6})", _tblock))
+T_INK, T_INK2, T_MUTED = _tok.get("ink", "#000000"), _tok.get("ink-2", "#000000"), _tok.get("muted", "#000000")
+print("type.css tokens: ink %s, ink-2 %s, muted %s" % (T_INK, T_INK2, T_MUTED))
+
 checks = [
     ("H1 ink on darkest field", INK, hexof(field_dark), 4.5, ">="),
     ("Muted copy on darkest field", MUTED, hexof(field_dark), 4.5, ">="),
@@ -193,6 +200,31 @@ checks = [
     ("Non-text: focus ring (moss) vs field fill", MOSS_HEX, FIELD_FILL, 3.0, ">="),
     ("Non-text: ink bar vs frost", INK, frost_worst, 3.0, ">="),
     ("Non-text: switch track on (moss) vs clear glass", MOSS_HEX, hexof(glass_dark), 3.0, ">="),
+    # v9 (brief sections 3-5): kicker numerals, the rule's chapter names, the spec columns, the offer slab, the footer.
+    # Each pair is checked with the styles.css value and with the type.css token that overrides it on every page.
+    ("Kicker numeral (moss mono) on darkest field", MOSS_HEX, hexof(field_dark), 4.5, ">="),
+    ("Rule: other chapter names (muted) on darkest field", MUTED, hexof(field_dark), 4.5, ">="),
+    ("Rule: other chapter names (type muted) on darkest field", T_MUTED, hexof(field_dark), 4.5, ">="),
+    ("Rule: current chapter name (ink) on darkest field", T_INK, hexof(field_dark), 4.5, ">="),
+    ("Rule: current numeral (moss) on darkest field", MOSS_HEX, hexof(field_dark), 4.5, ">="),
+    ("Spec term (ink serif) on darkest field", T_INK, hexof(field_dark), 4.5, ">="),
+    ("Spec line and footer name (ink-2) on darkest field", T_INK2, hexof(field_dark), 4.5, ">="),
+    ("Spec source, caption, footer legal (type muted) on field", T_MUTED, hexof(field_dark), 4.5, ">="),
+    ("Slab term (ink) on frost", T_INK, frost_worst, 4.5, ">="),
+    ("Slab tag (moss mono) on frost", MOSS_HEX, frost_worst, 4.5, ">="),
+    ("Slab line (ink-2) on frost", T_INK2, frost_worst, 4.5, ">="),
+    ("Slab link (moss) on frost", MOSS_HEX, frost_worst, 4.5, ">="),
+    ("Early-access tag (moss mono) on frost", MOSS_HEX, frost_worst, 4.5, ">="),
+    ("Phone: current chapter (ink) above the bead, on field", T_INK, hexof(field_dark), 4.5, ">="),
+    ("Non-text: bead (moss) vs lightest field", MOSS_HEX, hexof(field_light), 3.0, ">="),
+    # v9 options B (?nav=index) and C (?nav=capsule)
+    ("Index: numerals (type muted) on darkest field", T_MUTED, hexof(field_dark), 4.5, ">="),
+    ("Index: current numeral (moss) on darkest field", MOSS_HEX, hexof(field_dark), 4.5, ">="),
+    ("Index: current name (ink) on darkest field", T_INK, hexof(field_dark), 4.5, ">="),
+    ("Capsule: name (ink) on clear glass + dish shadow", T_INK, hexof(glass_dark), 4.5, ">="),
+    ("Capsule: numeral (moss) on clear glass + dish shadow", MOSS_HEX, hexof(glass_dark), 4.5, ">="),
+    ("Capsule: chapter list (ink) on frost", T_INK, frost_worst, 4.5, ">="),
+    ("Capsule: list numerals (moss) on frost", MOSS_HEX, frost_worst, 4.5, ">="),
     ("INTENDED: raked line vs ground stays quiet", hexof(field_dark), hexof(ground_plain), 1.2, "<"),
     ("INTENDED: emboss highlight vs ground stays quiet", hexof(field_light), hexof(ground_plain), 1.2, "<"),
 ]

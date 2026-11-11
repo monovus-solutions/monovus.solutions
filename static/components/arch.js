@@ -50,14 +50,16 @@
       icons: ['agentcore', 'secrets'], why: 'Acts as a named role. Keys never sit in code.' },
     { k: 'memory', g: 'tools', label: 'Memory', aws: ['AgentCore Memory'], icons: ['agentcore'],
       why: 'Remembers context for each user.' },
-    { k: 'traces', g: 'watch', label: 'Record', aws: ['AgentCore Observability', 'Amazon CloudWatch'],
+    { k: 'traces', g: 'watch', label: 'Record', aws: ['AgentCore Observability', 'Amazon CloudWatch'], wrap: true,
       icons: ['agentcore', 'cloudwatch'], why: 'Every step, traced.' },
     { k: 'audit', g: 'watch', label: 'Evidence', aws: ['AWS CloudTrail'], icons: ['cloudtrail'],
       why: 'Who did what, and when.' },
     { k: 'budgets', g: 'watch', label: 'Budget', aws: ['AWS Budgets'], icons: ['budgets'],
       why: 'Alarms at 50%, 80% and 100% of budget.' },
     { k: 'evals', g: 'watch', label: 'Review', aws: ['AgentCore Evaluations'], icons: ['agentcore'], wrap: true,
-      why: 'No release ships below the bar.' }
+      why: 'No release ships below the bar.' },
+    { k: 'rollback', g: 'watch', label: 'Rollback', aws: ['AgentCore Runtime'], icons: ['agentcore'], wrap: true,
+      why: 'One step back to the last good version.' }
   ];
 
   // The test request (Illustrative simulation). go: bead waypoints; lift: nodes raised; seg: wires lit (cumulative).
@@ -180,7 +182,7 @@
     var fig = h('div', 'mva__fig', null, [this._wires, app, slab, this._bead]);
 
     this._btn = h('button', 'mva__play', { type: 'button' }, [
-      h('span', 'mva__tri', { 'aria-hidden': 'true' }), h('span', 'mva__playt', null, ['Send a test request'])
+      h('span', 'mva__tri', { 'aria-hidden': 'true' }), h('span', 'mva__playt', null, ['Watch a refund go through'])
     ]);
     this._eyebrow = h('span', 'mva__eyebrow', null, ['Illustrative simulation']);
     this._cap = h('span', 'mva__cap', null, [IDLE_CAPTION]);
@@ -436,7 +438,7 @@
     this._lit();
     this._setLift([]);
     this._bead.setAttribute('data-present', '0');
-    this._btn.querySelector('.mva__playt').textContent = 'Send a test request';
+    this._btn.querySelector('.mva__playt').textContent = 'Watch a refund go through';
     this._eyebrow.textContent = 'Illustrative simulation';
     this._cap.textContent = IDLE_CAPTION;
     this._root.removeAttribute('data-cap');

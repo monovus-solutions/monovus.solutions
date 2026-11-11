@@ -105,7 +105,7 @@
   function screenIntro() {
     var resume = state.startedAt && state.step > 0;
     return h("section", { class: "as-intro" }, [
-      h("p", { class: "eyebrow", text: "Free · about 5 minutes · no email needed for your score" }),
+      h("p", { class: "eyebrow", text: "About 5 minutes · no sign-up · your answers stay in your browser" }),
       h("h1", {}, ["How ready is your AI agent for ", h("em", { text: "production" }), "?"]),
       h("p", { class: "lead", text: "Gartner expects over 40% of agentic AI projects to be cancelled by the end of 2027, for three reasons: escalating costs, unclear business value and weak risk controls. This assessment scores your agent on all three, across the eight dimensions of the Monovus Production Readiness Framework." }),
       h("div", { class: "as-intro-grid" }, [
@@ -268,7 +268,7 @@
     var lead = state.lead || {};
     var status = h("p", { class: "as-status", role: "status" });
     var form = h("form", { class: "as-gate", novalidate: true }, [
-      h("p", { class: "eyebrow", text: "Free · shown straight away on this page" }),
+      h("p", { class: "eyebrow", text: "Shown straight away, on this page" }),
       h("h2", { class: "as-h2", text: "Get your full report and 30-day plan" }),
       h("p", { text: "A summary written for your role, your top risks for this kind of agent, a week-by-week plan, the AWS services that close each gap, and the engagement we'd recommend. Ready to save as a PDF." }),
       h("div", { class: "as-fields" }, [

@@ -1,10 +1,28 @@
-/* Monovus v8 chapters: Overview, Society, Companies, People, Agents, Economics, Behaviour, Systems, Monovus, Begin.
-   One statement + one interaction per screen. Moving between screens is a morph of the same glass.
+/* Monovus v9: a cover and four chapters, eight screens (brief 2026-11-v9 section 2).
+   Cover (overview) · 01 Oversight (oversight) · 02 Agents (agents, economics) · 03 Controls (behaviour, systems) ·
+   04 Begin (monovus, begin). One statement + one interaction per screen. Moving between screens is a morph of the
+   same glass. The bottom bar is one hairline (Option A, "Rule") with a moss glass bead at the current screen.
    Engine calls beyond the v6 API are guarded. <mv-econ>, <mv-apply> and <mv-arch> are optional: the page works without them. */
 (function () {
   'use strict';
-  var CH = ['overview', 'society', 'companies', 'people', 'agents', 'economics', 'behaviour', 'systems', 'monovus', 'begin'];
-  var NAMES = ['Overview', 'Society', 'Companies', 'People', 'Agents', 'Economics', 'Behaviour', 'Systems', 'Monovus', 'Begin'];
+  var CH = ['overview', 'oversight', 'agents', 'economics', 'behaviour', 'systems', 'monovus', 'begin'];
+  // the four chapters the bottom bar names; the cover is the start of the line
+  var GROUPS = [
+    { n: '01', name: 'Oversight', screens: ['oversight'] },
+    { n: '02', name: 'Agents', screens: ['agents', 'economics'] },
+    { n: '03', name: 'Controls', screens: ['behaviour', 'systems'] },
+    { n: '04', name: 'Begin', screens: ['monovus', 'begin'] }
+  ];
+  // v8 links: Society, Companies and People are one screen now
+  var ALIAS = { society: 'oversight', companies: 'oversight', people: 'oversight' };
+  function groupOf(ch) { for (var g = 0; g < GROUPS.length; g++) { if (GROUPS[g].screens.indexOf(ch) >= 0) return g; } return -1; }
+  // where a screen sits on the rule, 0..1: the cover takes a short segment, each chapter an equal one, and a
+  // chapter's second screen sits at the middle of its segment, so the names never collide
+  var COVER = 0.1, SEG = (1 - COVER) / GROUPS.length;
+  function posOf(ch) {
+    var g = groupOf(ch);
+    return g < 0 ? 0 : COVER + g * SEG + GROUPS[g].screens.indexOf(ch) * SEG / 2;
+  }
   var Q = new URLSearchParams(location.search);
   var body = document.body;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -22,9 +40,8 @@
   var tgs = $$('.tg');
   var faults = $$('.fault');
   var nets = $$('.nl');
-  var sheet = $('.form--sheet'), bead = $('.form--bead');
-  var dockBtns = $$('.dock > button[data-go]'), ind = $('.dock__ind'), bar = $('.dock__bar i');
-  var dots = $$('.dock__dots i'), dockCur = $('.dock__cur'), steps = $$('.dock__step');
+  var sheet = $('.form--sheet'), formBead = $('.form--bead');
+  var rule = $('.rule'), ruleLine = $('.rule__line'), ruleNames = $$('.rule__name'), ruleCur = $('.rule__cur'), bead = $('.rule__bead');
   var conseq = $('#conseq'), conseqP = conseq.parentElement;
   var detail = $('.detail'), dName = $('#d-name'), dState = $('#d-state');
   var dPpl = $('#d-ppl'), dNeed = $('#d-need'), dSys = $('#d-sys'), dOff = $('#d-off');
@@ -58,20 +75,13 @@
     'A small model handles it. Cost $0.003.', 'Refund tool runs. Mandate: over $500 needs a person. This one is $86: allowed.',
     'Remembers the order for the rest of the chat.', 'Refund of $86 confirmed in 1.8 s.', 'Every step traced and logged. Budget 41% used.'];
 
-  // ---- the network (Society, Companies, People). Area coordinates 0..1; r = share of the area's short side.
+  // ---- the network (Oversight; v8's Society layout). Area coordinates 0..1; r = share of the area's short side.
   // A lens given {to, ang} sits beside another at a fixed gap, so the liquid bridge holds at every size. ----
   var NET = {
-    society: { main: [0.465, 0.50, 0.105], n: [
+    oversight: { main: [0.465, 0.50, 0.105], n: [
       [0.150, 0.284, 0.042], { to: 0, ang: 34, r: 0.036, gap: 9 }, [0.648, 0.100, 0.049], [0.874, 0.255, 0.039],
       [0.890, 0.614, 0.052], { to: 4, ang: 120, r: 0.036, gap: 9 }, [0.599, 0.892, 0.042], [0.292, 0.843, 0.049],
-      [0.082, 0.614, 0.033], { to: 'main', ang: 188, r: 0.039, gap: 10 }] },
-    // one company: a larger lens with six close round it, bridged; three return into the main lens
-    companies: { main: [0.10, 0.88, 0.07], n: [
-      { to: 4, ang: -80, r: 0.046, gap: 9 }, { to: 4, ang: -20, r: 0.040, gap: 9 }, null, { to: 4, ang: 40, r: 0.050, gap: 9 },
-      [0.62, 0.46, 0.135], { to: 4, ang: 100, r: 0.042, gap: 9 }, { to: 4, ang: 160, r: 0.048, gap: 9 }, { to: 4, ang: 220, r: 0.044, gap: 9 },
-      null, null] },
-    // the cluster settles back into the main lens; one person stays beside it
-    people: { main: [0.50, 0.50, 0.17], n: [null, null, null, null, null, null, null, null, null, { to: 'main', ang: 35, r: 0.058, gap: 10 }] }
+      [0.082, 0.614, 0.033], { to: 'main', ang: 188, r: 0.039, gap: 10 }] }
   };
 
   // ---- rim arcs (DOM copy for engines that do not draw them) ----
@@ -163,9 +173,10 @@
     return rs && rs.width > 0 ? rs : null;
   }
 
-  // the free area for the network: the right half on a laptop, the space under the text on a phone
+  // the free area for the network: the right third on a laptop (the three columns hold the left), the space under
+  // the text on a phone
   function netArea(ch, W, H) {
-    if (!isMobile(W)) return { x: 0.52 * W, y: 0.16 * H, w: 0.43 * W, h: 0.68 * H };
+    if (!isMobile(W)) return { x: 0.635 * W, y: 0.15 * H, w: 0.33 * W, h: 0.70 * H };
     var s = $('.ch[data-chapter="' + ch + '"]'), last = s ? s.lastElementChild : null, lr = rectOf(last);
     var y0 = Math.min(lr ? lr.bottom + 30 : 0.5 * H, H - 300), y1 = H - 128;
     return { x: 22, y: y0, w: W - 44, h: Math.max(160, y1 - y0) };
@@ -194,7 +205,7 @@
       out.F = placeFaults(W, H);
       var p = out.F.pts[scanIdx];
       L = { x: p[0], y: p[1], rx: out.F.r, ry: out.F.r };
-    } else if (NET[ch]) {
+    } else if (NET[ch] && !m) {
       out.net = netLayout(ch, W, H);
       var mn = out.net.main;
       L = { x: mn.x, y: mn.y, rx: mn.r, ry: mn.r };
@@ -215,11 +226,11 @@
         var re = 0.05 * u;
         L = { x: eb.left - re - 0.045 * W, y: eb.top + Math.min(eb.height, 0.5 * H) * 0.62, rx: re, ry: re };
       } else {
-        var kk = rectOf($('.ch[data-chapter="economics"] .kick'));
-        L = { x: W - 36, y: kk ? kk.top + kk.height / 2 + 10 : 104, rx: 12, ry: 12 };
+        // phones: no free space beside the headline, so the lens settles into the calculator's corner
+        L = eb && eb.width > 0 ? { x: eb.right - 26, y: eb.top + 26, rx: 0, ry: 0 } : { x: W - 36, y: 104, rx: 0, ry: 0 };
       }
     } else if (ch === 'monovus') {
-      var tl = rectOf($('.ch[data-chapter="monovus"] .tiles')), hd = rectOf($('#h-monovus'));
+      var tl = rectOf($('.ch[data-chapter="monovus"] .slab')), hd = rectOf($('#h-monovus'));
       if (!m) {
         var rm = Math.min(0.085 * u, Math.max(30, ((tl ? tl.top : 0.45 * H) - 128) / 2 - 18));
         L = { x: 0.80 * W, y: (tl ? tl.top : 0.45 * H) - rm - 34, rx: rm, ry: rm };
@@ -236,9 +247,13 @@
       else if (ch === 'behaviour') L = { x: 0.735 * W, y: 0.53 * H, rx: 0.125 * u, ry: 0.125 * u };
     } else {
       if (ch === 'overview') {
-        var gb = rectOf($('.glance')), y0 = gb ? gb.bottom : 0.62 * H, y1 = H - 112;
+        var gb = rectOf($('.ch[data-chapter="overview"] .hint')), y0 = gb ? gb.bottom + 10 : 0.62 * H, y1 = H - 84;
         var r0 = Math.max(0, Math.min(0.15 * W, (y1 - y0) / 2 - 26));
         L = { x: 0.5 * W, y: (y0 + y1) / 2, rx: r0, ry: r0 };
+      } else if (ch === 'oversight') {
+        // phones: the three columns fill the screen, so the delegates stay inside one small lens by the kicker
+        var ko = rectOf($('.ch[data-chapter="oversight"] .kick'));
+        L = { x: W - 40, y: ko ? ko.top + ko.height / 2 : 100, rx: 14, ry: 14 };
       } else if (ch === 'behaviour') {
         var sp = rectOf($('.tg-space'));
         L = { x: W - 64, y: sp ? sp.top + sp.height / 2 : 0.6 * H, rx: 38, ry: 38 };
@@ -280,9 +295,9 @@
       var f = lay.forms, ap = formsApart;
       sheet.style.left = px((ap ? f.apart.sheetX : f.sheet.x) - f.sheet.w / 2); sheet.style.top = px((ap ? f.apart.sheetY : f.sheet.y) - f.sheet.h / 2);
       sheet.style.width = px(f.sheet.w); sheet.style.height = px(f.sheet.h); sheet.style.borderRadius = px(f.sheet.h / 2);
-      box(bead, ap ? f.apart.beadX : f.bead.x, ap ? f.apart.beadY : f.bead.y, f.bead.r);
-      sheet.setAttribute('data-present', '1'); bead.setAttribute('data-present', '1');
-    } else { sheet.setAttribute('data-present', '0'); bead.setAttribute('data-present', '0'); }
+      box(formBead, ap ? f.apart.beadX : f.bead.x, ap ? f.apart.beadY : f.bead.y, f.bead.r);
+      sheet.setAttribute('data-present', '1'); formBead.setAttribute('data-present', '1');
+    } else { sheet.setAttribute('data-present', '0'); formBead.setAttribute('data-present', '0'); }
     // rim state on the main lens tells which controls are on
     var on = '1111111';
     if (ch === 'agents') on = WHY_OFF;
@@ -299,18 +314,143 @@
     var s = $('.ch.is-active');
     if (!s) return;
     var bx = s.getBoundingClientRect(), scroll = isMobile(window.innerWidth) && s.scrollHeight > s.clientHeight + 2;
-    $$('[data-glass],[data-lens]', s).forEach(function (el) {
+    $$('[data-glass],[data-lens],[data-slab]', s).forEach(function (el) {
       if (el.closest('.toggles')) return;
       var r = el.getBoundingClientRect(), out = scroll && (r.bottom > bx.bottom + 4 || r.top < bx.top - 4);
       if (out) el.setAttribute('data-present', '0'); else if (el.getAttribute('data-present') === '0') el.removeAttribute('data-present');
     });
   }
 
-  function placeIndicator() {
-    var b = dockBtns[CH.indexOf(cur)];
-    if (!b || !b.offsetWidth) return;
-    ind.style.left = px(b.offsetLeft); ind.style.width = px(b.offsetWidth);
-    ind.style.top = px(b.offsetTop); ind.style.height = px(b.offsetHeight);
+  // ---- the bottom bar (Option A, "Rule"): ticks, the four names, the bead at the current screen ----
+  CH.forEach(function (ch) {
+    var g = groupOf(ch);
+    if (g < 0) return;
+    var t = document.createElement('i');
+    t.className = 'rule__tick' + (GROUPS[g].screens.indexOf(ch) === 0 ? ' rule__tick--start' : '');
+    t.style.left = (posOf(ch) * 100).toFixed(3) + '%';
+    ruleLine.appendChild(t);
+  });
+  ruleNames.forEach(function (b) { b.style.left = (posOf(b.getAttribute('data-go')) * 100).toFixed(3) + '%'; });
+  // ---- Options B (?nav=index: a vertical index at the right edge; phones fall back to A) and C (?nav=capsule) ----
+  var NAV = Q.get('nav');
+  if (NAV !== 'index' && NAV !== 'capsule') NAV = '';
+  if (NAV) body.classList.add('nav-' + NAV);
+  function el(tag, cls, kids, attrs) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    (kids || []).forEach(function (k) { e.appendChild(typeof k === 'string' ? document.createTextNode(k) : k); });
+    Object.keys(attrs || {}).forEach(function (a) { e.setAttribute(a, attrs[a]); });
+    return e;
+  }
+  function numName(g) { return [el('span', 'rule__n mono', [GROUPS[g].n]), ' ' + GROUPS[g].name]; }
+  var idxItems = [], capName = null, capList = null, capSteps = [], capBtns = [];
+  if (NAV === 'index') {
+    var idx = el('nav', 'idx', null, { 'aria-label': 'Chapters' });
+    GROUPS.forEach(function (G, g) {
+      var b = el('button', 'idx__i', [el('span', 'idx__t', [G.name]), el('i', 'idx__h', null, { 'aria-hidden': 'true' }), el('span', 'idx__n mono', [G.n])],
+        { type: 'button', 'data-go': G.screens[0], 'aria-label': G.n + ' ' + G.name });
+      idx.appendChild(b); idxItems.push(b);
+    });
+    document.body.appendChild(idx);
+  } else if (NAV === 'capsule') {
+    capName = el('button', 'capsule__name', null, { type: 'button', 'aria-expanded': 'false', 'aria-haspopup': 'true' });
+    capList = el('ul', 'capsule__list frost', null, { 'data-glass': '', 'data-glass-variant': 'frost' });
+    capList.hidden = true;
+    GROUPS.forEach(function (G, g) {
+      var b = el('button', '', numName(g), { type: 'button', 'data-go': G.screens[0] });
+      capBtns.push(b); capList.appendChild(el('li', '', [b]));
+    });
+    capSteps = [el('button', 'capsule__step', ['\u2039'], { type: 'button', 'data-step': '-1', 'aria-label': 'Previous screen' }),
+                el('button', 'capsule__step', ['\u203A'], { type: 'button', 'data-step': '1', 'aria-label': 'Next screen' })];
+    var cap = el('nav', 'capsule', [capSteps[0], capName, capSteps[1], capList], { 'aria-label': 'Chapters', 'data-glass': '' });
+    document.body.appendChild(cap);
+    function capOpen(on) {
+      capList.hidden = !on; capName.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (stage) { if (stage.rescan) stage.rescan(); stage.sync({ instant: true }); }
+    }
+    capName.addEventListener('click', function () { capOpen(capList.hidden); });
+    capBtns.forEach(function (b) { b.addEventListener('click', function () { setTimeout(function () { capOpen(false); }, 0); }); });
+    capSteps.forEach(function (b) { b.addEventListener('click', function () { step(+b.getAttribute('data-step')); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !capList.hidden) capOpen(false); });
+  }
+  function placeAlt() {
+    var g = groupOf(cur);
+    idxItems.forEach(function (b, i) { b.classList.toggle('on', i === g); if (i === g) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    if (capName) {
+      capName.textContent = '';
+      (g < 0 ? ['Overview'] : numName(g)).forEach(function (k) { capName.appendChild(typeof k === 'string' ? document.createTextNode(k) : k); });
+      capSteps[0].disabled = CH.indexOf(cur) === 0; capSteps[1].disabled = CH.indexOf(cur) === CH.length - 1;
+      capBtns.forEach(function (b, i) { b.classList.toggle('on', i === g); });
+    }
+    // the bead is glass: when the rule is not shown (B on a laptop, C), the stage must not draw it
+    bead.setAttribute('data-present', getComputedStyle(rule).display === 'none' ? '0' : '1');
+  }
+  var curN = document.createElement('span'), curT = document.createTextNode('');
+  curN.className = 'rule__n mono';
+  ruleCur.appendChild(curN); ruleCur.appendChild(curT);
+  function placeRule() {
+    var g = groupOf(cur), p = posOf(cur), w = rule.offsetWidth;
+    bead.style.left = (p * 100).toFixed(3) + '%';
+    ruleNames.forEach(function (b, i) {
+      b.classList.toggle('on', i === g);
+      if (i === g) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+    $$('.rule__tick', ruleLine).forEach(function (t, i) { t.classList.toggle('past', posOf(CH[i + 1]) <= p); });
+    // phones: the current chapter's name sits above the bead, kept inside the line
+    curN.textContent = g < 0 ? '' : GROUPS[g].n;
+    curT.nodeValue = g < 0 ? '' : ' ' + GROUPS[g].name;
+    ruleCur.classList.toggle('on', g >= 0);
+    var cw = ruleCur.offsetWidth;
+    ruleCur.style.left = px(Math.max(cw / 2, Math.min(w - cw / 2, p * w)));
+  }
+
+  // ---- engine hooks (stage.js v9: ripple, setCalm). Always guarded, so the page works with either engine ----
+  function eng() { return stage || (window.MonovusStage && window.MonovusStage.current) || null; }
+  function ripple(x, y, o) {
+    var st = eng();
+    if (st && st.ripple) { try { st.ripple(x, y, o || {}); } catch (e) { /* engine not ready */ } }
+  }
+  function lensRipple(o) { if (lay && lay.L) ripple(lay.L.x, lay.L.y, o); }
+  // the cover: every 7 s one action ripples out of the lens and the seven arcs check it; paused when the tab is hidden
+  var coverT = 0;
+  function coverTick() {
+    clearInterval(coverT); coverT = 0;
+    if (cur !== 'overview' || document.hidden) return;
+    coverT = setInterval(function () { if (cur === 'overview' && !document.hidden) lensRipple(); }, 7000);
+  }
+  document.addEventListener('visibilitychange', coverTick);
+  // calmer sand behind the reading zones: the text block (its ink, not its block boxes) and the columns
+  var CALM_TEXT = '.kick, .h, .sub, .actions, .hint, .conseq, .next, .figs, .src';
+  function inkRect(els) {
+    var r = null, rg = document.createRange();
+    function add(b) {
+      if (!b || b.width < 1 || b.height < 1) return;
+      if (!r) r = { l: b.left, t: b.top, r: b.right, b: b.bottom };
+      else { r.l = Math.min(r.l, b.left); r.t = Math.min(r.t, b.top); r.r = Math.max(r.r, b.right); r.b = Math.max(r.b, b.bottom); }
+    }
+    els.forEach(function (el) {
+      $$('.btn, .tg', el).forEach(function (b) { add(b.getBoundingClientRect()); });
+      var tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
+      while ((n = tw.nextNode())) { if (n.nodeValue.trim()) { rg.selectNodeContents(n); add(rg.getBoundingClientRect()); } }
+    });
+    return r;
+  }
+  function calm() {
+    var st = eng();
+    if (!st || !st.setCalm) return;
+    var s = $('.ch.is-active'), out = [];
+    if (s) {
+      var bx = s.getBoundingClientRect(), H = window.innerHeight;
+      var text = inkRect($$(CALM_TEXT, s).filter(function (el) { return el.parentNode === s; }));
+      var cols = $$('.slab, .spec--ideas', s).map(function (el) { var b = el.getBoundingClientRect(); return { l: b.left, t: b.top, r: b.right, b: b.bottom }; });
+      [text].concat(cols).forEach(function (r) {
+        if (!r) return;
+        var top = Math.max(r.t, isMobile(window.innerWidth) ? bx.top : 0), bot = Math.min(r.b, isMobile(window.innerWidth) ? bx.bottom : H);
+        if (bot - top < 8 || r.r - r.l < 8) return;
+        out.push({ x: Math.round(r.l), y: Math.round(top), w: Math.round(r.r - r.l), h: Math.round(bot - top) });
+      });
+    }
+    try { st.setCalm(out.slice(0, 3)); } catch (e) { /* engine not ready */ }
   }
 
   function updateEngine() {
@@ -325,9 +465,11 @@
     }
   }
 
-  var formsT = 0;
+  var formsT = 0, chRip = 0;
   function go(ch, o) {
     o = o || {};
+    var aliased = !!ALIAS[ch];
+    if (aliased) ch = ALIAS[ch];
     if (CH.indexOf(ch) < 0) ch = 'overview';
     var same = ch === cur, prev = cur;
     cur = ch;
@@ -340,12 +482,6 @@
       if ('inert' in s) s.inert = !on;
       if (on && !same) s.scrollTop = 0;
     });
-    var ix = CH.indexOf(ch);
-    dockBtns.forEach(function (b) { b.setAttribute('aria-current', b.getAttribute('data-go') === ch ? 'true' : 'false'); });
-    dots.forEach(function (d, i) { d.classList.toggle('on', i === ix); });
-    dockCur.textContent = NAMES[ix];
-    steps[0].disabled = ix === 0; steps[1].disabled = ix === CH.length - 1;
-    bar.style.transform = 'scaleX(' + ((ix + 1) / CH.length) + ')';
     if (ch === 'agents' && (!same || o.instant)) {
       if (!same) { faults.forEach(function (f) { f.classList.remove('seen', 'now'); }); scanIdx = Q.has('scan') ? Math.min(3, +Q.get('scan') || 0) : 0; }
       if (reduce) faults.forEach(function (f) { f.classList.add('seen'); });
@@ -357,16 +493,22 @@
     formsApart = ch === 'monovus' && !same && !o.instant && !reduce;
     place(ch, !o.instant && !same);
     clipGlass();
-    placeIndicator();
+    placeRule();
+    placeAlt();
     if (stage) stage.sync({ instant: !!o.instant });
     updateEngine();
+    calm();
+    coverTick();
+    // every chapter change is one action: a drop at the lens, checked by the seven arcs
+    clearTimeout(chRip);
+    if (!same && prev && !o.instant) chRip = setTimeout(function () { if (cur === ch) lensRipple(); }, 420);
     if (formsApart) formsT = setTimeout(function () { formsApart = false; if (cur === 'monovus') { place(cur); if (stage) stage.sync(); } }, 520);
     if (ch === 'agents' && !same) {
       if (o.instant || reduce) { markSeen(scanIdx); if (Q.has('scan')) for (var i = 0; i <= scanIdx; i++) faults[i].classList.add('seen'); }
       else { clearTimeout(seenTimer); seenTimer = setTimeout(function () { markSeen(scanIdx); }, 1000); }
       startScan();
     }
-    if (!o.noHash && location.hash !== '#' + ch) history.replaceState(null, '', '#' + ch);
+    if ((!o.noHash || aliased) && location.hash !== '#' + ch) history.replaceState(null, '', '#' + ch);
     if (!same && !o.instant && o.focus) {
       var h = $('.ch.is-active .h');
       if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -378,7 +520,7 @@
     if (i >= 0 && i < CH.length) go(CH[i]);
   }
 
-  // ---- Begin: "Become a design partner" focuses the form ----
+  // ---- Begin: "Apply for early access" focuses the form ----
   function focusApply() {
     var box2 = $('.applybox');
     var f = box2 && box2.querySelector('input, textarea, button');
@@ -386,7 +528,7 @@
     else if (box2) box2.scrollIntoView({ block: 'nearest' });
   }
 
-  // ---- input: dock, nav, links, keys, wheel, swipe, hash ----
+  // ---- input: the rule, nav, links, keys, wheel, swipe, hash ----
   $$('[data-go]').forEach(function (el) {
     el.addEventListener('click', function (e) {
       e.preventDefault(); go(el.getAttribute('data-go'));
@@ -394,7 +536,6 @@
     });
   });
   $$('button[data-apply]:not([data-go])').forEach(function (el) { el.addEventListener('click', focusApply); });
-  steps.forEach(function (b) { b.addEventListener('click', function () { step(+b.getAttribute('data-step')); }); });
   function typing(t) { return t && (t.closest('input, textarea, select, [contenteditable="true"]')); }
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target)) return;
@@ -435,7 +576,7 @@
   sections.forEach(function (s) {
     s.addEventListener('scroll', function () {
       if (scrollRaf) return;
-      scrollRaf = requestAnimationFrame(function () { scrollRaf = 0; place(cur); clipGlass(); if (stage) stage.sync({ instant: true }); updateEngine(); });
+      scrollRaf = requestAnimationFrame(function () { scrollRaf = 0; place(cur); clipGlass(); if (stage) stage.sync({ instant: true }); updateEngine(); calm(); });
     }, { passive: true });
   });
 
@@ -460,6 +601,7 @@
     place(cur);
     if (stage) stage.sync();
     updateEngine();
+    if (!on && cur === 'behaviour') lensRipple({ off: tgs.map(function (t) { return t.getAttribute('aria-checked') === 'false' ? '0' : '1'; }).join('') });
   }
   tgs.forEach(function (el, i) {
     el.addEventListener('click', function () { setControl(el, el.getAttribute('aria-checked') !== 'true'); });
@@ -469,13 +611,14 @@
   });
 
   // ---- Systems: one test request ----
-  var req = null, reqTimer = 0;
+  var req = null, reqTimer = 0, AT_AGENT = 2;   // 0-based: 'Checked: safe and on topic.' is where it reaches the agent
   function fallbackPlay(n) {
     if (!req) { req = document.createElement('p'); req.className = 'req'; req.setAttribute('aria-live', 'polite'); playBtn.parentNode.parentNode.insertBefore(req, playBtn.parentNode.nextSibling); }
     clearTimeout(reqTimer);
     var i = typeof n === 'number' ? n : 0;
     (function show() {
       req.innerHTML = '<span class="mono">Illustrative simulation · ' + (i + 1) + ' of ' + REQ.length + '</span>' + REQ[i];
+      if (i === AT_AGENT && typeof n !== 'number' && cur === 'systems') lensRipple({ strength: 0.6 });
       if (typeof n !== 'number' && i < REQ.length - 1) { i++; reqTimer = setTimeout(show, 1000); }
     })();
   }
@@ -494,6 +637,16 @@
   // the component brings its own 'Send a test request' button and reads ?play=N itself
   var archOn = !!(window.customElements && customElements.get('mv-arch') && arch && typeof arch.play === 'function');
   if (archOn) { playBtn.parentNode.hidden = true; if (stage) { try { arch.stage = stage; } catch (e) { /* optional */ } } }
+  var archRip = 0;
+  if (arch) arch.addEventListener('mv-arch-change', function (e) {
+    var d = e.detail || {};
+    clearTimeout(archRip);
+    if (!d.playing || d.step !== AT_AGENT + 1 || cur !== 'systems') return;
+    archRip = setTimeout(function () {
+      var r = archAgentRect();
+      if (r && cur === 'systems') ripple(r.left + r.width / 2, r.top + r.height / 2, { strength: 0.6 });
+    }, 320);
+  });
 
   // ---- Economics: ?econ=a,b,c is passed to <mv-econ>; its panel may resize, so re-read the glass ----
   if (econ && Q.has('econ') && /^[0-9.]+,[0-9.]+,[0-9.]+$/.test(Q.get('econ')) && econ.getAttribute('values') !== Q.get('econ')) econ.setAttribute('values', Q.get('econ'));
@@ -510,6 +663,7 @@
 
   // ---- first frame: synchronous, final state (headless captures freeze rAF) ----
   var start = location.hash.slice(1);
+  if (ALIAS[start]) { start = ALIAS[start]; history.replaceState(null, '', '#' + start); }
   if (stage && stage.rescan) stage.rescan();   // the optional components rendered before the stage read the DOM
   go(CH.indexOf(start) >= 0 ? start : 'overview', { instant: true, noHash: true });
   showDetail(0);

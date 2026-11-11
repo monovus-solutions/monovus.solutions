@@ -20,7 +20,9 @@
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assessment.css">
-<link rel="stylesheet" href="../assets/type.css?v=8">
+<link rel="stylesheet" href="../assets/type.css?v=9">
+<style>/* top nav (v9): phones show the brand and the pill only */
+@media (max-width: 760px) { .nav .nav__links { display: none; } }</style>
 </head>
 <body class="as-page">
 <div class="field" aria-hidden="true"></div>
@@ -29,10 +31,9 @@
 <header class="nav" role="banner">
   <a class="nav__brand" href="/" aria-label="Monovus home"><img src="../assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
   <nav class="nav__links" aria-label="Main">
-    <a class="nav__link" href="/blueprint/">Blueprint</a>
-    <a class="nav__link" href="/assessment/" aria-current="page">Readiness Check</a>
+    <a class="nav__link" href="/#begin">Early access</a>
   </nav>
-  <a class="nav__start" href="/#begin">Start</a>
+  <a class="nav__start" href="/blueprint/">Blueprint</a>
 </header>
 
 <main class="as-wrap">
@@ -48,7 +49,7 @@
 
 <script src="../assets/config.js"></script>
 <script src="scoring.js"></script>
-<script src="assessment.js"></script>
+<script src="assessment.js?v=9"></script>
 <script>
 /* Presentation only: questions reveal one at a time (CSS), so bring the next one into view after an answer.
    It reads the DOM that assessment.js renders and never touches its state. */

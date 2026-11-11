@@ -46,6 +46,20 @@ mv-econ { display: block; width: 100%; max-width: 540px; color: var(--ink, #1C1F
 .mve__track i { position: absolute; left: 0; top: 0; bottom: 0; min-width: 10px; border-radius: 5px; background: var(--ink, #1C1F1C);
   transition: width .5s var(--ease, ease); }
 .mve__bar--system .mve__track i { background: var(--moss, #3F5A30); }
+.mve__head { font-size: 13px; line-height: 1.3; color: var(--muted, #57554E); }
+.mve__det { display: block; margin-top: 6px; font-family: var(--mono, ui-monospace, monospace); font-size: 11.5px; line-height: 1.3;
+  color: var(--muted, #57554E); font-variant-numeric: tabular-nums; }
+/* below zero: oversight costs more than the agent saves (shu is solved >= 4.5:1 on frost by gate-contrast) */
+.mve__bar.is-neg .mve__bv b, .mve__bar.is-neg .mve__det { color: var(--shu, #963820); }
+
+/* phones: the answer first, then the inputs that change it */
+@media (max-width: 559px) {
+  .mve { display: flex; flex-direction: column; }
+  .mve__tag { order: 0; }
+  .mve__saved { order: 1; margin-top: 12px; padding-top: 0; border-top: 0; }
+  .mve__inputs { order: 2; }
+  .mve__bars { order: 3; }
+}
 
 /* ---------- result ---------- */
 .mve__saved { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--mve-hair);

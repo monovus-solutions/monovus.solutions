@@ -140,14 +140,30 @@ footer p { max-width: none; margin: 0 0 10px; }
   .page { padding: 0; max-width: none; }
   section, .spec > div, .offer > div, .contents { break-inside: avoid; }
 }
+/* top nav (v9): brand · Blueprint · Early access · one primary pill; phones show the brand and the pill only */
+header { flex-wrap: wrap; row-gap: 14px; }
+header .meta { order: 3; flex-basis: 100%; }
+.topnav { display: flex; align-items: center; gap: 26px; }
+.topnav a { display: inline-flex; }
+.topnav__link { font-size: 14px; font-weight: 500; color: #141A16; text-decoration: none; opacity: .82; }
+.topnav__link:hover { opacity: 1; }
+.topnav__link[aria-current="page"] { opacity: 1; text-decoration: underline; text-decoration-color: #3F5A30; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.topnav__pill { height: 36px; padding: 0 18px; border-radius: 18px; align-items: center; font-size: 14px; font-weight: 600; color: #fff; text-decoration: none;
+  background: linear-gradient(160deg, #4B6A3A, #3F5A30 60%, #37502A); box-shadow: inset 1px 1px 0 rgba(255,255,255,.28), 0 8px 18px -12px rgba(48,40,26,.5); }
+@media (max-width: 760px) { header { flex-direction: row; align-items: center; } .topnav__link { display: none !important; } }
 </style>
-<link rel="stylesheet" href="../assets/type.css?v=8">
+<link rel="stylesheet" href="../assets/type.css?v=9">
 </head>
 <body>
 <div class="page">
 
 <header>
   <a href="/" aria-label="Monovus home"><img src="../assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
+  <nav class="topnav" aria-label="Main">
+    <a class="topnav__link" href="/blueprint/" aria-current="page">Blueprint</a>
+    <a class="topnav__link" href="/#begin">Early access</a>
+    <a class="topnav__pill" href="/assessment/">Check your readiness</a>
+  </nav>
   <span class="meta">Blueprint version 1 · November 2026</span>
 </header>
 

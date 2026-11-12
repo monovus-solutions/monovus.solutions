@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Monovus · Delegation at machine speed</title>
-<meta name="description" content="AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, so you can hand them real work.">
+<meta name="description" content="AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, inside your own AWS account, so you can hand them real work.">
 <meta name="theme-color" content="#F3EFE7">
 <link rel="canonical" href="https://monovus.solutions/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Monovus">
 <meta property="og:title" content="Monovus · Delegation at machine speed">
-<meta property="og:description" content="AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, so you can hand them real work.">
+<meta property="og:description" content="AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, inside your own AWS account, so you can hand them real work.">
 <meta property="og:url" content="https://monovus.solutions/">
 <meta property="og:image" content="https://monovus.solutions/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -21,13 +21,13 @@
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=8">
-<link rel="stylesheet" href="components/arch.css?v=8">
-<link rel="stylesheet" href="components/econ.css?v=8">
-<link rel="stylesheet" href="components/apply.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="components/arch.css?v=9">
+<link rel="stylesheet" href="components/econ.css?v=9">
+<link rel="stylesheet" href="components/apply.css?v=9">
 <link rel="preload" href="assets/fonts/Fraunces-Variable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/type.css?v=8">
-<script>/* capture-only: ?og=1 hides the dock, glance strip and legal line, for making assets/og.png */
+<link rel="stylesheet" href="assets/type.css?v=9">
+<script>/* capture-only: ?og=1 hides the chapter bar and the footer, for making assets/og.png */
   if (/[?&]og=1(&|$)/.test(location.search)) document.documentElement.classList.add('og');</script>
 </head>
 <body class="boot" data-ch="overview">
@@ -36,7 +36,7 @@
 
 <!-- The one lens: a delegate, seen clearly. Seven rim arcs = the seven controls. With WebGL this element is only an anchor. -->
 <div class="lens" id="lens" data-lens data-rim="7" data-rim-on="1111111" aria-hidden="true"><svg class="rim" viewBox="-100 -100 200 200"></svg></div>
-<!-- Society, Companies, People: ten delegates that bud from the lens and return into it -->
+<!-- Oversight: ten delegates that bud from the lens and return into it -->
 <div class="net" aria-hidden="true">
   <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
   <i class="nl" data-lens data-home="lens" data-present="0"></i><i class="nl" data-lens data-home="lens" data-present="0"></i>
@@ -52,59 +52,45 @@
 <header class="nav" data-glass>
   <a class="nav__brand" href="#overview" data-go="overview" aria-label="Monovus, overview"><img src="assets/lockup-sumi.svg" alt="Monovus" width="130" height="18"></a>
   <a class="nav__link" href="/blueprint/">Blueprint</a>
-  <a class="nav__link" href="/assessment/">Readiness Check</a>
-  <a class="nav__start" href="#begin" data-go="begin" data-glass data-inner data-tint="moss"><span>Start</span></a>
+  <a class="nav__link" href="#begin" data-go="begin" data-apply>Early access</a>
+  <a class="nav__start" href="/assessment/" data-glass data-inner data-tint="moss"><span>Check your readiness</span></a>
 </header>
 
 <main class="chapters">
-  <!-- 1 Overview -->
+  <!-- Cover -->
   <section class="ch is-active" data-chapter="overview" aria-labelledby="h-overview">
     <h1 id="h-overview" class="h h--hero"><span class="ln" style="--i:0">Delegation at</span> <span class="ln" style="--i:1">machine speed.</span></h1>
-    <p class="sub" style="--i:2">AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, so you can hand them real work.</p>
+    <p class="sub" style="--i:2">AI agents are worth what they save, minus what it costs to oversee them. Monovus builds the oversight into the systems they run on, inside your own AWS account, so you can hand them real work.</p>
     <div class="actions" style="--i:3">
       <a class="btn" href="/assessment/" data-glass data-tint="moss" data-morph="cta"><span>Check your readiness</span></a>
-      <a class="quiet" href="#society" data-go="society">How it works <span aria-hidden="true">&rarr;</span></a>
+      <a class="quiet" href="#oversight" data-go="oversight">Why delegation needs oversight <span aria-hidden="true">&rarr;</span></a>
     </div>
-    <p class="hint mono" style="--i:3">Free · about 5 minutes · in your browser</p>
-    <ul class="glance frost" data-glass data-glass-variant="frost" aria-label="At a glance" style="--i:4">
-      <li><b>Inside your own AWS account</b><span>Your data, knowledge and keys stay yours.</span></li>
-      <li><b>Seven controls</b><span>Checked on every action an agent takes.</span></li>
-      <li><b>One view of every agent</b><span>What each one knows, does and spends.</span></li>
+    <p class="hint mono" style="--i:3">5 minutes · no sign-up · your gaps and a 30-day plan</p>
+  </section>
+
+  <!-- 01 Oversight -->
+  <section class="ch" data-chapter="oversight" aria-labelledby="h-oversight">
+    <p class="kick" style="--i:0"><span class="kick__n mono">01</span> Oversight</p>
+    <h2 id="h-oversight" class="h"><span class="ln" style="--i:0">Delegation needs</span> <span class="ln" style="--i:1">oversight.</span></h2>
+    <p class="sub sub--narrow" style="--i:2">Hospitals and pension funds run on people handing work to others they can&rsquo;t watch. Three old ideas make that safe.</p>
+    <ul class="spec spec--ideas" aria-label="Three old ideas">
+      <li class="spec__c" style="--i:3"><b class="spec__t">A record.</b><span class="spec__d">Every entry is written twice, so anyone can check the work afterwards.</span><span class="spec__s mono">Double-entry bookkeeping, printed in Venice in 1494</span></li>
+      <li class="spec__c" style="--i:4"><b class="spec__t">A price.</b><span class="spec__d">Watching the work, proving it was done right, and the losses that get through anyway. Companies pay it in approvals, reviews and audits.</span><span class="spec__s mono">Agency costs, Jensen and Meckling, 1976</span></li>
+      <li class="spec__c" style="--i:5"><b class="spec__t">A signature.</b><span class="spec__d">When a clerk approves a claim, a manager still signs for it. Whoever signs answers for the work, so they have to be able to see it.</span><span class="spec__s mono">Executives sign their financial reports: Sarbanes-Oxley, 2002</span></li>
     </ul>
+    <p class="next" style="--i:6"><a class="quiet" href="#agents" data-go="agents">What changes with agents <span aria-hidden="true">&rarr;</span></a></p>
   </section>
 
-  <!-- 2 Society -->
-  <section class="ch" data-chapter="society" aria-labelledby="h-society">
-    <p class="kick mono" style="--i:0">Society</p>
-    <h2 id="h-society" class="h"><span class="ln" style="--i:0">Delegation needs</span> <span class="ln" style="--i:1">oversight.</span></h2>
-    <p class="sub sub--narrow" style="--i:2">Water systems, hospitals and pension funds run on people handing work to others they can&rsquo;t watch. Signatures, job descriptions, ledgers and audits make that safe.</p>
-    <p class="src mono" style="--i:3">Double-entry bookkeeping was first printed in 1494.</p>
-  </section>
-
-  <!-- 3 Companies -->
-  <section class="ch" data-chapter="companies" aria-labelledby="h-companies">
-    <p class="kick mono" style="--i:0">Companies</p>
-    <h2 id="h-companies" class="h"><span class="ln" style="--i:0">Oversight has</span> <span class="ln" style="--i:1">a price.</span></h2>
-    <p class="sub sub--narrow" style="--i:2">Economists call it agency costs: watching the work, proving it was done right, and the losses that get through anyway. Most companies pay it in approvals, reviews and audits.</p>
-    <p class="src mono" style="--i:3">Jensen and Meckling, 1976</p>
-  </section>
-
-  <!-- 4 People -->
-  <section class="ch" data-chapter="people" aria-labelledby="h-people">
-    <p class="kick mono" style="--i:0">People</p>
-    <h2 id="h-people" class="h"><span class="ln" style="--i:0">Responsibility stays</span> <span class="ln" style="--i:1">with people.</span></h2>
-    <p class="sub sub--narrow" style="--i:2">When a clerk approves a claim, a manager still answers for it. The people who answer for the work have to be able to see it.</p>
-  </section>
-
-  <!-- 5 Agents -->
+  <!-- 02 Agents -->
   <section class="ch" data-chapter="agents" aria-labelledby="h-agents">
-    <p class="kick mono" style="--i:0">Agents</p>
+    <p class="kick" style="--i:0"><span class="kick__n mono">02</span> Agents</p>
     <h2 id="h-agents" class="h"><span class="ln" style="--i:0">Agents are a new kind</span> <span class="ln" style="--i:1">of delegate.</span></h2>
-    <p class="sub sub--narrow" style="--i:2">They read what your company knows, decide and act: a refund, a price change, an invoice. They work at software speed, with none of the oversight built for people.</p>
+    <p class="sub sub--narrow" style="--i:2">They read what your company knows, decide and act: a refund, a price change. They work at software speed, with none of the oversight built for people.</p>
     <div class="figs" style="--i:3">
       <p class="fig"><b class="fig__n">15%</b><span class="fig__t">of day-to-day work decisions made autonomously by agentic AI by 2028, up from almost none in 2024.</span><span class="fig__s mono">Gartner, October 2024</span></p>
-      <p class="fig"><b class="fig__n">40%+</b><span class="fig__t">of agentic AI projects expected to be cancelled by the end of 2027.</span><span class="fig__s mono">Gartner, June 2025</span></p>
+      <p class="fig"><b class="fig__n">40%+</b><span class="fig__t">of agentic AI projects expected to be cancelled by the end of 2027, due to escalating costs, unclear business value or inadequate risk controls.</span><span class="fig__s mono">Gartner, June 2025</span></p>
     </div>
+    <p class="next" style="--i:4"><a class="quiet" href="#economics" data-go="economics">What oversight costs <span aria-hidden="true">&rarr;</span></a></p>
     <ol class="faults" aria-label="What an agent leaves open">
       <li class="fault" data-k="identity"><i class="hair" aria-hidden="true"></i><span class="fault__q">Who is it acting as?</span><span class="fault__c mono">Identity</span></li>
       <li class="fault" data-k="record"><i class="hair" aria-hidden="true"></i><span class="fault__q">What did it just do, and why?</span><span class="fault__c mono">Record</span></li>
@@ -113,25 +99,25 @@
     </ol>
   </section>
 
-  <!-- 6 Economics -->
+  <!-- 02 Agents, second screen -->
   <section class="ch" data-chapter="economics" aria-labelledby="h-economics">
-    <p class="kick mono" style="--i:0">Economics</p>
     <h2 id="h-economics" class="h h--long"><span class="ln" style="--i:0">Worth what it saves, minus</span> <span class="ln" style="--i:1">what it costs to oversee.</span></h2>
     <p class="sub sub--narrow" style="--i:2">Change the numbers. When a person checks every action, oversight eats the saving. When the system enforces the rules, people review only the exceptions.</p>
     <div class="econbox">
-      <mv-econ id="econ" values="4000,2,5"><div class="econ-fb frost" data-glass data-glass-variant="frost">
-        <p class="econ-fb__row"><span>Every action checked by a person</span><b>133 hours a month</b></p>
-        <p class="econ-fb__row econ-fb__row--moss"><span>Rules enforced by the system; people review exceptions</span><b>7 hours a month</b></p>
+      <mv-econ id="econ" values="4000,3,2,5"><div class="econ-fb frost" data-glass data-glass-variant="frost">
+        <p class="econ-fb__row"><span>Every action checked by a person</span><b>67 hours a month back</b></p>
+        <p class="econ-fb__row econ-fb__row--moss"><span>Rules enforced by the system; people review exceptions</span><b>193 hours a month back</b></p>
         <p class="econ-fb__sum">Review time saved: 126 hours a month, about 0.8 full-time people</p>
         <p class="econ-fb__tag mono">Illustrative simulation</p>
       </div></mv-econ>
-      <script>(function () { var q = new URLSearchParams(location.search).get('econ'); if (q && /^[0-9.]+,[0-9.]+,[0-9.]+$/.test(q)) document.getElementById('econ').setAttribute('values', q); })();</script>
+      <script>(function () { var q = new URLSearchParams(location.search).get('econ'); if (q && /^[0-9.]+(,[0-9.]+){2,3}$/.test(q)) document.getElementById('econ').setAttribute('values', q); })();</script>
     </div>
+    <p class="next" style="--i:3"><a class="quiet" href="/assessment/">Run it on your own agent <span aria-hidden="true">&rarr;</span></a></p>
   </section>
 
-  <!-- 7 Behaviour -->
+  <!-- 03 Controls -->
   <section class="ch" data-chapter="behaviour" aria-labelledby="h-behaviour">
-    <p class="kick mono" style="--i:0">Behaviour</p>
+    <p class="kick" style="--i:0"><span class="kick__n mono">03</span> Controls</p>
     <h2 id="h-behaviour" class="h h--long"><span class="ln" style="--i:0">Agents must behave like</span> <span class="ln" style="--i:1">accountable colleagues.</span></h2>
     <p class="sub sub--narrow" style="--i:2">Your company already has the rules. Monovus rebuilds them as software. Switch one off to see what goes wrong.</p>
     <p class="conseq" style="--i:3" aria-live="polite"><span class="conseq__tag mono">Illustrative simulation</span><span class="conseq__msg" id="conseq">All seven on. Every action within its rules.</span></p>
@@ -154,13 +140,12 @@
     </div>
   </section>
 
-  <!-- 8 Systems -->
+  <!-- 03 Controls, second screen -->
   <section class="ch" data-chapter="systems" aria-labelledby="h-systems">
-    <p class="kick mono" style="--i:0">Systems</p>
     <h2 id="h-systems" class="h h--mid"><span class="ln" style="--i:0">The rules live outside</span> <span class="ln" style="--i:1">the model.</span></h2>
     <p class="sub sub--narrow" style="--i:2">A model follows its instructions most of the time. Your rules have to hold every time, so they are checked on every action, inside your own AWS account.</p>
     <div class="actions actions--tight" style="--i:3">
-      <button class="btn btn--clear" type="button" id="play" data-glass><span>Send a test request</span></button>
+      <button class="btn btn--clear" type="button" id="play" data-glass><span>Watch a refund go through</span></button>
     </div>
     <div class="archbox">
       <mv-arch id="arch"></mv-arch>
@@ -185,73 +170,69 @@
             <li><b>Evidence</b><span class="mono">AWS CloudTrail</span></li>
             <li><b>Budget</b><span class="mono">AWS Budgets</span></li>
             <li><b>Review</b><span class="mono">AgentCore Evaluations</span></li>
+            <li><b>Rollback</b><span class="mono">AgentCore Runtime</span></li>
           </ul>
         </div>
         <p class="arch-fb__tag mono">Illustrative simulation</p>
       </div>
       <p class="archbox__note">You keep the data, the knowledge and the keys. AWS bills you directly, and we never mark it up.</p>
+      <p class="archbox__cap mono">Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS.</p>
     </div>
+    <p class="next" style="--i:4"><a class="quiet" href="/blueprint/">Read the Blueprint <span aria-hidden="true">&rarr;</span></a></p>
   </section>
 
-  <!-- 9 Monovus -->
+  <!-- 04 Begin -->
   <section class="ch" data-chapter="monovus" aria-labelledby="h-monovus">
-    <p class="kick mono" style="--i:0">Monovus</p>
+    <p class="kick" style="--i:0"><span class="kick__n mono">04</span> Begin</p>
     <h2 id="h-monovus" class="h"><span class="ln" style="--i:0">From your first agent</span> <span class="ln" style="--i:1">to all of them.</span></h2>
-    <ul class="tiles" style="--i:3" aria-label="What Monovus offers">
-      <li class="tile frost" data-glass data-glass-variant="frost"><b class="tile__n">Blueprint</b><span class="tile__tag mono">Free</span><span class="tile__d">The seven controls as a reference design, with a Readiness Check that scores you against them.</span><a class="tile__a" href="/blueprint/">Read the Blueprint <span aria-hidden="true">&rarr;</span></a></li>
-      <li class="tile frost" data-glass data-glass-variant="frost"><b class="tile__n">Launch</b><span class="tile__tag mono">Fixed price</span><span class="tile__d">We put your first agent into production with every control in place, typically in two to four weeks.</span><a class="tile__a" href="/assessment/">Your price is in your readiness report <span aria-hidden="true">&rarr;</span></a></li>
-      <li class="tile frost" data-glass data-glass-variant="frost"><b class="tile__n">Control</b><span class="tile__tag mono">In development</span><span class="tile__d">Software that installs the controls in one step, checks them continuously, and shows what every agent knows, does and spends.</span><a class="tile__a" href="#begin" data-go="begin" data-apply>Become a design partner <span aria-hidden="true">&rarr;</span></a></li>
-    </ul>
-    <p class="src mono" style="--i:4">Monovus: from the Greek mono and the Latin visus. One sight.</p>
+    <div class="slab frost" data-glass data-glass-variant="frost">
+      <ul class="spec spec--slab" aria-label="What Monovus offers">
+        <li class="spec__c" style="--i:3"><b class="spec__t">Blueprint</b><span class="spec__tag mono">Method · open</span><span class="spec__d">The seven controls, written down in full, with a Readiness Check that scores you against them.</span><a class="spec__a" href="/blueprint/">Read the Blueprint <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="spec__c" style="--i:4"><b class="spec__t">Launch</b><span class="spec__tag mono">Service · fixed scope</span><span class="spec__d">We put your first agent into production with every control in place, in a two-to-four-week engagement.</span><a class="spec__a" href="/assessment/">Get your scope and price <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="spec__c" style="--i:5"><b class="spec__t">Control</b><span class="spec__tag mono">Software · early access</span><span class="spec__d">Installs the controls in one step, checks them continuously, and shows what every agent knows, does and spends.</span><a class="spec__a" href="#begin" data-go="begin" data-apply>Apply for early access <span aria-hidden="true">&rarr;</span></a></li>
+      </ul>
+    </div>
+    <p class="src mono" style="--i:6">The Blueprint is aligned with the AWS Well-Architected Agentic AI Lens.</p>
   </section>
 
-  <!-- 10 Begin -->
+  <!-- 04 Begin, second screen -->
   <section class="ch" data-chapter="begin" aria-labelledby="h-begin">
-    <p class="kick mono" style="--i:0">Begin</p>
     <h2 id="h-begin" class="h"><span class="ln" style="--i:0">Start with</span> <span class="ln" style="--i:1">one agent.</span></h2>
-    <p class="sub sub--narrow" style="--i:2">Check where you stand in five minutes. Your report shows your biggest gaps, a 30-day plan, and the right next step with its price.</p>
+    <p class="sub sub--narrow" style="--i:2">Check where you stand in five minutes. Your report names your biggest gaps, a 30-day plan, and the right next step with its price.</p>
     <div class="actions" style="--i:3">
       <a class="btn" id="cta-final" href="/assessment/" data-glass data-tint="moss" data-morph="cta"><span>Check your readiness</span></a>
-      <button class="quiet" type="button" id="to-apply" data-apply>Become a design partner</button>
+      <button class="quiet" type="button" id="to-apply" data-apply>Apply for early access</button>
     </div>
+    <p class="hint mono" style="--i:3">For agents in your own AWS account, live or planned</p>
     <div class="applybox">
       <mv-apply id="apply"><div class="apply-fb frost" data-glass data-glass-variant="frost">
-        <p class="apply-fb__t">Design partners for Control</p>
-        <p class="apply-fb__l">We&rsquo;re choosing a small group of companies to shape Control with us, on a real agent in their own AWS account.</p>
+        <p class="apply-fb__t">Early access to Control <span class="apply-fb__tag mono">Early access</span></p>
+        <p class="apply-fb__l">We&rsquo;re building Control with a small group of companies, each on a real agent in its own AWS account.</p>
       </div></mv-apply>
     </div>
+    <footer class="foot" style="--i:5">
+      <p class="foot__legal">Toronto, Canada · <a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a> · &copy; 2026 Monovus, from the Greek <i>mono</i> and the Latin <i>visus</i>: one sight.</p>
+    </footer>
   </section>
 </main>
 
-<nav class="dock" data-glass aria-label="Chapters">
-  <span class="dock__ind" data-glass data-inner data-tint="white" aria-hidden="true"></span>
-  <button type="button" data-go="overview" aria-current="true">Overview</button>
-  <button type="button" data-go="society">Society</button>
-  <button type="button" data-go="companies">Companies</button>
-  <button type="button" data-go="people">People</button>
-  <button type="button" data-go="agents">Agents</button>
-  <button type="button" data-go="economics">Economics</button>
-  <button type="button" data-go="behaviour">Behaviour</button>
-  <button type="button" data-go="systems">Systems</button>
-  <button type="button" data-go="monovus">Monovus</button>
-  <button type="button" data-go="begin">Begin</button>
-  <span class="dock__m">
-    <button type="button" class="dock__step" data-step="-1" aria-label="Previous chapter">&lsaquo;</button>
-    <span class="dock__cur" aria-live="polite">Overview</span>
-    <button type="button" class="dock__step" data-step="1" aria-label="Next chapter">&rsaquo;</button>
-  </span>
-  <span class="dock__dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-  <span class="dock__bar" aria-hidden="true"><i></i></span>
+<!-- The bottom bar, Option A "Rule": one hairline, ticks for the screens, four chapter names, one moss glass bead -->
+<nav class="rule" aria-label="Chapters">
+  <span class="rule__line" aria-hidden="true"></span>
+  <button type="button" class="rule__name" data-go="oversight" data-group="0"><span class="rule__n mono">01</span> Oversight</button>
+  <button type="button" class="rule__name" data-go="agents" data-group="1"><span class="rule__n mono">02</span> Agents</button>
+  <button type="button" class="rule__name" data-go="behaviour" data-group="2"><span class="rule__n mono">03</span> Controls</button>
+  <button type="button" class="rule__name" data-go="monovus" data-group="3"><span class="rule__n mono">04</span> Begin</button>
+  <span class="rule__cur" aria-hidden="true"></span>
+  <span class="rule__bead" data-lens data-tint="moss" aria-hidden="true"></span>
 </nav>
 
-<p class="legal"><a href="/pages/privacy.html">Privacy</a> · <a href="/pages/terms.html">Terms</a> · <span class="legal__l">Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS. &copy; 2026 Monovus</span><span class="legal__s">Amazon Web Services, AWS, Amazon Bedrock and related marks are trademarks of Amazon.com, Inc. or its affiliates. Monovus is independent and not affiliated with or endorsed by AWS.</span></p>
-
 <div class="dbg" id="dbg" hidden></div>
-<script src="assets/config.js?v=8"></script>
-<script src="components/arch.js?v=8"></script>
-<script src="components/econ.js?v=8"></script>
-<script src="components/apply.js?v=8"></script>
-<script src="stage.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="assets/config.js?v=9"></script>
+<script src="components/arch.js?v=9"></script>
+<script src="components/econ.js?v=9"></script>
+<script src="components/apply.js?v=9"></script>
+<script src="stage.js?v=9"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

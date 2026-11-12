@@ -1,10 +1,10 @@
-/* <mv-apply>: the Begin chapter's design-partner application (brief section 4).
+/* <mv-apply>: the Begin screen's early-access request for Control (v9: two fields, work email and the first agent).
    Light DOM only, rendered synchronously in connectedCallback so stage.js finds the frost root ([data-glass]
    data-glass-variant="frost") with querySelectorAll at init. Settings come from ../assets/config.js via window:
-   MONOVUS_FORM_ENDPOINT set  -> POST JSON {name, email, company, agent, source: "design-partner"};
-   MONOVUS_FORM_ENDPOINT empty -> open mailto:MONOVUS_EMAIL, subject "Design partner application", fields in the body.
+   MONOVUS_FORM_ENDPOINT set  -> POST JSON {email, agent, source: "early-access"};
+   MONOVUS_FORM_ENDPOINT empty -> open mailto:MONOVUS_EMAIL, subject "Early access to Control", fields in the body.
    Attribute: state="form|sent|error" (sent shows the thank-you, error shows the validation errors; for captures).
-   Methods: focusFirst() (the Begin screen's "Become a design partner" button), reset().
+   Methods: focusFirst() (the Begin screen's "Apply for early access" button), reset().
    Property: .stage = <MonovusStage instance> (optional; the component calls stage.sync() when its size changes).
    Events (bubbling): 'mv-apply-state' {state}, 'mv-apply-submit' {via: 'endpoint'|'mailto', ok}. */
 (function () {
@@ -12,10 +12,8 @@
   if (!window.customElements || customElements.get('mv-apply')) return;
 
   var FIELDS = [
-    { k: 'name', label: 'Name', type: 'text', auto: 'name', empty: 'Enter your name.' },
     { k: 'email', label: 'Work email', type: 'email', auto: 'email', empty: 'Enter your work email.',
       bad: 'Enter an email address like name@example.com.' },
-    { k: 'company', label: 'Company', type: 'text', auto: 'organization', empty: 'Enter your company name.' },
     { k: 'agent', label: 'What will your first agent do?', area: true, empty: 'Tell us what your first agent will do.' }
   ];
   var EMAIL = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
@@ -71,7 +69,7 @@
       fields.concat([h('div', 'mvp__actions', null, [this._btn]), this._formErr]));
     this._form.addEventListener('submit', function (e) { e.preventDefault(); self._submit(); });
     this._body = h('div', 'mvp__body', null, [
-      h('p', 'mvp__line', null, ['We\u2019re choosing a small group of companies to shape Control with us, on a real agent in their own AWS account.']),
+      h('p', 'mvp__line', null, ['We\u2019re building Control with a small group of companies, each on a real agent in its own AWS account.']),
       this._form
     ]);
     this._sent = h('div', 'mvp__sent', { tabindex: '-1', hidden: '' }, [
@@ -80,12 +78,12 @@
     ]);
     this._root = h('div', 'mvp frost', { 'data-glass': '', 'data-glass-variant': 'frost' }, [
       h('div', 'mvp__head', null, [
-        h('h3', 'mvp__title', { id: id + '-t' }, ['Design partners for Control']),
-        h('span', 'mvp__tag', null, ['In development'])
+        h('h3', 'mvp__title', { id: id + '-t' }, ['Early access to Control']),
+        h('span', 'mvp__tag', null, ['Early access'])
       ]),
       this._body,
       this._sent,
-      h('p', 'mvp__note', null, ['We use this only to reply about the design-partner programme.'])
+      h('p', 'mvp__note', null, ['We use this only to reply, by email.'])
     ]);
     this.appendChild(this._root);
   };
@@ -109,8 +107,7 @@
 
   MvApply.prototype._data = function () {
     var f = this._f;
-    return { name: f.name.input.value.trim(), email: f.email.input.value.trim(), company: f.company.input.value.trim(),
-      agent: f.agent.input.value.trim(), source: 'design-partner' };
+    return { email: f.email.input.value.trim(), agent: f.agent.input.value.trim(), source: 'early-access' };
   };
 
   MvApply.prototype._submit = function () {
@@ -121,10 +118,9 @@
     if (!this._validate(true)) return;
     var d = this._data(), endpoint = String(window.MONOVUS_FORM_ENDPOINT || '').trim();
     if (!endpoint) {
-      var body = 'Name: ' + d.name + '\nWork email: ' + d.email + '\nCompany: ' + d.company +
-        '\nWhat will your first agent do?\n' + d.agent + '\n';
+      var body = 'Work email: ' + d.email + '\nWhat will your first agent do?\n' + d.agent + '\n';
       var url = 'mailto:' + encodeURIComponent(mail()).replace(/%40/g, '@') +
-        '?subject=' + encodeURIComponent('Design partner application') + '&body=' + encodeURIComponent(body);
+        '?subject=' + encodeURIComponent('Early access to Control') + '&body=' + encodeURIComponent(body);
       this._emit('mv-apply-submit', { via: 'mailto', ok: true });
       window.location.href = url;
       this._applyState('sent', false, true);
@@ -170,7 +166,7 @@
   MvApply.prototype.focusFirst = function () {
     if (!this._built) return;
     if (!this._sent.hidden) { this._sent.focus(); return; }
-    this._f.name.input.focus();
+    this._f.email.input.focus();
   };
   MvApply.prototype.reset = function () {
     if (!this._built) return;

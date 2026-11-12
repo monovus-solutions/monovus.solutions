@@ -226,8 +226,10 @@ print("Page rules:")
 p = parsed.get("index.html")
 sec = {k: " ".join(v) for k, v in p.sections.items()} if p else {}
 JS_TEXT = {rel: " ".join(s for r, _, s in strings if r == rel) for rel in JS_FILES}
-check("Ten screens present", all(c in sec for c in ("overview", "society", "companies", "people", "agents", "economics",
-                                                     "behaviour", "systems", "monovus", "begin")))
+# v9 (brief section 2): a cover and four chapters, eight screens; Society, Companies and People became Oversight
+check("Eight screens present", all(c in sec for c in ("overview", "oversight", "agents", "economics", "behaviour", "systems",
+                                                       "monovus", "begin")))
+check("No v8 Society, Companies or People screens", not any(c in sec for c in ("society", "companies", "people")))
 check("No Pricing screen", "pricing" not in sec)
 for ch, comp in (("economics", "components/econ.js"), ("behaviour", None), ("systems", "components/arch.js")):
     in_page = "Illustrative simulation" in sec.get(ch, "")
@@ -244,13 +246,14 @@ def norm(t):
 
 for rel in TM_PAGES:
     check("Trademark line on %s" % rel, TRADEMARK in norm(" ".join(s for _, _, s in parsed[rel].chunks)))
-# "In development" next to Control: the Control tile's tag, and the design-partner panel when it names Control
+# Control's honest status next to its name (v9: "early access", which replaced "In development"): the Control column's
+# tag on the Begin screen, and the early-access panel when it names Control
 ch_m = [s.strip() for _, _, s in p.chunks] if p else []
-near = any(t == "Control" and "In development" in ch_m[i + 1:i + 3] for i, t in enumerate(ch_m))
-check("'In development' next to Control (Monovus tile)", near)
+near = any(t == "Control" and any("early access" in s.lower() for s in ch_m[i + 1:i + 3]) for i, t in enumerate(ch_m))
+check("'early access' next to Control (Begin screen)", near)
 for rel, txt in JS_TEXT.items():
-    if "for Control" in txt:
-        check("'In development' next to Control in %s" % rel, "In development" in txt)
+    if "to Control" in txt or "for Control" in txt:
+        check("'Early access' next to Control in %s" % rel, "Early access" in txt)
 all_text = [(rel, norm(" ".join(s for _, _, s in q.chunks))) for rel, q in parsed.items()] + list(JS_TEXT.items())
 # a page that names the Lens says how it relates to it with "aligned with"; a citation in a sources list may name it
 # plainly, but no mention may claim a stronger tie (mapped to, maps to, compliant with, certified against)

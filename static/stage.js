@@ -1,8 +1,11 @@
-/* Monovus v8 stage (v7 engine): one WebGL fragment shader behind the DOM.
+/* Monovus v9 stage (v7 engine + water): one WebGL fragment shader behind the DOM.
    Raked lines flow around glass read from the DOM ([data-glass] rounded rects, [data-lens] pebble lenses,
    [data-slab] thin account glass). Variants: clear, frost (blurred, tinted content panel), slab (calm, no lensing).
    Lenses with data-rim draw seven control arcs. Truth modes inside #lens: calm, frayed (near faults), measure.
-   Disabled control sectors fray the lines around the lens. No libraries, render on demand. */
+   Disabled control sectors fray the lines around the lens. No libraries, render on demand.
+   v9: ripple(x, y, {strength, off}) sends a water wave packet through the sand (an agent's action); a lens ripple
+   lights the seven arcs clockwise as it crosses 0.90 R (shu and a frayed sector for a 0 bit in off).
+   setCalm(rects) calms the rakes behind text. Frost rims are about half as bright. ?ripple=0.45 freezes one. */
 (function () {
   'use strict';
   var N = 32;
@@ -18,6 +21,7 @@
     'uniform vec2 u_res; uniform float u_dpr; uniform float u_time; uniform float u_order; uniform float u_focus;',
     'uniform vec4 u_a[N]; uniform vec4 u_b[N]; uniform vec4 u_c[N]; uniform float u_n;',
     'uniform vec4 u_lens; uniform vec2 u_sd[7]; uniform vec3 u_f[4]; uniform vec3 u_tr;',
+    'uniform vec4 u_rp[6]; uniform float u_rn; uniform vec3 u_ap[7]; uniform vec4 u_fr; uniform vec4 u_cm[3];',
     'const float PITCH = 10.0;',
     'const float PI = 3.14159265;',
     'const vec2 LDIR = vec2(-0.5547, -0.8321);',          // toward the light: top-left (y down)
@@ -25,6 +29,7 @@
     'const vec3 MOSS = vec3(0.247, 0.353, 0.188);',       // #3F5A30
     'const vec3 INK = vec3(0.1098, 0.1216, 0.1098);',     // rgb(28,31,28)
     'const vec3 FROSTMIN = vec3(0.9137, 0.8980, 0.8667);',// #E9E5DD: text contrast floor on frost
+    'const vec3 SHU = vec3(0.5882, 0.2196, 0.1255);',     // #963820
     '',
     'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
     'float vnoise(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);',
@@ -75,6 +80,40 @@
     '  float f = 0.0;',
     '  for (int k = 0; k < 4; k++){ vec3 q = u_f[k]; if (q.z > 0.5) f = max(f, 1.0 - smoothstep(q.z * 0.55, q.z, length(p - q.xy))); }',
     '  return f;',
+    '}',
+    // v9 reading zones: 1 inside a calm rect, fading to 0 over 64 px outside it
+    'float calmAt(vec2 p){',
+    '  float c = 0.0;',
+    '  for (int k = 0; k < 3; k++){ vec4 r = u_cm[k]; if (r.z > 0.5){ vec2 h = r.zw * 0.5; c = max(c, 1.0 - smoothstep(0.0, 64.0, sdRBox(p - r.xy - h, h, 0.0))); } }',
+    '  return c;',
+    '}',
+    // v9 ripple fray: 0..1 in the sector of an arc that flashed shu, behind the front, out to 2.6x the lens radius
+    'float rippleFray(vec2 p){',
+    '  if (u_fr.w < 0.5 || u_lens.z < 0.5) return 0.0;',
+    '  vec2 q = (p - u_lens.xy) / max(u_lens.zw, vec2(1.0)); float kr = length(q); float ang = atan(q.y, q.x);',
+    '  float SP = 2.0 * PI / 7.0; float s = 0.0;',
+    '  for (int k = 0; k < 7; k++){ float da = abs(mod(ang + 0.5 * PI - float(k) * SP + PI, 2.0 * PI) - PI); s = max(s, u_ap[k].z * (1.0 - smoothstep(SP * 0.34, SP * 0.6, da))); }',
+    '  float r = length(p - u_fr.xy);',
+    '  return s * smoothstep(0.84, 0.97, kr) * (1.0 - smoothstep(2.1, 2.6, kr)) * (1.0 - smoothstep(u_fr.z - 12.0, u_fr.z + 24.0, r));',
+    '}',
+    // v9 water: wave packets (280 px/s, wavelength 16 px, two or three crests). x: line shift in px (|x| <= 2.2), y: crest light
+    'vec2 rippleAt(vec2 p, float frA){',
+    '  vec2 o = vec2(0.0);',
+    '  for (int i = 0; i < 6; i++){ if (float(i) >= u_rn) break;',
+    '    vec4 r = u_rp[i]; vec2 v = p - r.xy; float R = length(v);',
+    '    float x = R - 280.0 * r.z;',
+    '    if (abs(x) > 60.0) continue;',
+    '    float a = exp(-x * x * 0.0022) * r.w * inversesqrt(1.0 + R * 0.0025);',
+    '    float ph = x * 0.3927;',
+    '    if (frA > 0.002){',
+    '      float br = hash(vec2(floor(atan(v.y, v.x) * max(R, 1.0) / 13.0), floor(r.z * 7.0)));',
+    '      a *= mix(1.0, step(0.45, br) * (0.5 + br), frA);',
+    '      ph += frA * (vnoise(p * 0.09 + r.z * 2.0) - 0.5) * 5.0;',
+    '    }',
+    '    float sn = sin(ph);',
+    '    o.x += a * sn; o.y += a * sn * sn * sn * step(0.0, sn);',
+    '  }',
+    '  return vec2(clamp(o.x, -2.2, 2.2), min(o.y * 0.4545, 1.0));',
     '}',
     'float wobble(vec2 p, float amt){',
     '  if (amt < 0.002) return 0.0;',
@@ -149,13 +188,19 @@
     '  float calm = 1.0 - slabIn;',
     '  float sec = sectorFray(p);',
     '  float inMain = u_lens.z > 0.5 ? 1.0 - smoothstep(-aa, aa, sdLens(p - u_lens.xy, u_lens.zw)) : 0.0;',
+    // v9: calm reading zones (contrast x0.55, wobble x0.35), the ripple fray, the water at this point
+    '  float cz = calmAt(p); float cC = 1.0 - 0.45 * cz; float cW = 1.0 - 0.65 * cz;',
+    '  float frA = rippleFray(p);',
+    '  vec2 rw = rippleAt(p, frA) * vec2(1.0 - 0.4 * cz, 1.0 - 0.5 * cz);',
     // outside: raked field with flow, disorder, sector fray, contact shadow, caustic
     '  float dis = clamp(1.0 - u_order, 0.0, 1.6) * calm;',
-    '  float frO = sec * calm;',
-    '  float psiS = p.y - acc + wobble(p, dis + 0.22 * frO);',
+    '  float frO = max(sec, 0.55 * frA) * calm;',
+    '  float psiS = p.y - acc + wobble(p, (dis + 0.22 * frO) * cW) + rw.x;',
     '  vec2 fo = fray(p, psiS, frO);',
     '  vec2 so = lineAt(psiS + fo.x, lineGrad(psiS), fo.y * (1.0 + 0.8 * frO), 1.0 + 0.8 * frO);',
+    '  so *= cC;',
     '  vec3 colOut = ground(p, 1.0) * (1.0 - so.x) + so.y;',
+    '  colOut = mix(colOut, vec3(1.0), 0.16 * rw.y);',
     '  float dsh = sceneBase(p - vec2(5.0, 12.0));',
     '  float shadow = (1.0 - smoothstep(-10.0, 38.0, dsh)) * mix(0.035, 0.06, kindL);',
     '  float ao = (1.0 - smoothstep(0.0, 6.0, d)) * 0.022;',
@@ -183,9 +228,11 @@
     '  float Z = 1.0 + kindL * (0.12 + 0.30 * u_focus);',
     '  vec2 ps = C + (p + off - C) / Z;',
     '  vec2 pR = C + (p + off * mix(0.86, 0.90, kindL) - C) / Z; vec2 pB = C + (p + off * mix(1.14, 1.10, kindL) - C) / Z;',
-    '  float wob = wobble(ps, clamp(1.0 - u_order, 0.0, 1.6));',
+    // the water seen through glass is sampled at the refracted point; skipped away from glass (cost)
+    '  vec2 rI = d < 2.0 ? rippleAt(ps, frA) * vec2(1.0 - 0.4 * cz, 1.0 - 0.5 * cz) : vec2(0.0);',
+    '  float wob = wobble(ps, clamp(1.0 - u_order, 0.0, 1.6) * cW) + rI.x;',
     '  float mW = u_tr.z * inMain;',
-    '  float frI = max(sec, u_tr.y * faultAmt(p) * inMain) * (1.0 - frost);',
+    '  float frI = max(max(sec, 0.55 * frA), u_tr.y * faultAmt(p) * inMain) * (1.0 - frost);',
     '  float psiI = ps.y + wob;',
     '  vec2 fi = fray(p, psiI, frI);',
     '  float amp = mix(0.72, 1.05, kindL) * fi.y * (1.0 + 0.8 * frI) * (1.0 - 0.72 * mW); float soft = mix(1.35, 0.95, kindL);',
@@ -199,8 +246,10 @@
     '    sF /= 10.0;',
     '    sR2 = mix(sR2, sF, frost); sG = mix(sG, sF, frost); sB = mix(sB, sF, frost);',
     '  }',
+    '  sR2 *= cC; sG *= cC; sB *= cC;',
     '  vec3 gi = ground(ps, 1.0 - frost);',
     '  vec3 colIn = vec3(gi.r * (1.0 - sR2.x) + sR2.y, gi.g * (1.0 - sG.x) + sG.y, gi.b * (1.0 - sB.x) + sB.y);',
+    '  colIn = mix(colIn, vec3(1.0), 0.16 * rI.y * (1.0 - 0.7 * frost));',
     '  float fres = e1 * e1 * e1;',
     '  colIn = mix(colIn, vec3(1.0), mix(mix(0.055, 0.012, kindL) + mix(0.09, 0.035, kindL) * fres, 0.22, frost));',
     '  vec2 rel = (p - C) / Rw;',
@@ -208,13 +257,13 @@
     '  vec3 mossCol = MOSS * (1.04 - 0.10 * clamp((p.y - C.y) / Rw, -1.0, 1.0));',
     '  colIn = mix(colIn, mossCol, 0.93 * moss);',
     '  float facing = dot(n, LDIR);',
-    '  float rimBand = exp(-depth / mix(1.3, 2.4, frost));',
+    '  float rimBand = exp(-depth / mix(1.3, 1.8, frost));',
     '  float arcW = mix(3.0, 2.5 + 0.03 * Rw, kindL);',
     '  float spec = rimBand * (0.62 * pow(max(facing, 0.0), 1.2) + 0.24 * pow(max(-facing, 0.0), 1.6) + mix(0.07, 0.03, kindL))',
     '             + exp(-depth / arcW) * mix(0.34, 0.5, kindL) * pow(max(facing, 0.0), mix(6.0, 3.0, kindL));',
     '  float innerHi = exp(-pow((depth - 3.4) / 1.0, 2.0)) * (mix(0.08, 0.025, kindL) + mix(0.06, 0.08, kindL) * facing);',
     '  float bevHi = exp(-pow((depth - 1.8) / 0.7, 2.0)) * 0.12 * max(facing, 0.0);',
-    '  colIn += (spec + innerHi + bevHi) * (1.0 - 0.45 * moss) * mix(1.0, 0.5, frost);',
+    '  colIn += (spec + innerHi + bevHi) * (1.0 - 0.45 * moss) * mix(1.0, 0.27, frost);',
     // inner shade on the side away from the light
     '  colIn *= 1.0 - 0.045 * max(-facing, 0.0) * exp(-depth / mix(6.0, 0.12 * Rw, kindL)) * (1.0 - frost);',
     // Schlick Fresnel (IOR 1.5, F0 0.04) against a soft warm studio environment: rims brighten at grazing angles
@@ -274,8 +323,18 @@
     '    float vis = step(ti + 0.5, rC.z) * rC.w;',
     '    float bit = mod(floor(rC.y / exp2(ti) + 0.001), 2.0);',
     '    col = mix(col, MOSS, 0.10 * bit * vis * exp(-dist * dist / 14.0));',
-    '    float cov = (1.0 - smoothstep(1.3 - 0.5 / u_dpr, 1.3 + 0.5 / u_dpr, dist)) * vis;',
-    '    col = mix(col, bit > 0.5 ? MOSS : mix(col, INK, 0.34), cov);',
+    // v9: a passing lens ripple lights each arc (moss halo, pale core) or flashes it shu
+    '    vec3 ap = vec3(0.0); for (int k = 0; k < 7; k++){ if (abs(float(k) - ti) < 0.5) ap = u_ap[k]; }',
+    '    ap.xy *= vis * (1.0 - step(1.0, length(rA.xy - u_lens.xy)));',
+    '    float halo = exp(-dist * dist / 30.0);',
+    '    col = mix(col, MOSS, 0.14 * ap.x * halo);',
+    '    col = mix(col, SHU, 0.16 * ap.y * halo);',
+    '    float wL = 1.3 + 0.35 * max(ap.x, ap.y);',
+    '    float cov = (1.0 - smoothstep(wL - 0.5 / u_dpr, wL + 0.5 / u_dpr, dist)) * vis;',
+    '    vec3 arcC = bit > 0.5 ? MOSS : mix(col, INK, 0.34);',
+    '    arcC = mix(arcC, SHU, ap.y);',
+    '    arcC = mix(arcC, vec3(1.0), 0.30 * ap.x * (1.0 - smoothstep(0.25, 0.85, dist)));',
+    '    col = mix(col, arcC, cov);',
     '  }',
     '  gl_FragColor = vec4(col, 1.0);',
     '}'
@@ -300,6 +359,7 @@
   function init(canvas, opts) {
     opts = opts || {};
     var reduce = !!opts.reduce;
+    if (window.MonovusStage) window.MonovusStage.current = null;
     if (Q.get('nogl') === '1') return null;
     if (window.matchMedia && matchMedia('(prefers-reduced-transparency: reduce)').matches) return null;
     var gl;
@@ -328,7 +388,8 @@
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     var L = {};
-    ['u_res', 'u_dpr', 'u_time', 'u_order', 'u_focus', 'u_a', 'u_b', 'u_c', 'u_n', 'u_lens', 'u_sd', 'u_f', 'u_tr'].forEach(function (k) {
+    ['u_res', 'u_dpr', 'u_time', 'u_order', 'u_focus', 'u_a', 'u_b', 'u_c', 'u_n', 'u_lens', 'u_sd', 'u_f', 'u_tr',
+      'u_rp', 'u_rn', 'u_ap', 'u_fr', 'u_cm'].forEach(function (k) {
       L[k] = gl.getUniformLocation(prog, k);
     });
 
@@ -394,6 +455,55 @@
     var sectors = [0, 0, 0, 0, 0, 0, 0].map(function () { return { a: 0, d: 0, t: 0 }; });
     var pointer = { x: -999, y: -999, on: false };
     var raf = 0, last = 0, lost = false;
+
+    // ---- v9 water: ripples (an agent's action) and calm reading zones ----
+    var RIP_LIFE = 2.4, RIP_SPD = 280, RIP_MAX = 6;
+    var rips = [], frozeOnce = false;
+    var freezeU = Q.has('ripple') ? parseFloat(Q.get('ripple')) : NaN;
+    freezeU = isFinite(freezeU) ? Math.max(0, Math.min(1, freezeU)) : -1;
+    var RP = new Float32Array(24), AP = new Float32Array(21), FR = new Float32Array(4), CM = new Float32Array(12);
+    function ss(a, b, x) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+    function ageOf(r, now) { return r.frozen ? freezeU * RIP_LIFE : Math.max(0, (now - r.t0) / 1000); }
+    function ripple(x, y, o) {
+      if (reduce || lost) return;
+      x = +x; y = +y; o = o || {};
+      if (!isFinite(x) || !isFinite(y)) return;
+      var s = o.strength == null ? 0.7 : Math.max(0, Math.min(1, +o.strength || 0));
+      var m = main && main.present ? main.s : null, inLens = !!o._lens;
+      if (m && m[2] > 1 && m[3] > 1) { var nx = (x - m[0]) / m[2], ny = (y - m[1]) / m[3]; if (nx * nx + ny * ny < 1) inLens = true; }
+      var r = { x: x, y: y, t0: performance.now(), s: s, off: String(o.off == null ? '1111111' : o.off), lens: inLens && !!m, frozen: freezeU >= 0 };
+      // a frozen still follows the lens, so a late layout move cannot leave the ripple behind
+      if (r.frozen && r.lens) { r.dx = x - m[0]; r.dy = y - m[1]; }
+      if (r.frozen) rips = [r];
+      else { if (rips.length >= RIP_MAX) rips.shift(); rips.push(r); }
+      request();
+    }
+    // per-ripple amplitude (px) and the arc timeline: lit from 0.90 R, clockwise from the top, 45 ms apart, 320 ms each,
+    // then easing off over 0.48 s (so a 45 % still at the v8 lens size still shows the clockwise sweep)
+    function rippleUniforms() {
+      var now = performance.now(), n = 0, m = main && main.present ? main.s : null;
+      AP.fill(0); FR.fill(0);
+      for (var i = 0; i < rips.length && n < RIP_MAX; i++) {
+        var r = rips[i], age = ageOf(r, now);
+        if (age >= RIP_LIFE) continue;
+        if (r.frozen && r.lens && m) { r.x = m[0] + r.dx; r.y = m[1] + r.dy; }
+        RP[n * 4] = r.x; RP[n * 4 + 1] = r.y; RP[n * 4 + 2] = age;
+        RP[n * 4 + 3] = 2.2 * r.s * ss(0, 0.08, age) * (1 - ss(0.3, 1, age / RIP_LIFE)); n++;
+        if (!r.lens || !m) continue;
+        var dx = r.x - m[0], dy = r.y - m[1], fr = false;
+        var tc = Math.max(0, 0.9 * Math.min(m[2], m[3]) - Math.sqrt(dx * dx + dy * dy)) / RIP_SPD;
+        for (var k = 0; k < 7; k++) {
+          var tk = tc + 0.045 * k, lit = ss(tk, tk + 0.04, age) * (1 - ss(tk + 0.32, tk + 0.8, age));
+          if (r.off.charAt(k) === '0') {
+            AP[k * 3 + 1] = Math.max(AP[k * 3 + 1], lit);
+            AP[k * 3 + 2] = Math.max(AP[k * 3 + 2], ss(tk, tk + 0.12, age) * (1 - ss(tk + 0.55, tk + 1.2, age)));
+            fr = true;
+          } else AP[k * 3] = Math.max(AP[k * 3], lit);
+        }
+        if (fr) { FR[0] = r.x; FR[1] = r.y; FR[2] = RIP_SPD * age; FR[3] = 1; }
+      }
+      return n;
+    }
 
     function resize() {
       dpr = Math.min(dprCap, window.devicePixelRatio || 1);
@@ -463,6 +573,9 @@
       });
       focusT = document.body.getAttribute('data-ch') === 'economics' ? 1 : 0;
       if (instant) focus = focusT;
+      if (freezeU >= 0 && !frozeOnce && !reduce && main && main.present && main.t[2] > 1) {
+        frozeOnce = true; main.s = main.t.slice(); main.v = z6(); ripple(main.t[0], main.t[1], { _lens: true });
+      }
       request(instant);
     }
 
@@ -509,6 +622,9 @@
       focus += (focusT - focus) * (1 - Math.exp(-dt * 3.2));
       if (Math.abs(focusT - focus) < 0.002) focus = focusT; else active = true;
       if ((anyDis || tr[1] > 0.01) && !reduce) { time += dt; active = true; }
+      var nowR = performance.now();
+      rips = rips.filter(function (r) { return r.frozen || ageOf(r, nowR) < RIP_LIFE; });
+      for (var ri = 0; ri < rips.length; ri++) if (!rips[ri].frozen) active = true;
       return active;
     }
 
@@ -543,6 +659,9 @@
       gl.uniform2fv(L.u_sd, SD);
       gl.uniform3fv(L.u_f, F);
       gl.uniform3f(L.u_tr, tr[0], tr[1], tr[2]);
+      var nR = rippleUniforms();
+      gl.uniform4fv(L.u_rp, RP); gl.uniform1f(L.u_rn, nR); gl.uniform3fv(L.u_ap, AP); gl.uniform4fv(L.u_fr, FR);
+      gl.uniform4fv(L.u_cm, CM);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
 
@@ -584,10 +703,11 @@
     resize();
     build();
     document.body.classList.add('gl');
-    showDebug('WebGL ok: ' + (gl.getParameter(gl.RENDERER) || '') + ' · v7 frag ' + FRAG.length + ' · shapes ' + all.length + ' (cap ' + N + ')');
+    showDebug('WebGL ok: ' + (gl.getParameter(gl.RENDERER) || '') + ' · v9 frag ' + FRAG.length + ' · shapes ' + all.length + ' (cap ' + N + ')');
 
-    return {
+    var api = {
       sync: sync,
+      ripple: ripple,
       resize: function () { resize(); sync({ instant: true }); },
       rescan: function () {
         build(); sync({ instant: snap });
@@ -611,8 +731,21 @@
       },
       setOrder: function (v) { order = v; request(); },
       pointer: setPointer,
-      render: function () { request(true); }
+      render: function () { request(true); },
+      // v9: up to three {x, y, w, h} reading zones in CSS px; [] clears
+      setCalm: function (rects) {
+        CM.fill(0);
+        (rects || []).slice(0, 3).forEach(function (r, i) {
+          var w = +r.w || 0, h = +r.h || 0;
+          if (w <= 0 || h <= 0) return;
+          CM[i * 4] = +r.x || 0; CM[i * 4 + 1] = +r.y || 0; CM[i * 4 + 2] = w; CM[i * 4 + 3] = h;
+        });
+        request(snap || reduce);
+      },
+      stats: function () { return { ripples: rips.length, drawn: drawn, dpr: dpr, w: canvas.width, h: canvas.height, freeze: freezeU }; }
     };
+    if (window.MonovusStage) window.MonovusStage.current = api;
+    return api;
   }
 
   window.MonovusStage = { init: init };

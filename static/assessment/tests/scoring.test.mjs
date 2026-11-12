@@ -247,9 +247,9 @@ ok("recommended offering link per use case", () => {
   assert.equal(S.buildReport(q, mixed, {}).offering.href, "/#monovus");
 });
 
-ok("CTA goes to the design-partner application, never a call", () => {
+ok("CTA goes to the early-access form, never a call", () => {
   const rep = S.buildReport(q, mixed, ctx());
-  assert.equal(rep.cta.label, "Become a design partner");
+  assert.equal(rep.cta.label, "Apply for early access");
   assert.equal(rep.cta.href, "/#begin");
   assert.doesNotMatch(JSON.stringify(q), /45-minute|book a free|Talk to us/);
 });

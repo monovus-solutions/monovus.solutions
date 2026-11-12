@@ -287,8 +287,8 @@
       "Other": {"name": "Launch", "href": "/#monovus",
         "text": "Your first agent taken to production with all seven controls in place, in your own AWS account, at a fixed price."}
     },
-    "closing": "The next step and its fixed price are listed above. If you'd like to shape Control, our software that keeps every agent within its rules, apply to be a design partner.",
-    "cta": {"label": "Become a design partner", "href": "/#begin"}
+    "closing": "The next step and its fixed price are listed above. If you'd like early access to Control, our software that keeps every agent within its rules, you can apply on our site.",
+    "cta": {"label": "Apply for early access", "href": "/#begin"}
   },
   "disclaimer": "This assessment is an indicative self-assessment based on your answers. It is not an audit, a security review or professional advice."
 }
